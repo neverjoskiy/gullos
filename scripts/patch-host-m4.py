@@ -17,7 +17,7 @@ def patch(host_m4_mk: Path) -> None:
     text = host_m4_mk.read_text()
 
     hook = """define HOST_M4_POST_PATCH_CMDS
-\t$(SED) -i 's/_GL_ATTRIBUTE_NODISCARD//g' $(@D)/lib/gl_oset.h
+\tperl -pi -e 's/_GL_ATTRIBUTE_NODISCARD//g' $(@D)/lib/gl_oset.h
 endef
 HOST_M4_POST_PATCH_HOOKS += HOST_M4_POST_PATCH_CMDS
 
