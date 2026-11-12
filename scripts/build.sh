@@ -126,26 +126,7 @@ build_buildroot() {
     # gnulib is incompatible with the system GCC on ubuntu-latest.
     HOST_M4_MK="${BR_SRC_DIR}/package/host-m4/host-m4.mk"
     if [ -f "${HOST_M4_MK}" ]; then
-        BR_SRC_DIR="${BR_SRC_DIR}" python3 -c '
-import os
-path = os.environ["BR_SRC_DIR"] + "/package/host-m4/host-m4.mk"
-with open(path, "r") as f:
-    lines = f.readlines()
-hook = """define HOST_M4_POST_EXTRACT_CMDS
-\t$(SED) -i "s/_GL_ATTRIBUTE_NODISCARD//g" $(@D)/lib/gl_oset.h
-endef
-HOST_M4_POST_EXTRACT_HOOKS += HOST_M4_POST_EXTRACT_CMDS
-
-"""
-# Insert the hook before whatever $(eval $(host-...)) line exists
-for i, line in enumerate(lines):
-    if "$(eval $(host-" in line:
-        lines.insert(i, hook)
-        break
-with open(path, "w") as f:
-    f.writelines(lines)
-print("Patched host-m4.mk for GCC 13+ compatibility")
-'
+        python3 "${REPO_ROOT}/scripts/patch-host-m4.py" "${HOST_M4_MK}"
     fi
 
     make -C "${BR_SRC_DIR}" \
