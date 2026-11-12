@@ -130,17 +130,20 @@ build_buildroot() {
 import os
 path = os.environ["BR_SRC_DIR"] + "/package/host-m4/host-m4.mk"
 with open(path, "r") as f:
-    content = f.read()
+    lines = f.readlines()
 hook = """define HOST_M4_POST_EXTRACT_CMDS
 \t$(SED) -i "s/_GL_ATTRIBUTE_NODISCARD//g" $(@D)/lib/gl_oset.h
 endef
 HOST_M4_POST_EXTRACT_HOOKS += HOST_M4_POST_EXTRACT_CMDS
 
 """
-marker = "$(eval $(host-generic-package))"
-content = content.replace(marker, hook + marker, 1)
+# Insert the hook before whatever $(eval $(host-...)) line exists
+for i, line in enumerate(lines):
+    if "$(eval $(host-" in line:
+        lines.insert(i, hook)
+        break
 with open(path, "w") as f:
-    f.write(content)
+    f.writelines(lines)
 print("Patched host-m4.mk for GCC 13+ compatibility")
 '
     fi
