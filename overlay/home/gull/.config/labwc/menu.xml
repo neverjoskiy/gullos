@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ~/.config/labwc/menu.xml - GullOS Desktop Root Menu -->
+<openbox_menu>
+  <menu id="root-menu" label="GullOS">
+    <separator label="GullOS (Catppuccin Mocha)" />
+    <item label="GullTerm (gull-sh)">
+      <action name="Execute" command="/usr/bin/gull-term" />
+    </item>
+    <item label="Firefox Web Browser">
+      <action name="Execute" command="/usr/bin/firefox" />
+    </item>
+    <item label="Nano Editor (in GullTerm)">
+      <action name="Execute" command="/usr/bin/gull-term -e nano" />
+    </item>
+    <separator />
+    <item label="Lock Screen (gull-lock)">
+      <action name="Execute" command="/usr/bin/gull-lock" />
+    </item>
+    <item label="Reconfigure Compositor">
+      <action name="Reconfigure" />
+    </item>
+    <separator />
+    <item label="Reboot System">
+      <action name="Execute" command="sudo /sbin/reboot" />
+    </item>
+    <item label="Power Off">
+      <action name="Execute" command="sudo /sbin/poweroff" />
+    </item>
+  </menu>
+</openbox_menu>

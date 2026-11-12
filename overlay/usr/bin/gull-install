@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+# /usr/bin/gull-install
+# Bare-metal & VM disk installer: partitions a target disk (BIOS+UEFI GPT) and
+# clones the running GullOS root filesystem with persistent ext4 storage.
+
+set -euo pipefail
+
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Error: gull-install must be run as root (e.g., sudo gull-install /dev/sda)" >&2
+    exit 1
+fi
+
+TARGET_DISK="${1:-}"
+if [ -z "${TARGET_DISK}" ] || [ ! -b "${TARGET_DISK}" ]; then
+    echo "Usage: sudo gull-install <block-device>   (example: sudo gull-install /dev/sda)" >&2
+    echo ""
+    echo "Available block devices:"
+    lsblk -d -o NAME,SIZE,MODEL,TYPE
+    exit 1
+fi
+
+echo "=================================================================="
+echo " GullOS Bare-Metal / VM Persistent Disk Installer"
+echo " Target Disk : ${TARGET_DISK} (ALL DATA ON THIS DISK WILL BE ERASED)"
+echo "=================================================================="
+printf "Type 'INSTALL' to confirm partitioning %s: " "${TARGET_DISK}"
+read -r CONFIRM
+if [ "${CONFIRM}" != "INSTALL" ]; then
+    echo "Aborted."
+    exit 1
+fi
+
+# Determine partition naming (/dev/sda1 vs /dev/nvme0n1p1)
+case "${TARGET_DISK}" in
+    *nvme*|*mmcblk*|*loop*) PART_PREFIX="${TARGET_DISK}p" ;;
+    *) PART_PREFIX="${TARGET_DISK}" ;;
+esac
+
+echo "[1/5] Creating GPT partition table (BIOS boot + 128M EFI + ext4 GULLOS_ROOT)..."
+parted -s "${TARGET_DISK}" mklabel gpt
+parted -s "${TARGET_DISK}" mkpart bios_grub 1MiB 3MiB
+parted -s "${TARGET_DISK}" set 1 bios_grub on
+parted -s "${TARGET_DISK}" mkpart ESP fat32 3MiB 131MiB
+parted -s "${TARGET_DISK}" set 2 esp on
+parted -s "${TARGET_DISK}" mkpart GULLOS_ROOT ext4 131MiB 100%
+udevadm settle || sleep 2
+
+echo "[2/5] Formatting EFI (FAT32) and Root (ext4)..."
+mkfs.vfat -F 32 -n GULLOS_EFI "${PART_PREFIX}2"
+mkfs.ext4 -F -L GULLOS_ROOT "${PART_PREFIX}3"
+
+MNT="/mnt/gullos-target"
+mkdir -p "${MNT}"
+mount "${PART_PREFIX}3" "${MNT}"
+mkdir -p "${MNT}/boot/efi"
+mount "${PART_PREFIX}2" "${MNT}/boot/efi"
+
+echo "[3/5] Copying GullOS root filesystem (preserving UIDs, symlinks & setuid sudo)..."
+SOURCE_ROOT="/"
+if [ -d "/run/live/rofs" ]; then
+    SOURCE_ROOT="/run/live/rofs"
+fi
+cp -a "${SOURCE_ROOT}/." "${MNT}/"
+mkdir -p "${MNT}/proc" "${MNT}/sys" "${MNT}/dev" "${MNT}/run" "${MNT}/tmp"
+chmod 1777 "${MNT}/tmp"
+
+# Ensure kernel is installed at /boot/bzImage
+if [ -f "/run/live/medium/boot/bzImage" ]; then
+    cp -f "/run/live/medium/boot/bzImage" "${MNT}/boot/bzImage"
+fi
+
+echo "[4/5] Installing GRUB2 bootloader (BIOS + UEFI)..."
+if command -v grub-install >/dev/null 2>&1; then
+    grub-install --target=i386-pc --boot-directory="${MNT}/boot" "${TARGET_DISK}" || true
+    grub-install --target=x86_64-efi --efi-directory="${MNT}/boot/efi" \
+        --boot-directory="${MNT}/boot" --removable --no-nvram || true
+fi
+
+cat > "${MNT}/boot/grub/grub.cfg" << 'EOF'
+set default=0
+set timeout=3
+insmod all_video
+insmod gfxterm
+terminal_output gfxterm
+set menu_color_normal=light-gray/black
+set menu_color_highlight=magenta/black
+
+menuentry "GullOS 0.1.0 (x86_64 Wayland - Persistent Disk)" {
+    search --no-floppy --label --set=root GULLOS_ROOT
+    linux /boot/bzImage root=LABEL=GULLOS_ROOT rw rootwait quiet loglevel=3 net.ifnames=0
+}
+EOF
+
+echo "[5/5] Syncing filesystems and unmounting..."
+sync
+umount "${MNT}/boot/efi"
+umount "${MNT}"
+
+echo "GullOS installation complete! Eject installation media and reboot."

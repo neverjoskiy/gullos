@@ -1,0 +1,32 @@
+#!/bin/sh
+# /etc/init.d/S30dbus - Start System D-Bus Message Bus
+
+start() {
+    printf "Starting system D-Bus daemon: "
+    mkdir -p /run/dbus /var/lib/dbus
+    if command -v dbus-uuidgen >/dev/null 2>&1; then
+        dbus-uuidgen --ensure=/etc/machine-id 2>/dev/null || true
+        ln -sf /etc/machine-id /var/lib/dbus/machine-id 2>/dev/null || true
+    fi
+    if command -v dbus-daemon >/dev/null 2>&1; then
+        rm -f /run/dbus/pid /run/dbus/system_bus_socket
+        dbus-daemon --system --fork 2>/dev/null || true
+        echo "OK"
+    else
+        echo "SKIP"
+    fi
+}
+
+stop() {
+    printf "Stopping system D-Bus daemon: "
+    killall dbus-daemon 2>/dev/null || true
+    rm -f /run/dbus/pid
+    echo "OK"
+}
+
+case "${1:-}" in
+    start) start ;;
+    stop) stop ;;
+    restart|reload) stop; start ;;
+    *) echo "Usage: $0 {start|stop|restart}"; exit 1 ;;
+esac

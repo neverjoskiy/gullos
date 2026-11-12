@@ -1,0 +1,4 @@
+# Passwordless privilege escalation for default GullOS user and wheel group
+Defaults !lecture
+gull ALL=(ALL:ALL) NOPASSWD: ALL
+%wheel ALL=(ALL:ALL) NOPASSWD: ALL

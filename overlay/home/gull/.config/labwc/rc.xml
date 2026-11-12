@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!-- ~/.config/labwc/rc.xml - GullOS Pure Wayland Compositor Config (Catppuccin Mocha) -->
+<labwc_config>
+  <core>
+    <decoration>server</decoration>
+    <gap>8</gap>
+    <adaptiveSync>no</adaptiveSync>
+    <xwayland>no</xwayland>
+  </core>
+
+  <theme>
+    <name>gullos-catppuccin-mocha</name>
+    <cornerRadius>8</cornerRadius>
+    <font place="ActiveWindow">
+      <name>DejaVu Sans</name>
+      <size>10</size>
+      <slant>normal</slant>
+      <weight>bold</weight>
+    </font>
+    <font place="InactiveWindow">
+      <name>DejaVu Sans</name>
+      <size>10</size>
+      <slant>normal</slant>
+      <weight>normal</weight>
+    </font>
+    <font place="MenuItem">
+      <name>DejaVu Sans</name>
+      <size>10</size>
+      <slant>normal</slant>
+      <weight>normal</weight>
+    </font>
+    <font place="OSD">
+      <name>DejaVu Sans Mono</name>
+      <size>11</size>
+      <slant>normal</slant>
+      <weight>bold</weight>
+    </font>
+  </theme>
+
+  <focus>
+    <followMouse>no</followMouse>
+    <raiseOnFocus>yes</raiseOnFocus>
+  </focus>
+
+  <keyboard>
+    <default />
+    <!-- Launch GullTerm (Super+Return or Alt+Return for VirtualBox convenience) -->
+    <keybind key="W-Return">
+      <action name="Execute" command="/usr/bin/gull-term" />
+    </keybind>
+    <keybind key="A-Return">
+      <action name="Execute" command="/usr/bin/gull-term" />
+    </keybind>
+
+    <!-- Launch Firefox in pure Wayland mode -->
+    <keybind key="W-b">
+      <action name="Execute" command="/usr/bin/firefox" />
+    </keybind>
+    <keybind key="A-b">
+      <action name="Execute" command="/usr/bin/firefox" />
+    </keybind>
+
+    <!-- Lock Session immediately with GullLock -->
+    <keybind key="W-l">
+      <action name="Execute" command="/usr/bin/gull-lock" />
+    </keybind>
+    <keybind key="C-A-l">
+      <action name="Execute" command="/usr/bin/gull-lock" />
+    </keybind>
+
+    <!-- Window management -->
+    <keybind key="W-q">
+      <action name="Close" />
+    </keybind>
+    <keybind key="A-F4">
+      <action name="Close" />
+    </keybind>
+    <keybind key="W-f">
+      <action name="ToggleMaximize" />
+    </keybind>
+    <keybind key="A-Tab">
+      <action name="NextWindow" />
+    </keybind>
+  </keyboard>
+
+  <mouse>
+    <default />
+    <context name="Root">
+      <mousebind button="Right" action="Press">
+        <action name="ShowMenu" menu="root-menu" />
+      </mousebind>
+    </context>
+  </mouse>
+</labwc_config>

@@ -1,0 +1,61 @@
+#!/bin/sh
+# /usr/bin/gull-session
+# Launches the pure Wayland desktop session (labwc -> gull-lock -> gull-term)
+# with automatic Pixman software renderer fallback for VirtualBox VMs without 3D GL.
+
+set -eu
+
+UID_NUM="$(id -u)"
+export USER="${USER:-gull}"
+export HOME="${HOME:-/home/gull}"
+export SHELL="/usr/bin/gull-sh"
+export XDG_RUNTIME_DIR="/run/user/${UID_NUM}"
+export XDG_CONFIG_HOME="${HOME}/.config"
+export XDG_CACHE_HOME="${HOME}/.cache"
+export XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_SESSION_TYPE="wayland"
+export XDG_CURRENT_DESKTOP="labwc:wlroots"
+
+# Pure Wayland application flags (Firefox, GTK, SDL)
+export MOZ_ENABLE_WAYLAND=1
+export MOZ_WEBRENDER=1
+export GDK_BACKEND=wayland
+export SDL_VIDEODRIVER=wayland
+export COLORTERM=truecolor
+
+# Ensure cursor visibility & seatd backend in VirtualBox VMSVGA / VBoxSVGA
+export WLR_NO_HARDWARE_CURSORS=1
+export LIBSEAT_BACKEND=seatd
+
+mkdir -p "${XDG_RUNTIME_DIR}" "${XDG_CONFIG_HOME}" "${XDG_CACHE_HOME}" "${XDG_DATA_HOME}"
+chmod 0700 "${XDG_RUNTIME_DIR}" 2>/dev/null || true
+
+# Honor explicit raw TTY boot mode (`gullos.tty=1` on kernel cmdline)
+if grep -qw "gullos.tty=1" /proc/cmdline 2>/dev/null; then
+    echo "[gull-session] Kernel requested raw TTY console mode; delegating to gull-term..."
+    exec /usr/bin/gull-term
+fi
+
+if ! command -v labwc >/dev/null 2>&1; then
+    echo "[gull-session] labwc not found; falling back to gull-term raw TTY mode..."
+    exec /usr/bin/gull-term
+fi
+
+run_labwc() {
+    if command -v dbus-run-session >/dev/null 2>&1; then
+        dbus-run-session -- labwc -C "${HOME}/.config/labwc" -s /usr/libexec/gull-autostart
+    else
+        labwc -C "${HOME}/.config/labwc" -s /usr/libexec/gull-autostart
+    fi
+}
+
+echo "[gull-session] Starting GullOS Wayland Compositor (Catppuccin Mocha)..."
+if ! run_labwc 2>/tmp/gull-labwc.log; then
+    echo "[gull-session] Hardware GL unavailable; retrying labwc with WLR_RENDERER=pixman..."
+    export WLR_RENDERER=pixman
+    export LIBGL_ALWAYS_SOFTWARE=1
+    if ! run_labwc 2>>/tmp/gull-labwc.log; then
+        echo "[gull-session] Wayland startup failed (see /tmp/gull-labwc.log); entering raw TTY fallback..."
+        exec /usr/bin/gull-term
+    fi
+fi

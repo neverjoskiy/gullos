@@ -1,0 +1,15 @@
+[package]
+name = "gull-sh"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Catppuccin Mocha Fish-inspired interactive shell for GullOS"
+
+[[bin]]
+name = "gull-sh"
+path = "src/main.rs"
+
+[dependencies]
+crossterm = "0.28"
+libc = "0.2"

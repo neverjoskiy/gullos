@@ -1,0 +1,2 @@
+seat -1 seat -1 * - - - Wayland Seat Management Group
+gull 1000 gull 1000 =gull /home/gull /usr/bin/gull-sh wheel,video,render,input,tty,seat GullOS Default User

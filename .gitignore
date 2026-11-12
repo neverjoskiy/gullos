@@ -1,0 +1,27 @@
+# Buildroot & OS image build workspace (CI-generated)
+/build/
+/.build/
+/dist/
+/output/
+*.iso
+*.vdi
+*.img
+*.zst
+*.raw
+*.qcow2
+*.sha256
+SHA256SUMS
+
+# Rust build artifacts
+/rust-workspace/target/
+**/target/
+
+# OS / Editor metadata
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+.zcode/

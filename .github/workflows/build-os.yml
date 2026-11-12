@@ -1,0 +1,157 @@
+name: Build GullOS
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      clean_buildroot_cache:
+        description: "Bypass cached Buildroot source downloads"
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: gullos-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rust-check:
+    name: Validate Rust Userland (gull-sh, gull-term, gull-lock)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Cache Cargo registry & target
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "rust-workspace -> target"
+
+      - name: Run unit tests & release compile check
+        run: |
+          cargo test --manifest-path rust-workspace/Cargo.toml --workspace
+          cargo build --manifest-path rust-workspace/Cargo.toml --workspace --release
+
+  build-os:
+    name: Build GullOS ISO & VirtualBox VDI (x86_64)
+    needs: rust-check
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    permissions:
+      contents: write
+    env:
+      CI: "true"
+      BUILDROOT_VERSION: "2025.02"
+    steps:
+      - name: Maximize GitHub Actions runner free disk space
+        run: |
+          echo "=== Disk usage BEFORE cleanup ==="
+          df -h
+          sudo rm -rf \
+            /usr/share/dotnet \
+            /usr/local/lib/android \
+            /opt/ghc \
+            /opt/hostedtoolcache/CodeQL \
+            /usr/local/share/powershell \
+            /usr/local/share/chromium
+          sudo docker image prune --all --force || true
+          echo "=== Disk usage AFTER cleanup ==="
+          df -h
+
+      - name: Checkout GullOS repository
+        uses: actions/checkout@v4
+
+      - name: Install Buildroot, Kernel, GRUB BIOS/UEFI, SquashFS & QEMU/VDI dependencies
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            build-essential \
+            bc \
+            bison \
+            flex \
+            gawk \
+            libelf-dev \
+            libssl-dev \
+            libncurses-dev \
+            cpio \
+            unzip \
+            rsync \
+            wget \
+            curl \
+            ca-certificates \
+            file \
+            patch \
+            perl \
+            python3 \
+            zstd \
+            xz-utils \
+            squashfs-tools \
+            xorriso \
+            mtools \
+            dosfstools \
+            e2fsprogs \
+            parted \
+            udev \
+            util-linux \
+            grub-common \
+            grub2-common \
+            grub-pc-bin \
+            grub-efi-amd64-bin \
+            qemu-utils
+
+      - name: Install Rust stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust workspace artifacts
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "rust-workspace -> target"
+
+      - name: Cache Buildroot upstream source tarballs (dl/)
+        if: ${{ inputs.clean_buildroot_cache != true }}
+        uses: actions/cache@v4
+        with:
+          path: build/buildroot-dl
+          key: gullos-br-dl-2025.02-${{ hashFiles('buildroot-external/configs/gullos_defconfig', 'buildroot-external/board/gullos/linux.fragment') }}
+          restore-keys: |
+            gullos-br-dl-2025.02-
+
+      - name: Execute full GullOS build pipeline (Rust + Buildroot + Binary Pacman + VDI & ISO)
+        run: |
+          chmod +x scripts/build.sh scripts/pacman-bootstrap.sh
+          ./scripts/build.sh all
+
+      - name: Upload GullOS Bootable ISO & VirtualBox VDI Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: gullos-x86_64-images
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            dist/gullos-x86_64.iso
+            dist/gullos-x86_64.vdi.zst
+            dist/SHA256SUMS
+
+      - name: Publish GitHub Release on Version Tags
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            dist/gullos-x86_64.iso
+            dist/gullos-x86_64.vdi.zst
+            dist/SHA256SUMS

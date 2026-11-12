@@ -1,0 +1,36 @@
+#!/bin/sh
+# /etc/init.d/S99gull-runtime - Prepare XDG runtime dir, machine-id, and console palette
+
+start() {
+    printf "Preparing GullOS runtime environment: "
+
+    # Ensure /etc/machine-id exists for D-Bus and Firefox
+    if [ ! -s /etc/machine-id ] && command -v dbus-uuidgen >/dev/null 2>&1; then
+        dbus-uuidgen --ensure=/etc/machine-id 2>/dev/null || true
+    fi
+
+    # Prepare XDG_RUNTIME_DIR for uid 1000 (gull)
+    mkdir -p /run/user/1000
+    chown 1000:1000 /run/user/1000
+    chmod 0700 /run/user/1000
+
+    # Apply Catppuccin Mocha 16-color Linux VT palette on tty1..tty4
+    for vt in /dev/tty1 /dev/tty2 /dev/tty3 /dev/tty4; do
+        if [ -w "$vt" ]; then
+            printf '\033]P01e1e2e\033]P1f38ba8\033]P2a6e3a1\033]P3f9e2af\033]P489b4fa\033]P5f5c2e7\033]P694e2d5\033]P7bac2de\033]P8585b70\033]P9f38ba8\033]PAa6e3a1\033]PBf9e2af\033]PC89b4fa\033]PDcba6f7\033]PE94e2d5\033]PFcdd6f4' > "$vt" 2>/dev/null || true
+        fi
+    done
+
+    echo "OK"
+}
+
+stop() {
+    :
+}
+
+case "${1:-}" in
+    start) start ;;
+    stop) stop ;;
+    restart|reload) stop; start ;;
+    *) echo "Usage: $0 {start|stop|restart}"; exit 1 ;;
+esac

@@ -1,0 +1,15 @@
+[package]
+name = "gull-lock"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "GullOS Catppuccin Mocha Wayland lockscreen (ext-session-lock-v1 + wlr-layer-shell)"
+
+[dependencies]
+wayland-client = "0.31"
+wayland-protocols = { version = "0.32", features = ["client", "staging"] }
+wayland-protocols-wlr = { version = "0.3", features = ["client"] }
+ab_glyph = "0.2"
+sha2 = "0.10"
+libc = "0.2"

@@ -1,0 +1,30 @@
+#!/bin/sh
+# /etc/init.d/S15seatd - Start seatd for rootless Wayland DRM/input management
+
+DAEMON="/usr/bin/seatd"
+PIDFILE="/run/seatd.pid"
+
+start() {
+    printf "Starting seatd: "
+    if [ ! -x "$DAEMON" ]; then
+        echo "SKIP (not installed)"
+        return 0
+    fi
+    # Ensure seat group owns /run/seatd.sock
+    start-stop-daemon -S -q -b -m -p "$PIDFILE" --exec "$DAEMON" -- -g seat
+    echo "OK"
+}
+
+stop() {
+    printf "Stopping seatd: "
+    start-stop-daemon -K -q -p "$PIDFILE" 2>/dev/null || true
+    rm -f "$PIDFILE" /run/seatd.sock
+    echo "OK"
+}
+
+case "${1:-}" in
+    start) start ;;
+    stop) stop ;;
+    restart|reload) stop; start ;;
+    *) echo "Usage: $0 {start|stop|restart}"; exit 1 ;;
+esac

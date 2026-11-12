@@ -1,0 +1,11 @@
+# /etc/profile.d/gullos-env.sh
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export EDITOR=nano
+export VISUAL=nano
+export MOZ_ENABLE_WAYLAND=1
+export GDK_BACKEND=wayland
+export QT_QPA_PLATFORM=wayland
+export SDL_VIDEODRIVER=wayland
+export XDG_SESSION_TYPE=wayland
+export COLORTERM=truecolor

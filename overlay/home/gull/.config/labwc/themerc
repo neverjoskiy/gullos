@@ -1,0 +1,40 @@
+# ~/.config/labwc/themerc
+# GullOS Catppuccin Mocha Theme for labwc
+# Palette: Base #1e1e2e, Mantle #181825, Surface0 #313244, Mauve #cba6f7, Text #cdd6f4, Red #f38ba8
+
+border.width: 2
+padding.height: 6
+titlebar.height: 28
+
+# Active window borders & titlebar (Mauve accent on Mantle)
+window.active.border.color: #cba6f7
+window.active.title.bg.color: #181825
+window.active.label.text.color: #cdd6f4
+window.active.button.unpressed.image.color: #cba6f7
+window.active.button.close.unpressed.image.color: #f38ba8
+window.active.button.max.unpressed.image.color: #a6e3a1
+window.active.button.iconify.unpressed.image.color: #f9e2af
+
+# Inactive window borders & titlebar
+window.inactive.border.color: #45475a
+window.inactive.title.bg.color: #11111b
+window.inactive.label.text.color: #6c7086
+window.inactive.button.unpressed.image.color: #585b70
+
+# Root & context menus
+menu.items.bg.color: #1e1e2e
+menu.items.text.color: #cdd6f4
+menu.items.active.bg.color: #cba6f7
+menu.items.active.text.color: #11111b
+menu.separator.color: #313244
+menu.separator.width: 1
+menu.separator.padding.width: 6
+menu.separator.padding.height: 4
+menu.border.width: 2
+menu.border.color: #cba6f7
+
+# On-Screen Display (Alt+Tab switcher)
+osd.bg.color: #181825
+osd.border.color: #cba6f7
+osd.border.width: 2
+osd.label.text.color: #cdd6f4

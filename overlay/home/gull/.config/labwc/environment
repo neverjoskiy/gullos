@@ -1,0 +1,10 @@
+# ~/.config/labwc/environment - Pure Wayland session variables
+XDG_CURRENT_DESKTOP=labwc:wlroots
+XDG_SESSION_TYPE=wayland
+MOZ_ENABLE_WAYLAND=1
+GDK_BACKEND=wayland
+SDL_VIDEODRIVER=wayland
+COLORTERM=truecolor
+EDITOR=nano
+SHELL=/usr/bin/gull-sh
+XKB_DEFAULT_LAYOUT=us

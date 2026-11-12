@@ -1,0 +1,37 @@
+#!/bin/sh
+# /etc/init.d/S10udev - Populate /dev, /dev/dri/*, and /dev/input/* via udevd
+
+start() {
+    printf "Starting udev device manager: "
+    mkdir -p /run/udev
+
+    if [ -x /usr/lib/systemd/systemd-udevd ]; then
+        /usr/lib/systemd/systemd-udevd --daemon 2>/dev/null || true
+    elif [ -x /sbin/udevd ]; then
+        /sbin/udevd --daemon 2>/dev/null || true
+    elif [ -x /usr/bin/udevd ]; then
+        /usr/bin/udevd --daemon 2>/dev/null || true
+    fi
+
+    if command -v udevadm >/dev/null 2>&1; then
+        udevadm trigger --type=subsystems --action=add 2>/dev/null || true
+        udevadm trigger --type=devices --action=add 2>/dev/null || true
+        udevadm settle --timeout=10 2>/dev/null || true
+    fi
+    echo "OK"
+}
+
+stop() {
+    printf "Stopping udev: "
+    if command -v udevadm >/dev/null 2>&1; then
+        udevadm control --exit 2>/dev/null || true
+    fi
+    echo "OK"
+}
+
+case "${1:-}" in
+    start) start ;;
+    stop) stop ;;
+    restart|reload) stop; start ;;
+    *) echo "Usage: $0 {start|stop|restart}"; exit 1 ;;
+esac

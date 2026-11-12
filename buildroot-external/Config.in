@@ -1,0 +1,5 @@
+menu "GullOS Userland Packages"
+	source "$BR2_EXTERNAL_GULLOS_PATH/package/gull-sh/Config.in"
+	source "$BR2_EXTERNAL_GULLOS_PATH/package/gull-term/Config.in"
+	source "$BR2_EXTERNAL_GULLOS_PATH/package/gull-lock/Config.in"
+endmenu

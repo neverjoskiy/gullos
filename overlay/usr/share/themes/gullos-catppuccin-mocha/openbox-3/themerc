@@ -1,0 +1,35 @@
+# /usr/share/themes/gullos-catppuccin-mocha/openbox-3/themerc
+# GullOS Catppuccin Mocha Theme for labwc
+
+border.width: 2
+padding.height: 6
+titlebar.height: 28
+
+window.active.border.color: #cba6f7
+window.active.title.bg.color: #181825
+window.active.label.text.color: #cdd6f4
+window.active.button.unpressed.image.color: #cba6f7
+window.active.button.close.unpressed.image.color: #f38ba8
+window.active.button.max.unpressed.image.color: #a6e3a1
+window.active.button.iconify.unpressed.image.color: #f9e2af
+
+window.inactive.border.color: #45475a
+window.inactive.title.bg.color: #11111b
+window.inactive.label.text.color: #6c7086
+window.inactive.button.unpressed.image.color: #585b70
+
+menu.items.bg.color: #1e1e2e
+menu.items.text.color: #cdd6f4
+menu.items.active.bg.color: #cba6f7
+menu.items.active.text.color: #11111b
+menu.separator.color: #313244
+menu.separator.width: 1
+menu.separator.padding.width: 6
+menu.separator.padding.height: 4
+menu.border.width: 2
+menu.border.color: #cba6f7
+
+osd.bg.color: #181825
+osd.border.color: #cba6f7
+osd.border.width: 2
+osd.label.text.color: #cdd6f4

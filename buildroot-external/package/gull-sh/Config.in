@@ -1,0 +1,7 @@
+config BR2_PACKAGE_GULL_SH
+	bool "gull-sh"
+	default y
+	help
+	  Custom Fish-inspired interactive shell for GullOS featuring real-time
+	  Catppuccin Mocha syntax highlighting, Tab completion, and persistent
+	  command history (~/.gull_history).

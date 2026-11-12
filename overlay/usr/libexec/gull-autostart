@@ -1,0 +1,22 @@
+#!/bin/sh
+# /usr/libexec/gull-autostart
+# Executed immediately by labwc once the Wayland socket is live.
+# CRITICAL SECURITY INVARIANT: Synchronously locks the Wayland session with `gull-lock`
+# BEFORE revealing the desktop or spawning `gull-term`.
+
+set -u
+
+# Paint Catppuccin Mocha Base (#1e1e2e) backdrop if swaybg is installed
+if command -v swaybg >/dev/null 2>&1; then
+    swaybg -c '#1e1e2e' >/dev/null 2>&1 &
+fi
+
+# Gate desktop reveal behind gull-lock (retry loop prevents bypass on non-zero exit)
+if [ -x /usr/bin/gull-lock ]; then
+    while ! /usr/bin/gull-lock; do
+        sleep 0.3
+    done
+fi
+
+# Session authenticated -> open primary Catppuccin Mocha terminal running gull-sh
+exec /usr/bin/gull-term

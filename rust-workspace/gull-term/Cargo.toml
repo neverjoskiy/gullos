@@ -1,0 +1,16 @@
+[package]
+name = "gull-term"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "GullOS Wayland terminal emulator with graceful native Linux TTY fallback"
+
+[dependencies]
+winit = { version = "0.30", default-features = false, features = ["wayland", "wayland-dlopen", "rwh_06"] }
+softbuffer = { version = "0.4", default-features = false, features = ["wayland", "wayland-dlopen"] }
+wayland-client = "0.31"
+ab_glyph = "0.2"
+vte = "0.13"
+portable-pty = "0.8"
+libc = "0.2"

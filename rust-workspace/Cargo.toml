@@ -1,0 +1,21 @@
+[workspace]
+resolver = "2"
+members = [
+    "gull-sh",
+    "gull-term",
+    "gull-lock",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["GullOS Contributors"]
+license = "MIT"
+repository = "https://github.com/neverjoskiy/gullos"
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+strip = "symbols"
+panic = "abort"

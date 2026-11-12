@@ -1,0 +1,12 @@
+NAME="GullOS"
+PRETTY_NAME="GullOS 0.1.0 (Catppuccin Mocha)"
+ID=gullos
+ID_LIKE=arch
+BUILD_ID=rolling
+VERSION="0.1.0"
+VERSION_ID="0.1.0"
+ANSI_COLOR="38;2;203;166;247"
+HOME_URL="https://github.com/neverjoskiy/gullos"
+DOCUMENTATION_URL="https://github.com/neverjoskiy/gullos/blob/main/ARCHITECTURE.md"
+BUG_REPORT_URL="https://github.com/neverjoskiy/gullos/issues"
+LOGO=gullos

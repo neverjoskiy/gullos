@@ -1,0 +1,44 @@
+#!/bin/sh
+# /etc/init.d/S45network-dhcp - Bring up loopback and DHCP on wired/VirtIO/VBox NICs
+
+PIDFILE="/run/dhcpcd.pid"
+
+start() {
+    printf "Bringing up GullOS networking: "
+    ip link set lo up 2>/dev/null || ifconfig lo 127.0.0.1 up 2>/dev/null || true
+
+    for iface_path in /sys/class/net/*; do
+        iface="$(basename "$iface_path")"
+        [ "$iface" = "lo" ] && continue
+        ip link set "$iface" up 2>/dev/null || true
+    done
+
+    if command -v dhcpcd >/dev/null 2>&1; then
+        dhcpcd -b -q 2>/dev/null || true
+        echo "OK (dhcpcd)"
+    elif command -v udhcpc >/dev/null 2>&1; then
+        for iface_path in /sys/class/net/*; do
+            iface="$(basename "$iface_path")"
+            [ "$iface" = "lo" ] && continue
+            udhcpc -b -i "$iface" -s /usr/share/udhcpc/default.script >/dev/null 2>&1 || true
+        done
+        echo "OK (udhcpc)"
+    else
+        echo "WARN (no DHCP client)"
+    fi
+}
+
+stop() {
+    printf "Stopping networking: "
+    if command -v dhcpcd >/dev/null 2>&1; then
+        dhcpcd -x 2>/dev/null || true
+    fi
+    echo "OK"
+}
+
+case "${1:-}" in
+    start) start ;;
+    stop) stop ;;
+    restart|reload) stop; start ;;
+    *) echo "Usage: $0 {start|stop|restart}"; exit 1 ;;
+esac

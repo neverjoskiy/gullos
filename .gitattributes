@@ -1,0 +1,22 @@
+# Force Unix LF line endings across all files so Buildroot scripts,
+# BusyBox/init scripts, and Linux rootfs overlay configs never contain CRLF (\r\n).
+* text=auto eol=lf
+*.sh text eol=lf
+*.mk text eol=lf
+*.cfg text eol=lf
+*.conf text eol=lf
+*.fragment text eol=lf
+*.rs text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.xml text eol=lf
+Makefile text eol=lf
+Config.in text eol=lf
+inittab text eol=lf
+mirrorlist text eol=lf
+os-release text eol=lf
+themerc text eol=lf
+autostart text eol=lf
+environment text eol=lf

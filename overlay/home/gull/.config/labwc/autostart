@@ -1,0 +1,4 @@
+#!/bin/sh
+# ~/.config/labwc/autostart
+# Fallback autostart if labwc is started without `-s /usr/libexec/gull-autostart`
+exec /usr/libexec/gull-autostart

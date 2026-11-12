@@ -1,0 +1,8 @@
+config BR2_PACKAGE_GULL_TERM
+	bool "gull-term"
+	default y
+	select BR2_PACKAGE_GULL_SH
+	help
+	  Custom Wayland terminal emulator for GullOS styled in Catppuccin Mocha
+	  that spawns gull-sh via PTY and falls back cleanly to raw Linux TTY mode
+	  when launched outside a Wayland display server.
