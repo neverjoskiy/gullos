@@ -19,7 +19,7 @@ def patch(host_m4_mk: Path) -> None:
     text = host_m4_mk.read_text()
 
     hook = """define HOST_M4_POST_PATCH_CMDS
-\tfind $(@D)/lib -type f -print0 | xargs -0 perl -pi -e 's/_GL_ATTRIBUTE_NODISCARD//g'
+\tgrep -rl '_GL_ATTRIBUTE_NODISCARD' $(@D)/lib 2>/dev/null | xargs -r perl -pi -e 's/_GL_ATTRIBUTE_NODISCARD//g'
 endef
 HOST_M4_POST_PATCH_HOOKS += HOST_M4_POST_PATCH_CMDS
 
