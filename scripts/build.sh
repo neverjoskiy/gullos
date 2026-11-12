@@ -126,7 +126,16 @@ build_buildroot() {
     # gnulib is incompatible with the system GCC on ubuntu-latest.
     HOST_M4_MK="${BR_SRC_DIR}/package/host-m4/host-m4.mk"
     if [ -f "${HOST_M4_MK}" ]; then
-        python3 "${REPO_ROOT}/scripts/patch-host-m4.py" "${HOST_M4_MK}"
+        # Insert HOST_M4_POST_PATCH_CMDS hook before the $(eval $(host-...) line
+        # so _GL_ATTRIBUTE_NODISCARD is stripped from gl_oset.h after extraction
+        # but before compilation.
+        sed -i '/^\$(eval \$(host-/i\
+define HOST_M4_POST_PATCH_CMDS\
+\t$(SED) -i "s/_GL_ATTRIBUTE_NODISCARD//g" $(@D)/lib/gl_oset.h\
+endef\
+HOST_M4_POST_PATCH_HOOKS += HOST_M4_POST_PATCH_CMDS\
+' "${HOST_M4_MK}"
+        echo "Patched host-m4.mk for GCC 13+ compatibility"
     fi
 
     make -C "${BR_SRC_DIR}" \
