@@ -124,8 +124,22 @@ build_buildroot() {
     # Patch host-m4 gnulib for GCC 13+ compatibility (_GL_ATTRIBUTE_NODISCARD
     # parse error in gl_oset.h). Buildroot 2025.02 ships m4 1.4.19 whose bundled
     # gnulib is incompatible with the system GCC on ubuntu-latest.
-    HOST_M4_MK="${BR_SRC_DIR}/package/m4/host-m4.mk"
-    if [ -f "${HOST_M4_MK}" ]; then
+    HOST_M4_MK=""
+    for candidate in \
+        "${BR_SRC_DIR}/package/m4/host-m4.mk" \
+        "${BR_SRC_DIR}/package/m4/m4.mk" \
+        "${BR_SRC_DIR}/package/host-m4/host-m4.mk"; do
+        if [ -f "${candidate}" ]; then
+            HOST_M4_MK="${candidate}"
+            break
+        fi
+    done
+    # Fallback: find any m4-related .mk file in Buildroot source
+    if [ -z "${HOST_M4_MK}" ]; then
+        HOST_M4_MK="$(find "${BR_SRC_DIR}/package" -iname "*m4*.mk" 2>/dev/null | head -1)"
+    fi
+    if [ -n "${HOST_M4_MK}" ] && [ -f "${HOST_M4_MK}" ]; then
+        echo "Patching ${HOST_M4_MK} for GCC 13+ compatibility"
         python3 "${REPO_ROOT}/scripts/patch-host-m4.py" "${HOST_M4_MK}"
         # Verify the patch actually applied — fail fast if not
         grep -q "HOST_M4_POST_PATCH_HOOKS" "${HOST_M4_MK}" || {
