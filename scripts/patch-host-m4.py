@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """Patch Buildroot's host-m4 package for GCC 13+ compatibility.
 
-Buildroot 2025.02 ships m4 1.4.19 whose bundled gnulib header lib/gl_oset.h
-uses _GL_ATTRIBUTE_NODISCARD, which GCC 13+ on ubuntu-latest cannot parse.
+Buildroot ships m4 whose bundled gnulib headers use _GL_ATTRIBUTE_NODISCARD,
+which GCC 13+ on ubuntu-latest cannot parse (error: expected identifier or '('
+before 'gl_list_node_t', etc.). This affects gl_oset.h, gl_list.h, gl_xlist.h
+and any other gnulib header/source carrying the macro.
 
-This script inserts HOST_M4_POST_PATCH_HOOKS into package/host-m4/host-m4.mk
-that strips _GL_ATTRIBUTE_NODISCARD from gl_oset.h after extraction but before
-compilation.
+This script inserts HOST_M4_POST_PATCH_HOOKS into package/m4/m4.mk that strips
+_GL_ATTRIBUTE_NODISCARD from every file under $(@D)/lib/ after extraction but
+before compilation.
 """
 
 import sys
@@ -17,7 +19,7 @@ def patch(host_m4_mk: Path) -> None:
     text = host_m4_mk.read_text()
 
     hook = """define HOST_M4_POST_PATCH_CMDS
-\tperl -pi -e 's/_GL_ATTRIBUTE_NODISCARD//g' $(@D)/lib/gl_oset.h
+\tfind $(@D)/lib -type f -print0 | xargs -0 perl -pi -e 's/_GL_ATTRIBUTE_NODISCARD//g'
 endef
 HOST_M4_POST_PATCH_HOOKS += HOST_M4_POST_PATCH_CMDS
 
