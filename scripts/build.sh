@@ -121,6 +121,30 @@ build_buildroot() {
         "${REPO_ROOT}/overlay/home/gull/.config/labwc/autostart" \
         "${REPO_ROOT}"/overlay/etc/init.d/S*
 
+    # Patch host-m4 gnulib for GCC 13+ compatibility (_GL_ATTRIBUTE_NODISCARD
+    # parse error in gl_oset.h). Buildroot 2025.02 ships m4 1.4.19 whose bundled
+    # gnulib is incompatible with the system GCC on ubuntu-latest.
+    HOST_M4_MK="${BR_SRC_DIR}/package/host-m4/host-m4.mk"
+    if [ -f "${HOST_M4_MK}" ]; then
+        BR_SRC_DIR="${BR_SRC_DIR}" python3 -c '
+import os
+path = os.environ["BR_SRC_DIR"] + "/package/host-m4/host-m4.mk"
+with open(path, "r") as f:
+    content = f.read()
+hook = """define HOST_M4_POST_EXTRACT_CMDS
+\t$(SED) -i "s/_GL_ATTRIBUTE_NODISCARD//g" $(@D)/lib/gl_oset.h
+endef
+HOST_M4_POST_EXTRACT_HOOKS += HOST_M4_POST_EXTRACT_CMDS
+
+"""
+marker = "$(eval $(host-generic-package))"
+content = content.replace(marker, hook + marker, 1)
+with open(path, "w") as f:
+    f.write(content)
+print("Patched host-m4.mk for GCC 13+ compatibility")
+'
+    fi
+
     make -C "${BR_SRC_DIR}" \
         O="${BR_OUT_DIR}" \
         BR2_EXTERNAL="${REPO_ROOT}/buildroot-external" \
