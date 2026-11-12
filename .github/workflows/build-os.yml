@@ -55,7 +55,7 @@ jobs:
       contents: write
     env:
       CI: "true"
-      BUILDROOT_VERSION: "2025.02"
+      BUILDROOT_VERSION: "2024.02"
     steps:
       - name: Maximize GitHub Actions runner free disk space
         run: |
@@ -126,9 +126,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: build/buildroot-dl
-          key: gullos-br-dl-2025.02-${{ hashFiles('buildroot-external/configs/gullos_defconfig', 'buildroot-external/board/gullos/linux.fragment') }}
+          key: gullos-br-dl-2024.02-${{ hashFiles('buildroot-external/configs/gullos_defconfig', 'buildroot-external/board/gullos/linux.fragment') }}
           restore-keys: |
-            gullos-br-dl-2025.02-
+            gullos-br-dl-2024.02-
 
       - name: Execute full GullOS build pipeline (Rust + Buildroot + Binary Pacman + VDI & ISO)
         run: |

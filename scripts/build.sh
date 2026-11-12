@@ -22,7 +22,7 @@ if [ "${CI:-false}" != "true" ] && [ "${GULLOS_ALLOW_LOCAL_BUILD:-0}" != "1" ]; 
 fi
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-BUILDROOT_VERSION="${BUILDROOT_VERSION:-2025.02}"
+BUILDROOT_VERSION="${BUILDROOT_VERSION:-2024.02}"
 BUILD_ROOT="${GULLOS_BUILD_ROOT:-${REPO_ROOT}/build}"
 BR_SRC_DIR="${BUILD_ROOT}/buildroot-${BUILDROOT_VERSION}"
 BR_OUT_DIR="${BUILD_ROOT}/buildroot-out"
