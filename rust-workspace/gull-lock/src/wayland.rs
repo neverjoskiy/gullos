@@ -181,18 +181,19 @@ impl WaylandLockState {
         let user_host = format!("{}@{}", self.config.user, self.config.hostname);
         let ring = self.ring_state;
 
-        if let (Some(ref mut shm_buf), Some(ref wl_surface)) = (
-            &mut self.outputs[idx].shm_buf,
-            &self.outputs[idx].wl_surface,
-        ) {
+        let wl_surface = self.outputs[idx].wl_surface.clone();
+
+        if let Some(ref mut shm_buf) = self.outputs[idx].shm_buf {
             let total_px = (w as usize) * (h as usize);
             let slice = unsafe { std::slice::from_raw_parts_mut(shm_buf.ptr, total_px) };
             self.renderer
                 .draw_frame(slice, w as usize, h as usize, &user_host, ring);
 
-            wl_surface.attach(Some(&shm_buf.buffer), 0, 0);
-            wl_surface.damage_buffer(0, 0, w as i32, h as i32);
-            wl_surface.commit();
+            if let Some(ref wl_surface) = wl_surface {
+                wl_surface.attach(Some(&shm_buf.buffer), 0, 0);
+                wl_surface.damage_buffer(0, 0, w as i32, h as i32);
+                wl_surface.commit();
+            }
         }
     }
 
