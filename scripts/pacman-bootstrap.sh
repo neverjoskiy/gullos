@@ -6,7 +6,7 @@
 #   1. dist/gullos-x86_64.vdi (.zst) - Persistent writable VirtualBox disk image
 #   2. dist/gullos-x86_64.iso        - Hybrid BIOS/UEFI bootable live/installer ISO
 #
-# CRITICAL: Executed ONLY inside Linux CI (GitHub Actions ubuntu-latest) as root.
+# CRITICAL: Executed ONLY inside Linux CI (GitHub Actions ubuntu-24.04) as root.
 
 set -euo pipefail
 

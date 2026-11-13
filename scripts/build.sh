@@ -2,7 +2,7 @@
 # /scripts/build.sh
 # End-to-end GullOS CI build orchestrator (Rust Userland -> Buildroot -> Pacman Rootfs -> VDI + ISO)
 #
-# CRITICAL: Designed for Ubuntu x86_64 GitHub Actions runners (`ubuntu-latest`).
+# CRITICAL: Designed for Ubuntu x86_64 GitHub Actions runners (`ubuntu-24.04`).
 # Refuses execution on non-Linux hosts or local machines unless CI=true or GULLOS_ALLOW_LOCAL_BUILD=1.
 
 set -euo pipefail
@@ -11,7 +11,7 @@ STAGE="${1:-all}"
 
 if [ "$(uname -s)" != "Linux" ]; then
     echo "ERROR: GullOS builds are restricted to Linux CI runners (detected: $(uname -s))." >&2
-    echo "Push to GitHub to trigger .github/workflows/build-os.yml on ubuntu-latest." >&2
+    echo "Push to GitHub to trigger .github/workflows/build-os.yml on ubuntu-24.04." >&2
     exit 1
 fi
 

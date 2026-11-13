@@ -49,7 +49,10 @@ jobs:
     name: Build GullOS ISO & VirtualBox VDI (x86_64)
     needs: rust-check
     if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
+    # Pinned on purpose: Buildroot 2024.02 host tools (m4, gawk, ...) are not
+    # compatible with the GCC 14+/C23 defaults shipped by ubuntu-26.04.
+    # ubuntu-24.04 ships GCC 13, which is what this Buildroot release targets.
+    runs-on: ubuntu-24.04
     timeout-minutes: 180
     permissions:
       contents: write

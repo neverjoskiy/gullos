@@ -2,13 +2,19 @@
 """Patch Buildroot's host-m4 package for GCC 13+ compatibility.
 
 Buildroot ships m4 whose bundled gnulib headers use _GL_ATTRIBUTE_NODISCARD,
-which GCC 13+ on ubuntu-latest cannot parse (error: expected identifier or '('
+which GCC 13+ on the CI runner cannot parse (error: expected identifier or '('
 before 'gl_list_node_t', etc.). This affects gl_oset.h, gl_list.h, gl_xlist.h
 and any other gnulib header/source carrying the macro.
 
-This script inserts HOST_M4_POST_PATCH_HOOKS into package/m4/m4.mk that strips
-_GL_ATTRIBUTE_NODISCARD from every file under $(@D)/lib/ after extraction but
-before compilation.
+This script inserts HOST_M4_POST_PATCH_HOOKS into package/m4/m4.mk that
+neutralises _GL_ATTRIBUTE_NODISCARD in every file under $(@D)/lib/ after
+extraction but before compilation: the macro is redefined to expand to nothing
+(the attribute itself is unusable in C mode), while every usage of the macro
+name is removed so the declaration stays valid C.
+
+Only files that actually contain the macro are rewritten, so timestamps of
+unrelated sources (e.g. lib/Makefile.am) stay untouched and automake is not
+triggered to regenerate Makefile.in.
 """
 
 import sys
