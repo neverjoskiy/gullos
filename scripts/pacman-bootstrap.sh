@@ -255,7 +255,8 @@ umount -lf "${BOOT_ROOT}/proc"
 # 4. Initialize Target Pacman Keyring & Re-apply GullOS Overlay / Credentials
 # ------------------------------------------------------------------------------
 echo "[gullos:pacman] Initializing pacman-key inside target GullOS rootfs..."
-cp -Lf /etc/resolv.conf "${STAGE_DIR}/etc/resolv.conf"
+rm -f "${STAGE_DIR}/etc/resolv.conf"
+cp -L /etc/resolv.conf "${STAGE_DIR}/etc/resolv.conf"
 chroot "${STAGE_DIR}" pacman-key --init
 chroot "${STAGE_DIR}" pacman-key --populate archlinux
 chroot "${STAGE_DIR}" gpgconf --homedir /etc/pacman.d/gnupg --kill all >/dev/null 2>&1 || true
