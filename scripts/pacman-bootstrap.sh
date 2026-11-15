@@ -175,6 +175,36 @@ mkdir -p \
     "${STAGE_DIR}/proc" "${STAGE_DIR}/sys" "${STAGE_DIR}/dev/pts" "${STAGE_DIR}/run"
 chmod 700 "${STAGE_DIR}/etc/pacman.d/gnupg"
 
+# Arch's `filesystem` package owns the merged-usr symlinks (usr/sbin -> bin,
+# usr/lib64 -> lib, lib64 -> usr/lib, ...). Buildroot ships some of these as
+# real directories (e.g. usr/sbin holding BusyBox applets), which pacman
+# cannot replace with a symlink: "exists in filesystem", and --overwrite
+# cannot swap a directory for a symlink. Fold any contents into usr/bin /
+# usr/lib first, then drop the directory so the filesystem package can
+# recreate the symlink itself.
+# Fold any real directories that Arch owns as merged-usr symlinks, so the
+# `filesystem` package can recreate them as symlinks instead of failing with
+# "exists in filesystem" (a directory cannot be --overwrite'd into a link).
+for _d in usr/sbin usr/lib64 sbin lib64; do
+    if [ -d "${STAGE_DIR}/${_d}" ] && [ ! -L "${STAGE_DIR}/${_d}" ]; then
+        case "${_d}" in
+            usr/lib64|lib64) mkdir -p "${STAGE_DIR}/usr/lib"; cp -a "${STAGE_DIR}/${_d}/." "${STAGE_DIR}/usr/lib/" 2>/dev/null || true ;;
+            *) mkdir -p "${STAGE_DIR}/usr/bin"; cp -a "${STAGE_DIR}/${_d}/." "${STAGE_DIR}/usr/bin/" 2>/dev/null || true ;;
+        esac
+        rm -rf "${STAGE_DIR}/${_d}"
+    fi
+done
+# Top-level bin/lib may also be real dirs on a non-merged skeleton; fold them.
+for _d in bin lib; do
+    if [ -d "${STAGE_DIR}/${_d}" ] && [ ! -L "${STAGE_DIR}/${_d}" ] && [ "${_d}" != "usr" ]; then
+        case "${_d}" in
+            lib) mkdir -p "${STAGE_DIR}/usr/lib"; cp -a "${STAGE_DIR}/${_d}/." "${STAGE_DIR}/usr/lib/" 2>/dev/null || true ;;
+            bin) mkdir -p "${STAGE_DIR}/usr/bin"; cp -a "${STAGE_DIR}/${_d}/." "${STAGE_DIR}/usr/bin/" 2>/dev/null || true ;;
+        esac
+        rm -rf "${STAGE_DIR}/${_d}"
+    fi
+done
+
 cp -f "${REPO_ROOT}/overlay/etc/pacman.conf" "${STAGE_DIR}/etc/pacman.conf"
 cp -f "${REPO_ROOT}/overlay/etc/pacman.d/mirrorlist" "${STAGE_DIR}/etc/pacman.d/mirrorlist"
 
