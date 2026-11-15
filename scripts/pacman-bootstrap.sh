@@ -51,6 +51,8 @@ PACMAN_PACKAGES=(
     pacman
     archlinux-keyring
     pacman-mirrorlist
+    gpgme
+    gnupg
     bash
     coreutils
     util-linux
@@ -136,7 +138,15 @@ cp -f "${REPO_ROOT}/overlay/etc/pacman.conf" "${BOOT_ROOT}/etc/pacman.conf"
 cp -f "${REPO_ROOT}/overlay/etc/pacman.d/mirrorlist" "${BOOT_ROOT}/etc/pacman.d/mirrorlist"
 cp -Lf /etc/resolv.conf "${BOOT_ROOT}/etc/resolv.conf"
 mkdir -p "${BOOT_ROOT}/mnt/gullos" "${CACHE_DIR}/pacman-pkg"
-mkdir -p "${BOOT_ROOT}/var/cache/pacman/pkg"
+mkdir -p "${BOOT_ROOT}/var/cache/pacman/pkg" "${BOOT_ROOT}/var/log"
+# pacman >= 6.1 validates GPGDir while parsing pacman.conf and aborts the whole
+# config when the directory is missing: resolve_path() is a realpath() call, so
+# a non-existent path is a hard error. The Arch bootstrap tarball ships neither
+# /etc/pacman.d/gnupg nor /etc/pacman.d/hooks, so create them upfront. Without
+# this, pacman-key --init falls back to /root/.gnupg and
+# "pacman-key --populate archlinux" fails with a keyring permission error.
+mkdir -p "${BOOT_ROOT}/etc/pacman.d/gnupg" "${BOOT_ROOT}/etc/pacman.d/hooks"
+chmod 700 "${BOOT_ROOT}/etc/pacman.d/gnupg"
 
 # ------------------------------------------------------------------------------
 # 2. Extract Base Buildroot Rootfs & Preserve BusyBox Init Infrastructure
@@ -159,8 +169,11 @@ done
 mkdir -p \
     "${STAGE_DIR}/var/lib/pacman" \
     "${STAGE_DIR}/var/cache/pacman/pkg" \
+    "${STAGE_DIR}/var/log" \
     "${STAGE_DIR}/etc/pacman.d/gnupg" \
+    "${STAGE_DIR}/etc/pacman.d/hooks" \
     "${STAGE_DIR}/proc" "${STAGE_DIR}/sys" "${STAGE_DIR}/dev/pts" "${STAGE_DIR}/run"
+chmod 700 "${STAGE_DIR}/etc/pacman.d/gnupg"
 
 cp -f "${REPO_ROOT}/overlay/etc/pacman.conf" "${STAGE_DIR}/etc/pacman.conf"
 cp -f "${REPO_ROOT}/overlay/etc/pacman.d/mirrorlist" "${STAGE_DIR}/etc/pacman.d/mirrorlist"
@@ -185,8 +198,14 @@ chroot "${BOOT_ROOT}" pacman-key --init
 chroot "${BOOT_ROOT}" pacman-key --populate archlinux
 
 echo "[gullos:pacman] Installing binary packages into GullOS rootfs..."
+# --dbpath must be passed explicitly: an explicit DBPath in pacman.conf is NOT
+# prefixed with --root by pacman (only the built-in default is derived from
+# rootdir), so the local/sync package databases would otherwise be written to
+# the bootstrap chroot instead of the GullOS rootfs, leaving the shipped image
+# with an empty package database.
 chroot "${BOOT_ROOT}" pacman \
     --root /mnt/gullos \
+    --dbpath /mnt/gullos/var/lib/pacman \
     --config /mnt/gullos/etc/pacman.conf \
     --cachedir /var/cache/pacman/pkg \
     --noconfirm \
