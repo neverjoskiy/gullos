@@ -245,11 +245,11 @@ chroot "${BOOT_ROOT}" pacman \
 
 chroot "${BOOT_ROOT}" gpgconf --homedir /etc/pacman.d/gnupg --kill all >/dev/null 2>&1 || true
 
-umount -lf "${BOOT_ROOT}/mnt/gullos"
-umount -lf "${BOOT_ROOT}/dev/pts"
-umount -lf "${BOOT_ROOT}/dev"
-umount -lf "${BOOT_ROOT}/sys"
-umount -lf "${BOOT_ROOT}/proc"
+umount -lf "${BOOT_ROOT}/mnt/gullos" 2>/dev/null || true
+umount -lf "${BOOT_ROOT}/dev/pts" 2>/dev/null || true
+umount -lf "${BOOT_ROOT}/dev" 2>/dev/null || true
+umount -lf "${BOOT_ROOT}/sys" 2>/dev/null || true
+umount -lf "${BOOT_ROOT}/proc" 2>/dev/null || true
 
 # ------------------------------------------------------------------------------
 # 4. Initialize Target Pacman Keyring & Re-apply GullOS Overlay / Credentials
@@ -317,8 +317,17 @@ password_sha256=${GULL_PASS_HASH}
 EOF
 chmod 0644 "${STAGE_DIR}/etc/gull-lock.conf"
 
+# Remove shadow login.defs entries unknown to this shadow build (e.g. CRACKLIB_DICTPATH),
+# which make chpasswd emit "configuration error - unknown item" diagnostics.
+for _ld in "${STAGE_DIR}/etc/login.defs" "${BOOT_ROOT}/etc/login.defs"; do
+    if [ -f "${_ld}" ]; then
+        sed -i '/^[[:space:]]*CRACKLIB_DICTPATH/d' "${_ld}"
+    fi
+done
+
 # Configure groups, user `gull`, password `gull`, font cache, and setuid sudo inside chroot
 chroot "${STAGE_DIR}" /usr/bin/bash -e << 'CHROOT_SETUP'
+
 grep -qxF "/usr/bin/gull-sh" /etc/shells || echo "/usr/bin/gull-sh" >> /etc/shells
 
 for grp in wheel video render input tty seat; do
@@ -356,10 +365,10 @@ cp -f "${BZIMAGE}" "${STAGE_DIR}/boot/bzImage"
 cp -f "${REPO_ROOT}/buildroot-external/board/gullos/grub-bios.cfg" "${STAGE_DIR}/boot/grub/grub.cfg"
 
 # Unmount target chroot virtual filesystems before imaging
-umount -lf "${STAGE_DIR}/dev/pts"
-umount -lf "${STAGE_DIR}/dev"
-umount -lf "${STAGE_DIR}/sys"
-umount -lf "${STAGE_DIR}/proc"
+umount -lf "${STAGE_DIR}/dev/pts" 2>/dev/null || true
+umount -lf "${STAGE_DIR}/dev" 2>/dev/null || true
+umount -lf "${STAGE_DIR}/sys" 2>/dev/null || true
+umount -lf "${STAGE_DIR}/proc" 2>/dev/null || true
 find "${STAGE_DIR}" -type s -delete 2>/dev/null || true
 
 # ------------------------------------------------------------------------------
