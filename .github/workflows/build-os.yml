@@ -68,8 +68,9 @@ jobs:
       - name: Build packages
         run: |
           export CI=true
+          chmod +x scripts/build.sh scripts/build-disk-image.sh
           chown -R builder:builder .
-          sudo -u builder bash -c 'cd "$PWD" && ./scripts/build.sh packages'
+          runuser -u builder -- bash -c 'cd "$PWD" && ./scripts/build.sh packages'
 
       - name: Upload local repo artifact
         uses: actions/upload-artifact@v4
