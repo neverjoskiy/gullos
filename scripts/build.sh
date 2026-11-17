@@ -24,16 +24,25 @@ PKG_DIR="${BUILD_ROOT}/pkgbuild-out"
 mkdir -p "${BUILD_ROOT}" "${DIST_DIR}" "${LOCAL_REPO}" "${PKG_DIR}"
 
 inject_cachyos_repo() {
-    local block='[cachyos]\nSigLevel = Optional TrustAll\nServer = https://mirror.cachyos.org/repo/x86_64/cachyos\n[cachyos-v3]\nSigLevel = Optional TrustAll\nServer = https://mirror.cachyos.org/repo/x86_64/cachyos-v3'
-    python3 - "$REPO_ROOT/profile/pacman.conf" "$block" <<'PY'
-import sys
-path, block = sys.argv[1], sys.argv[2]
-s = open(path).read()
-start = s.index("# CACHYOS_REPO_BLOCK_START")
-end = s.index("# CACHYOS_REPO_BLOCK_END") + len("# CACHYOS_REPO_BLOCK_END")
-s = s[:start] + "# CACHYOS_REPO_BLOCK_START\n" + block.replace("\\n","\n") + "\n# CACHYOS_REPO_BLOCK_END"
-open(path,"w").write(s)
-PY
+    local conf="${REPO_ROOT}/profile/pacman.conf"
+    local tmp="${conf}.tmp"
+    awk '
+        /# CACHYOS_REPO_BLOCK_START/ { print; inblk=1; next }
+        /# CACHYOS_REPO_BLOCK_END/ {
+            print "[cachyos]"
+            print "SigLevel = Optional TrustAll"
+            print "Server = https://mirror.cachyos.org/repo/x86_64/cachyos"
+            print "[cachyos-v3]"
+            print "SigLevel = Optional TrustAll"
+            print "Server = https://mirror.cachyos.org/repo/x86_64/cachyos-v3"
+            print "# CACHYOS_REPO_BLOCK_END"
+            inblk=0
+            next
+        }
+        inblk { next }
+        { print }
+    ' "$conf" > "$tmp"
+    mv "$tmp" "$conf"
 }
 
 build_packages() {
