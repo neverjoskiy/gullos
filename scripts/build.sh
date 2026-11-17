@@ -61,6 +61,12 @@ build_iso() {
     inject_cachyos_repo
     sed -i "s#file:///gullos-local-repo#file://${LOCAL_REPO}#" "${REPO_ROOT}/profile/pacman.conf"
     mkarchiso -v -w "${BUILD_ROOT}/iso-work" -o "${DIST_DIR}" "${REPO_ROOT}/profile"
+    # mkarchiso names the file <iso_name>-<iso_version>-<arch>.iso; normalize to the required artifact name
+    for f in "${DIST_DIR}"/gullos*.iso; do
+        [ -e "$f" ] || continue
+        [ "$f" = "${DIST_DIR}/gullos-x86_64.iso" ] && continue
+        mv -f "$f" "${DIST_DIR}/gullos-x86_64.iso"
+    done
     test -s "${DIST_DIR}/gullos-x86_64.iso"
     ( cd "${DIST_DIR}" && sha256sum gullos-x86_64.iso > SHA256SUMS.iso )
     echo "[gullos:build] ISO written to ${DIST_DIR}/gullos-x86_64.iso"
