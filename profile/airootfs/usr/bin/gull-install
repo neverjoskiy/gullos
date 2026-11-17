@@ -1,0 +1,15 @@
+#!/bin/sh
+# /usr/bin/gull-install — sudo-launch the branded Calamares installer (live only)
+set -eu
+
+if [ "$(id -u)" -ne 0 ]; then
+    exec sudo -E env QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-wayland}" /usr/bin/gull-install "$@"
+fi
+
+export QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-wayland}"
+# Prefer Wayland; fall back to xcb only if Wayland rendering fails.
+if ! calamares "$@"; then
+    export QT_QPA_PLATFORM=xcb
+    exec calamares "$@"
+fi
+EOF

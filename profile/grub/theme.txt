@@ -1,0 +1,3 @@
+# GRUB2 theme placeholder — Catppuccin Mocha text colors
+# Full theme can be added later; keep minimal for now.
+EOF

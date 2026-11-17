@@ -1,0 +1,23 @@
+# Maintainer: GullOS Contributors
+pkgname=gull-term
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="GullOS Wayland terminal emulator with native TTY fallback"
+arch=('x86_64')
+url="https://github.com/neverjoskiy/gullos"
+license=('MIT')
+depends=('wayland' 'libxkbcommon' 'mesa' 'fontconfig' 'freetype2')
+makedepends=('cargo' 'rust')
+source=()
+options=('!lto')
+
+build() {
+    cd "$startdir/../../rust-workspace"
+    cargo build --release -p gull-term
+}
+
+package() {
+    cd "$startdir/../../rust-workspace"
+    install -Dm755 "target/release/gull-term" "$pkgdir/usr/bin/gull-term"
+}
+EOF

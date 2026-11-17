@@ -1,22 +1,21 @@
 # GullOS Top-Level Makefile
 #
-# IMPORTANT: Heavy OS builds (Buildroot, Kernel, Pacman chroot, ISO/VDI imaging)
-# are engineered to run automatically on GitHub Actions (`ubuntu-latest`).
-# Running `make` locally without `CI=true` or `GULLOS_ALLOW_LOCAL_BUILD=1` is blocked
-# by default to protect developer workstations.
+# Heavy OS builds run on GitHub Actions (archlinux containers). Local runs blocked
+# unless CI=true or GULLOS_ALLOW_LOCAL_BUILD=1.
 
 SHELL := /bin/bash
 
-.PHONY: help ci all rust test fmt-check buildroot images clean
+.PHONY: help ci all rust test fmt-check packages iso vdi clean
 
 help:
 	@echo "GullOS Build System (https://github.com/neverjoskiy/gullos)"
 	@echo ""
-	@echo "CI Targets (run on GitHub Actions ubuntu-latest):"
-	@echo "  make ci          Build Rust userland, Buildroot+Kernel, Pacman rootfs, .iso & .vdi.zst"
-	@echo "  make rust        Compile & test gull-sh, gull-term, and gull-lock (--release)"
-	@echo "  make buildroot   Build Buildroot x86_64 glibc base system & Linux 6.12 kernel"
-	@echo "  make images      Hydrate binary pacman packages and package .iso + .vdi.zst"
+	@echo "CI Targets (run on GitHub Actions archlinux containers):"
+	@echo "  make ci          Build packages + ISO + VDI"
+	@echo "  make rust        Compile & test gull-sh, gull-term, gull-lock (--release)"
+	@echo "  make packages    Build gull-* packages via makepkg into local repo"
+	@echo "  make iso         Build the live/installer ISO (mkarchiso)"
+	@echo "  make vdi         Build the persistent VirtualBox VDI (pacstrap)"
 	@echo "  make fmt-check   Verify Rust workspace formatting"
 	@echo "  make clean       Remove build/ and dist/ directories"
 
@@ -28,15 +27,19 @@ all:
 
 rust:
 	@chmod +x ./scripts/build.sh
-	@./scripts/build.sh rust
+	@cargo build --manifest-path rust-workspace/Cargo.toml --workspace --release
 
-buildroot:
+packages:
 	@chmod +x ./scripts/build.sh
-	@./scripts/build.sh buildroot
+	@./scripts/build.sh packages
 
-images:
+iso:
 	@chmod +x ./scripts/build.sh
-	@./scripts/build.sh images
+	@./scripts/build.sh iso
+
+vdi:
+	@chmod +x ./scripts/build.sh
+	@./scripts/build.sh vdi
 
 test:
 	@if [ "$${CI:-false}" != "true" ] && [ "$${GULLOS_ALLOW_LOCAL_BUILD:-0}" != "1" ]; then \
@@ -54,3 +57,5 @@ fmt-check:
 
 clean:
 	rm -rf build dist rust-workspace/target
+EOF
+echo done
