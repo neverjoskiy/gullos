@@ -18,5 +18,4 @@ build() {
 package() {
     cd "$startdir/../../rust-workspace"
     install -Dm755 "target/release/gull-sh" "$pkgdir/usr/bin/gull-sh"
-    install -Dm644 /dev/null "$pkgdir/etc/shells.gull-sh" 2>/dev/null || true
 }
