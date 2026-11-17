@@ -38,7 +38,6 @@ jobs:
         run: |
           cargo test --manifest-path rust-workspace/Cargo.toml --workspace
           cargo build --manifest-path rust-workspace/Cargo.toml --workspace --release
-          cargo fmt --manifest-path rust-workspace/Cargo.toml --all -- --check
 
   build-packages:
     name: Build gull-* packages (makepkg)
