@@ -12,4 +12,3 @@ if ! calamares "$@"; then
     export QT_QPA_PLATFORM=xcb
     exec calamares "$@"
 fi
-EOF

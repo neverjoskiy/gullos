@@ -3,4 +3,3 @@
 if [ -z "${WAYLAND_DISPLAY:-}" ] && [ "$(tty 2>/dev/null || true)" = "/dev/tty1" ]; then
     exec /usr/bin/gull-session
 fi
-EOF
