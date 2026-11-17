@@ -32,9 +32,6 @@ inject_cachyos_repo() {
             print "[cachyos]"
             print "SigLevel = Never"
             print "Server = https://mirror.cachyos.org/repo/x86_64/cachyos"
-            print "[cachyos-v3]"
-            print "SigLevel = Never"
-            print "Server = https://mirror.cachyos.org/repo/x86_64/cachyos-v3"
             print "# CACHYOS_REPO_BLOCK_END"
             inblk=0
             next
