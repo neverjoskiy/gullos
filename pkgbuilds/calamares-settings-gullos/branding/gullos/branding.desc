@@ -1,0 +1,20 @@
+---
+productName: GullOS
+shortProductName: GullOS
+version: 0.1.0
+shortVersion: 0.1.0
+versionedName: GullOS 0.1.0
+logo: /usr/share/calamares/branding/gullos/logo.svg
+welcomeStyleCalamares: true
+style: "Catppuccin Mocha"
+background: "#1e1e2e"
+textColor: "#cdd6f4"
+windowBackgroundColor: "#1e1e2e"
+windowTextColor: "#cdd6f4"
+buttonBackgroundColor: "#cba6f7"
+buttonTextColor: "#1e1e2e"
+progressBarColor: "#a6e3a1"
+progressBarBackgroundColor: "#313244"
+sidebarBackground: "#181825"
+sidebarText: "#cdd6f4"
+sidebarTextSelect: "#cba6f7"

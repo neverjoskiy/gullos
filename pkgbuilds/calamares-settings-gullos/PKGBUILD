@@ -1,0 +1,20 @@
+# Maintainer: GullOS Contributors
+pkgname=calamares-settings-gullos
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Calamares installer settings and Catppuccin Mocha branding for GullOS"
+arch=('any')
+url="https://github.com/neverjoskiy/gullos"
+license=('MIT')
+depends=('calamares')
+source=()
+options=('!strip')
+
+package() {
+    install -d "$pkgdir/etc/calamares"
+    cp -r "$startdir/settings.conf" "$pkgdir/etc/calamares/" 2>/dev/null || true
+    cp -r "$startdir/modules" "$pkgdir/etc/calamares/" 2>/dev/null || true
+    install -d "$pkgdir/usr/share/calamares/branding/gullos"
+    cp -r "$startdir/branding/gullos/." "$pkgdir/usr/share/calamares/branding/gullos/"
+}
+EOF
