@@ -139,6 +139,3 @@ zstd -19 --rm -o "${DIST_DIR}/gullos-x86_64.vdi.zst" "${WORK_DIR}/gullos-x86_64.
 sha256sum "${DIST_DIR}/gullos-x86_64.vdi.zst" > "${DIST_DIR}/SHA256SUMS.vdi" 2>/dev/null || true
 
 echo "[build-disk-image] VDI written to ${DIST_DIR}/gullos-x86_64.vdi.zst"
-EOF
-chmod +x scripts/build-disk-image.sh
-echo done

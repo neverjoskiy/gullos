@@ -85,6 +85,3 @@ echo "=================================================================="
 echo "[gullos:build] Stage '${STAGE}' complete."
 ls -lh "${DIST_DIR}" 2>/dev/null || true
 echo "=================================================================="
-EOF
-chmod +x scripts/build.sh
-echo done

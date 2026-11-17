@@ -180,5 +180,3 @@ jobs:
             dist/gullos-x86_64.iso
             dist/gullos-x86_64.vdi.zst
             dist/SHA256SUMS*
-EOF
-echo done
