@@ -20,4 +20,3 @@ file_permissions=(
   ["/usr/bin/gull-install"]="0:0:755"
   ["/usr/libexec/gull-autostart"]="0:0:755"
 )
-EOF
