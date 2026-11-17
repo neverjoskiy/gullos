@@ -20,4 +20,3 @@ package() {
     cd "$startdir/../../rust-workspace"
     install -Dm755 "target/release/gull-term" "$pkgdir/usr/bin/gull-term"
 }
-EOF

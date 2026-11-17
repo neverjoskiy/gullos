@@ -17,4 +17,3 @@ package() {
     install -d "$pkgdir/usr/share/calamares/branding/gullos"
     cp -r "$startdir/branding/gullos/." "$pkgdir/usr/share/calamares/branding/gullos/"
 }
-EOF
