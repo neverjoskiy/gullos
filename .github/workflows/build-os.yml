@@ -59,12 +59,17 @@ jobs:
       - name: Install build dependencies
         run: |
           pacman -Syu --noconfirm
-          pacman -S --noconfirm --needed base-devel cargo rust git archlinux-keyring pacman-contrib
+          pacman -S --noconfirm --needed base-devel cargo rust git archlinux-keyring pacman-contrib sudo
+          # makepkg refuses to run as root; create a dedicated build user
+          useradd -m -G wheel builder 2>/dev/null || true
+          echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder
+          chown -R builder:builder "$GITHUB_WORKSPACE" 2>/dev/null || true
 
       - name: Build packages
         run: |
           export CI=true
-          ./scripts/build.sh packages
+          chown -R builder:builder .
+          sudo -u builder bash -c 'cd "$PWD" && ./scripts/build.sh packages'
 
       - name: Upload local repo artifact
         uses: actions/upload-artifact@v4
