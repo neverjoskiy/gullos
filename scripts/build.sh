@@ -52,6 +52,7 @@ build_packages() {
 
 build_iso() {
     echo "[gullos:build] Building ISO with mkarchiso..."
+    inject_cachyos_repo
     sed -i "s#file:///gullos-local-repo#file://${LOCAL_REPO}#" "${REPO_ROOT}/profile/pacman.conf"
     mkarchiso -v -w "${BUILD_ROOT}/iso-work" -o "${DIST_DIR}" "${REPO_ROOT}/profile"
     test -s "${DIST_DIR}/gullos-x86_64.iso"
@@ -61,6 +62,7 @@ build_iso() {
 
 build_vdi() {
     echo "[gullos:build] Building VDI via build-disk-image.sh..."
+    inject_cachyos_repo
     sed -i "s#file:///gullos-local-repo#file://${LOCAL_REPO}#" "${REPO_ROOT}/profile/pacman.conf"
     bash "${REPO_ROOT}/scripts/build-disk-image.sh" "${BUILD_ROOT}/vdi-work" "${DIST_DIR}" "${LOCAL_REPO}"
     test -s "${DIST_DIR}/gullos-x86_64.vdi.zst"
