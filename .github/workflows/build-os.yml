@@ -70,7 +70,7 @@ jobs:
           export CI=true
           chmod +x scripts/build.sh scripts/build-disk-image.sh
           chown -R builder:builder .
-          runuser -u builder -- bash -c 'cd "$PWD" && ./scripts/build.sh packages'
+          runuser -u builder -- bash -c 'cd "$PWD" && bash scripts/build.sh packages'
 
       - name: Upload local repo artifact
         uses: actions/upload-artifact@v4
@@ -111,7 +111,7 @@ jobs:
         run: |
           export CI=true
           export GULLOS_BUILD_ROOT="$PWD/build"
-          ./scripts/build.sh iso
+          bash scripts/build.sh iso
 
       - name: Upload ISO artifact
         uses: actions/upload-artifact@v4
@@ -154,7 +154,7 @@ jobs:
         run: |
           export CI=true
           export GULLOS_BUILD_ROOT="$PWD/build"
-          ./scripts/build.sh vdi
+          bash scripts/build.sh vdi
 
       - name: Upload VDI artifact
         uses: actions/upload-artifact@v4
