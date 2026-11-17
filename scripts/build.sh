@@ -61,6 +61,7 @@ build_iso() {
 
 build_vdi() {
     echo "[gullos:build] Building VDI via build-disk-image.sh..."
+    sed -i "s#file:///gullos-local-repo#file://${LOCAL_REPO}#" "${REPO_ROOT}/profile/pacman.conf"
     bash "${REPO_ROOT}/scripts/build-disk-image.sh" "${BUILD_ROOT}/vdi-work" "${DIST_DIR}" "${LOCAL_REPO}"
     test -s "${DIST_DIR}/gullos-x86_64.vdi.zst"
     echo "[gullos:build] VDI written to ${DIST_DIR}/gullos-x86_64.vdi.zst"

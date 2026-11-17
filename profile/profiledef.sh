@@ -15,7 +15,6 @@ file_permissions=(
   ["/etc/gshadow"]="0:0:400"
   ["/etc/sudoers.d/90-gull"]="0:0:440"
   ["/root"]="0:0:750"
-  ["/etc/polkit-1/rules.d"]="0:0:750"
   ["/usr/bin/gull-session"]="0:0:755"
   ["/usr/bin/gull-install"]="0:0:755"
   ["/usr/libexec/gull-autostart"]="0:0:755"
