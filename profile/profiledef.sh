@@ -1,6 +1,6 @@
 # profiledef.sh — GullOS archiso profile (vanilla Arch base + CachyOS kernel)
 iso_name="gullos"
-iso_label="GULLOS_$(date +%Y%m)"
+iso_label="GULLOS"
 iso_publisher="GullOS <https://github.com/neverjoskiy/gullos>"
 iso_application="GullOS Live/Installer (x86_64)"
 iso_version=""
