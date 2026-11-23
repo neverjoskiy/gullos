@@ -1,3 +1,0 @@
-module org.gulldesk.bartint
-singleton BarTint 1.0 BarTint.qml
-singleton LauncherState 1.0 LauncherState.qml

@@ -1,8 +1,0 @@
-[Plymouth Theme]
-Name=GullDesk
-Description=The GullDesk mark and Material 3 Expressive's wavy loading indicator
-ModuleName=script
-
-[script]
-ImageDir=/usr/share/plymouth/themes/gulldesk
-ScriptFile=/usr/share/plymouth/themes/gulldesk/gulldesk.script

@@ -1,9 +1,0 @@
-[Sound Theme]
-Name=GullDesk
-Comment=GullDesk sounds
-Inherits=freedesktop
-Directories=stereo
-Example=theme-demo
-
-[stereo]
-OutputProfile=stereo
