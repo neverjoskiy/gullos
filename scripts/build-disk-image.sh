@@ -71,8 +71,8 @@ PACSTRAP_PKGS=(
     firefox git nano ttf-dejavu ttf-roboto noto-fonts grim slurp wl-clipboard xdg-desktop-portal-wlr
     sudo man-db pacman-contrib grub efibootmgr os-prober
     gull-sh gull-term gull-lock calamares-settings-gullos
-    plasma-desktop plasma-workspace kwin kwin-wayland kglobalacceld kded kscreen powerdevil bluedevil plasma-nm plasma-pa
-    kvantum breeze-gtk-theme
+    plasma-desktop plasma-workspace kwin kglobalacceld kded kscreen powerdevil bluedevil plasma-nm plasma-pa
+    kvantum breeze-gtk
     mkinitcpio
 )
 

@@ -40,7 +40,7 @@ virtualbox-guest-utils
 plasma-desktop
 plasma-workspace
 kwin
-kwin-wayland
+# kwin-wayland (merged into kwin on Arch)
 kglobalacceld
 kded
 kscreen
@@ -49,7 +49,7 @@ bluedevil
 plasma-nm
 plasma-pa
 kvantum
-breeze-gtk-theme
+breeze-gtk
 # gulldesk-desktop-shell
 # gulldesk-desktop-themes
 # gulldesk-desktop-icons
