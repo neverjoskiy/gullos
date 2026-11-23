@@ -8,4 +8,3 @@ export QT_QPA_PLATFORM=wayland
 export SDL_VIDEODRIVER=wayland
 export XDG_SESSION_TYPE=wayland
 export COLORTERM=truecolor
-EOF

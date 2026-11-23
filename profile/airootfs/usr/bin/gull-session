@@ -38,4 +38,3 @@ if command -v dbus-run-session >/dev/null 2>&1; then
 else
     exec labwc -C "${HOME}/.config/labwc" -s /usr/libexec/gull-autostart
 fi
-EOF

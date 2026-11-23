@@ -29,17 +29,30 @@ truncate -s "${DISK_SIZE}" "${DISK_RAW}"
 
 # 2. Partition: GPT with ESP + root (ext4)
 parted -s "${DISK_RAW}" mklabel gpt
-parted -s "${DISK_RAW}" mkpart ESP fat32 1MiB 513MiB
-parted -s "${DISK_RAW}" set 1 esp on
-parted -s "${DISK_RAW}" mkpart primary ext4 513MiB 100%
+parted -s "${DISK_RAW}" mkpart bios_grub 1MiB 2MiB
+parted -s "${DISK_RAW}" set 1 bios_grub on
+parted -s "${DISK_RAW}" mkpart ESP fat32 2MiB 514MiB
+parted -s "${DISK_RAW}" set 2 esp on
+parted -s "${DISK_RAW}" mkpart primary ext4 514MiB 100%
 
 # 3. Attach loop device
+# Use losetup with partition scanning; fall back to offset-based devices
 LOOP_DEV=$(losetup -f --show -P "${DISK_RAW}")
 trap 'losetup -d "${LOOP_DEV}" 2>/dev/null || true' EXIT
-sleep 1
+partprobe "${LOOP_DEV}" 2>/dev/null || true
+sleep 2
 
-ESP_DEV="${LOOP_DEV}p1"
-ROOT_DEV="${LOOP_DEV}p2"
+if [ -b "${LOOP_DEV}p2" ] && [ -b "${LOOP_DEV}p3" ]; then
+    ESP_DEV="${LOOP_DEV}p2"
+    ROOT_DEV="${LOOP_DEV}p3"
+else
+    # Fallback: offset-based loop devices (ESP starts at 1MiB, root at 513MiB)
+    ESP_OFFSET=$((2 * 1024 * 1024))
+    ROOT_OFFSET=$((514 * 1024 * 1024))
+    ESP_DEV=$(losetup -f --show -o ${ESP_OFFSET} "${DISK_RAW}")
+    ROOT_DEV=$(losetup -f --show -o ${ROOT_OFFSET} "${DISK_RAW}")
+    trap 'losetup -d "${ESP_DEV}" 2>/dev/null; losetup -d "${ROOT_DEV}" 2>/dev/null; losetup -d "${LOOP_DEV}" 2>/dev/null || true' EXIT
+fi
 
 mkfs.vfat -F32 -n GULLOS_ESP "${ESP_DEV}"
 mkfs.ext4 -L GULLOS_ROOT -F "${ROOT_DEV}"
@@ -139,6 +152,3 @@ zstd -19 --rm -o "${DIST_DIR}/gullos-x86_64.vdi.zst" "${WORK_DIR}/gullos-x86_64.
 sha256sum "${DIST_DIR}/gullos-x86_64.vdi.zst" > "${DIST_DIR}/SHA256SUMS.vdi" 2>/dev/null || true
 
 echo "[build-disk-image] VDI written to ${DIST_DIR}/gullos-x86_64.vdi.zst"
-EOF
-chmod +x scripts/build-disk-image.sh
-echo done

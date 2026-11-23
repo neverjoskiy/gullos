@@ -1,9 +1,9 @@
 # profiledef.sh — GullOS archiso profile (vanilla Arch base + CachyOS kernel)
 iso_name="gullos"
-iso_label="GULLOS_$(date +%Y%m)"
+iso_label="GULLOS"
 iso_publisher="GullOS <https://github.com/neverjoskiy/gullos>"
 iso_application="GullOS Live/Installer (x86_64)"
-iso_version="0.1.0"
+iso_version=""
 install_dir="arch"
 bootmodes=('bios.syslinux.mbr' 'bios.syslinux.eltorito' 'uefi-x64.systemd-boot.esp' 'uefi-x64.systemd-boot.eltorito')
 arch="x86_64"
@@ -15,9 +15,7 @@ file_permissions=(
   ["/etc/gshadow"]="0:0:400"
   ["/etc/sudoers.d/90-gull"]="0:0:440"
   ["/root"]="0:0:750"
-  ["/etc/polkit-1/rules.d"]="0:0:750"
   ["/usr/bin/gull-session"]="0:0:755"
   ["/usr/bin/gull-install"]="0:0:755"
   ["/usr/libexec/gull-autostart"]="0:0:755"
 )
-EOF

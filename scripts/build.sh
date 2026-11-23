@@ -24,16 +24,22 @@ PKG_DIR="${BUILD_ROOT}/pkgbuild-out"
 mkdir -p "${BUILD_ROOT}" "${DIST_DIR}" "${LOCAL_REPO}" "${PKG_DIR}"
 
 inject_cachyos_repo() {
-    local block='[cachyos]\nSigLevel = Optional TrustAll\nServer = https://mirror.cachyos.org/repo/x86_64/cachyos\n[cachyos-v3]\nSigLevel = Optional TrustAll\nServer = https://mirror.cachyos.org/repo/x86_64/cachyos-v3'
-    python3 - "$REPO_ROOT/profile/pacman.conf" "$block" <<'PY'
-import sys
-path, block = sys.argv[1], sys.argv[2]
-s = open(path).read()
-start = s.index("# CACHYOS_REPO_BLOCK_START")
-end = s.index("# CACHYOS_REPO_BLOCK_END") + len("# CACHYOS_REPO_BLOCK_END")
-s = s[:start] + "# CACHYOS_REPO_BLOCK_START\n" + block.replace("\\n","\n") + "\n# CACHYOS_REPO_BLOCK_END"
-open(path,"w").write(s)
-PY
+    local conf="${REPO_ROOT}/profile/pacman.conf"
+    local tmp="${conf}.tmp"
+    awk '
+        /# CACHYOS_REPO_BLOCK_START/ { print; inblk=1; next }
+        /# CACHYOS_REPO_BLOCK_END/ {
+            print "[cachyos]"
+            print "SigLevel = Never"
+            print "Server = https://mirror.cachyos.org/repo/x86_64/cachyos"
+            print "# CACHYOS_REPO_BLOCK_END"
+            inblk=0
+            next
+        }
+        inblk { next }
+        { print }
+    ' "$conf" > "$tmp"
+    mv "$tmp" "$conf"
 }
 
 build_packages() {
@@ -52,8 +58,15 @@ build_packages() {
 
 build_iso() {
     echo "[gullos:build] Building ISO with mkarchiso..."
+    inject_cachyos_repo
     sed -i "s#file:///gullos-local-repo#file://${LOCAL_REPO}#" "${REPO_ROOT}/profile/pacman.conf"
     mkarchiso -v -w "${BUILD_ROOT}/iso-work" -o "${DIST_DIR}" "${REPO_ROOT}/profile"
+    # mkarchiso names the file <iso_name>-<iso_version>-<arch>.iso; normalize to the required artifact name
+    for f in "${DIST_DIR}"/gullos*.iso; do
+        [ -e "$f" ] || continue
+        [ "$f" = "${DIST_DIR}/gullos-x86_64.iso" ] && continue
+        mv -f "$f" "${DIST_DIR}/gullos-x86_64.iso"
+    done
     test -s "${DIST_DIR}/gullos-x86_64.iso"
     ( cd "${DIST_DIR}" && sha256sum gullos-x86_64.iso > SHA256SUMS.iso )
     echo "[gullos:build] ISO written to ${DIST_DIR}/gullos-x86_64.iso"
@@ -61,7 +74,9 @@ build_iso() {
 
 build_vdi() {
     echo "[gullos:build] Building VDI via build-disk-image.sh..."
-    "${REPO_ROOT}/scripts/build-disk-image.sh" "${BUILD_ROOT}/vdi-work" "${DIST_DIR}" "${LOCAL_REPO}"
+    inject_cachyos_repo
+    sed -i "s#file:///gullos-local-repo#file://${LOCAL_REPO}#" "${REPO_ROOT}/profile/pacman.conf"
+    bash "${REPO_ROOT}/scripts/build-disk-image.sh" "${BUILD_ROOT}/vdi-work" "${DIST_DIR}" "${LOCAL_REPO}"
     test -s "${DIST_DIR}/gullos-x86_64.vdi.zst"
     echo "[gullos:build] VDI written to ${DIST_DIR}/gullos-x86_64.vdi.zst"
 }
@@ -85,6 +100,3 @@ echo "=================================================================="
 echo "[gullos:build] Stage '${STAGE}' complete."
 ls -lh "${DIST_DIR}" 2>/dev/null || true
 echo "=================================================================="
-EOF
-chmod +x scripts/build.sh
-echo done

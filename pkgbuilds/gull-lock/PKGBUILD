@@ -6,7 +6,7 @@ pkgdesc="GullOS Catppuccin Mocha Wayland lockscreen (ext-session-lock-v1)"
 arch=('x86_64')
 url="https://github.com/neverjoskiy/gullos"
 license=('MIT')
-depends=('wayland' 'mesa' 'libxkbcommon' 'ab_glyph' 'fontconfig')
+depends=('wayland' 'mesa' 'libxkbcommon')
 makedepends=('cargo' 'rust')
 source=()
 options=('!lto')
@@ -20,4 +20,3 @@ package() {
     cd "$startdir/../../rust-workspace"
     install -Dm755 "target/release/gull-lock" "$pkgdir/usr/bin/gull-lock"
 }
-EOF

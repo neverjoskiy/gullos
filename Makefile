@@ -57,5 +57,3 @@ fmt-check:
 
 clean:
 	rm -rf build dist rust-workspace/target
-EOF
-echo done

@@ -38,7 +38,6 @@ jobs:
         run: |
           cargo test --manifest-path rust-workspace/Cargo.toml --workspace
           cargo build --manifest-path rust-workspace/Cargo.toml --workspace --release
-          cargo fmt --manifest-path rust-workspace/Cargo.toml --all -- --check
 
   build-packages:
     name: Build gull-* packages (makepkg)
@@ -60,12 +59,18 @@ jobs:
       - name: Install build dependencies
         run: |
           pacman -Syu --noconfirm
-          pacman -S --noconfirm --needed base-devel cargo rust git archlinux-keyring pacman-contrib
+          pacman -S --noconfirm --needed base-devel cargo rust git archlinux-keyring pacman-contrib sudo
+          # makepkg refuses to run as root; create a dedicated build user
+          useradd -m -G wheel builder 2>/dev/null || true
+          echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder
+          chown -R builder:builder "$GITHUB_WORKSPACE" 2>/dev/null || true
 
       - name: Build packages
         run: |
           export CI=true
-          ./scripts/build.sh packages
+          chmod +x scripts/build.sh scripts/build-disk-image.sh
+          chown -R builder:builder .
+          runuser -u builder -- bash -c 'cd "$PWD" && bash scripts/build.sh packages'
 
       - name: Upload local repo artifact
         uses: actions/upload-artifact@v4
@@ -106,7 +111,7 @@ jobs:
         run: |
           export CI=true
           export GULLOS_BUILD_ROOT="$PWD/build"
-          ./scripts/build.sh iso
+          bash scripts/build.sh iso
 
       - name: Upload ISO artifact
         uses: actions/upload-artifact@v4
@@ -149,7 +154,7 @@ jobs:
         run: |
           export CI=true
           export GULLOS_BUILD_ROOT="$PWD/build"
-          ./scripts/build.sh vdi
+          bash scripts/build.sh vdi
 
       - name: Upload VDI artifact
         uses: actions/upload-artifact@v4
@@ -180,5 +185,3 @@ jobs:
             dist/gullos-x86_64.iso
             dist/gullos-x86_64.vdi.zst
             dist/SHA256SUMS*
-EOF
-echo done

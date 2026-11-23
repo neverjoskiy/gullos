@@ -15,4 +15,3 @@ if [ -f /etc/gullos/installed ] && [ -x /usr/bin/gull-lock ]; then
 fi
 
 exec /usr/bin/gull-term
-EOF
