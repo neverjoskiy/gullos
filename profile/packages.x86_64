@@ -22,7 +22,7 @@ xdg-desktop-portal-wlr
 sudo
 man-db
 pacman-contrib
-calamares
+cachyos-calamares
 grub
 efibootmgr
 os-prober
