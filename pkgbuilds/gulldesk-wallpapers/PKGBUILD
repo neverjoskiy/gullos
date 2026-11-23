@@ -14,6 +14,7 @@ _GULLDESK_SRC="${startdir}/../../src/gulldesk-wallpapers"
 
 package() {
   cd "${_GULLDESK_SRC}"
+  shopt -s nullglob
   install -d "${pkgdir}/usr/share/wallpapers"
   cp -a wallpapers/. "${pkgdir}/usr/share/wallpapers/" 2>/dev/null || true
 }

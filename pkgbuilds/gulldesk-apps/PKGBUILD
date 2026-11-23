@@ -21,5 +21,6 @@ build() {
 
 package() {
   cd "${_GULLDESK_SRC}"
+  shopt -s nullglob
   DESTDIR="${pkgdir}" cmake --install build
 }
