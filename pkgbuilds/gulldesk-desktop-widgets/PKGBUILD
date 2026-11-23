@@ -55,8 +55,7 @@ PYEOF
       target="${pkgdir}/${dst}/$(basename "$f")"
       mkdir -p "${pkgdir}/${dst}"
       if [ -d "$f" ] && [ ! -L "$f" ]; then
-        mkdir -p "$target"
-        cp -aL "$f"/. "$target"/
+        cp -aL "$f" "$target"
       elif [ -L "$f" ]; then
         cp -aL "$f" "$target"
       else
