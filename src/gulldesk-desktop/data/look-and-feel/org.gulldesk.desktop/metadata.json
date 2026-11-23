@@ -1,0 +1,14 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "GullDesk Developers"
+            }
+        ],
+        "Description": "Default GullDesk OS desktop appearance",
+        "Id": "org.gulldesk.desktop",
+        "License": "LicenseRef-GullDesk-Artwork",
+        "Name": "GullDesk"
+    }
+}

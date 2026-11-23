@@ -1,0 +1,19 @@
+[Unit]
+Description=Android apps
+PartOf=graphical-session.target
+After=graphical-session.target gulldesk-android-display.service
+BindsTo=gulldesk-android-display.service
+ConditionPathExists=/var/lib/waydroid/waydroid.cfg
+
+[Service]
+Type=dbus
+BusName=id.waydro.Session
+ExecStartPre=-/usr/libexec/gulldesk-android-session --prepare
+ExecStartPre=-/usr/bin/pkexec /usr/libexec/gulldesk-android-refresh
+ExecStart=/usr/bin/env GULLDESK_HOST_WAYLAND_DISPLAY=${WAYLAND_DISPLAY} WAYLAND_DISPLAY=gulldesk-android-0 PYTHONPATH=/usr/share/gulldesk/android/python /usr/bin/waydroid.waydroid session start
+ExecStartPost=/bin/sh -c '/usr/libexec/gulldesk-android-session --sync-after-boot > /dev/null 2>&1 &'
+ExecStop=/usr/bin/waydroid.waydroid session stop
+TimeoutStopSec=30
+
+[Install]
+WantedBy=graphical-session.target

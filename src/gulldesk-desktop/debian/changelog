@@ -1,0 +1,1519 @@
+gulldesk-desktop (1.4.86) UNRELEASED; urgency=medium
+
+  * Keep Android permission layers inside the app bounds and restore their
+    stacking order without exceeding KWin texture limits. Refresh the
+    compositor cache immediately when a permission question opens or closes.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sun, 22 Nov 2026 13:00:00 -0800
+
+gulldesk-desktop (1.4.85) UNRELEASED; urgency=medium
+
+  * The live image opens its own full-screen setup before the desktop,
+    drawn like the Pixel setup wizard: Hello, language, keyboard, Wi-Fi,
+    disk, account with GullDesk avatars, style, a review and the install
+    progress. "Try without installing" opens the live desktop, and
+    "Install GullDesk" there brings the setup back.
+  * The disk page reads like Google's: a card for the disk, the choices
+    as one grouped list, and a slider for how much space to give GullDesk
+    next to another system.
+  * The avatar and style picked in setup reach the new account, and the
+    old Welcome window no longer opens after setup.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 19 Nov 2026 22:00:00 -0800
+
+gulldesk-desktop (1.4.84) UNRELEASED; urgency=medium
+
+  * Desktop shortcuts no longer get pushed off the screen. With the
+    widget grid, a shortcut only found a cell that was completely free
+    of widgets, so on a busy desktop it was put below the screen. The
+    desktop then scrolled, dragging scrolled it instead of selecting
+    icons, and the long press for the home menu could be cancelled. A
+    shortcut now takes a cell whose middle is free, stays on the screen
+    when there is no such cell, and shortcuts that were already pushed
+    off come back.
+  * A widget that ended up past the edge of the screen, for example
+    after dropping it from Add or Manage Widgets near the bottom, moves
+    back to the nearest free place on the desktop.
+  * The sheet with the other widgets of an app no longer opens while
+    hovering widgets in the Plasma edit mode, where it covered the Done
+    button.
+  * Plasma widgets (system monitor, clipboard and others) keep the same
+    gap from their neighbours as GullDesk widgets, like on Android. Their
+    card used to fill the whole grid cell, so two of them touched. Their
+    card is now inset by the grid gap and the edit frame follows the
+    card. Widgets that grow after loading are snapped to the grid again
+    and kept on the screen.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Wed, 18 Nov 2026 12:00:00 -0800
+
+gulldesk-desktop (1.4.83) UNRELEASED; urgency=medium
+
+  * Clock has all six widgets of Google Clock. New are the Stopwatch, a
+    round dial with a big time, a start and pause button and a pill with
+    Lap and Reset, and the Timer starter: tap 10m, 1m or 5m to start a
+    timer, tap again to pause, tap + for a keypad like the one in Google
+    Clock. Like in Google Clock, the layout follows the size: one button,
+    a column, or three columns. When time is up an alarm rings until you
+    stop it from the notification. Both keep running across restarts.
+  * Photos offers its shapes right in the widget list, like Google
+    Photos: cookie, star, flower, circle, square, pill and full size,
+    each shown with a sample picture.
+  * Touch and hold a widget and let go: a sheet with the other widgets
+    of the same app opens, like the widgets sheet of Pixel Launcher. Tap
+    another style of the same widget and it changes in place; other
+    widgets of the app can be added from there. The sheet opens at the
+    top or bottom, wherever it hides less of the widget, and closes when
+    you start dragging.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Mon, 16 Nov 2026 21:00:00 -0800
+
+gulldesk-desktop (1.4.82) UNRELEASED; urgency=medium
+
+  * The kernel runs with full preemption (preempt=full), so the pointer,
+    windows and animations answer right away even while the processor
+    is busy. A preempt= already set in GRUB is kept.
+  * KWin may use realtime scheduling (CAP_SYS_NICE on kwin_wayland,
+    which the Debian package leaves out), so frames keep coming on time
+    under load. The capability is set again whenever kwin is updated.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Mon, 16 Nov 2026 12:00:00 -0800
+
+gulldesk-desktop (1.4.81) UNRELEASED; urgency=medium
+
+  * Touch and hold an empty spot on the desktop and the Android home
+    menu opens there, the way Pixel Launcher does it: Wallpaper & style,
+    Widgets and Home settings, grown from the finger with the same timing,
+    shape and placement. Wallpaper & style and Home settings open full
+    screen out of the tapped row, and the desktop gently shrinks behind
+    them. A right click keeps the usual desktop menu.
+  * Pages can put their back arrow in the top left corner, used by the
+    full screen settings.
+  * Widgets work like on Android and Googlebook: Widgets in the long-press
+    menu opens a full-height picker with Suggestions and the widgets of
+    each app, each with its size in cells and an Add button, or drag a
+    preview onto the desktop. Widgets sit on a grid of cells with gaps,
+    touch and hold one to pick it up, drop it on Remove at the top to
+    take it away, or let go to get the resize frame with four handles
+    and a pencil for its settings. New widgets go to the first free spot.
+  * The clock widgets are Google Clock's: the round analog clock with
+    the scalloped dial and a seconds dot, the digital clock in a pill,
+    the stacked clock and a world clock for any city, each its own widget
+    in the picker. They use the Android tonal shades of the theme colour,
+    now part of the colour tokens, and turn dark with the dark theme.
+  * Widgets move on the grid like on a Pixel: while you drag, an outline
+    shows the cells where the widget will land, widgets in the way shake
+    and then move aside, and a widget with no room goes back where it was.
+    Resizing pushes widgets aside the same way, and widgets dragged out of
+    the picker get the same outline and make room too. The picker drag
+    starts only after the sheet is out of the way, so drops no longer get
+    lost on it.
+  * Widgets keep their size and place at login: the desktop waits until
+    the panels have settled before it restores the layout, so widgets in
+    the bottom row are no longer squeezed to one row, and GullDesk widgets
+    no longer ask Plasma for a desktop size.
+  * The weather widgets are Google Weather's: Current weather on the
+    diagonal capsule or a pill, and Forecasted weather with the city,
+    feels like, high and low, an hourly strip and the coming days, with
+    Google's sun, cloud, rain and moon drawings in the theme colours.
+    Every widget sits on whole cells, KDE ones too, and the pencil shows
+    only on widgets that have settings.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sun, 15 Nov 2026 02:10:00 -0800
+
+gulldesk-desktop (1.4.80) UNRELEASED; urgency=medium
+
+  * Terminal, Ctrl+Alt+T and the KDE default terminal open the new
+    Googlebook-style GullDesk Terminal from gulldesk-apps 1.1.91 instead of
+    Alacritty. Alacritty stays installed.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 14 Nov 2026 14:20:00 -0800
+
+gulldesk-desktop (1.4.79) UNRELEASED; urgency=medium
+
+  * Quick settings turn frosted as soon as the sheet comes to rest
+    instead of a moment later, when the spring's last tiny movement has
+    died out, so the blur no longer pops in after the panel has visibly
+    stopped.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 14 Nov 2026 12:00:00 -0800
+
+gulldesk-desktop (1.4.78) UNRELEASED; urgency=medium
+
+  * Use vertex antialiasing throughout the Plasma session so circular
+    surfaces and offscreen masks do not depend on multisampled surfaces.
+  * Keep application and symbolic SVG icons at their requested size,
+    including at 75% scaling, and smooth avatar and interaction masks.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 14 Nov 2026 10:30:00 -0800
+
+gulldesk-desktop (1.4.77) UNRELEASED; urgency=medium
+
+  * Quick settings move as one card: the tiles and sliders no longer
+    slide and fade on their own while the sheet is dragged or animated,
+    so they stop running into the version line and leaving an empty
+    box. The sheet turns solid while it moves and becomes frosted again
+    once it rests, and the blur is only on at rest, so it never trails
+    behind the moving sheet.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 14 Nov 2026 10:00:00 -0800
+
+gulldesk-desktop (1.4.76) UNRELEASED; urgency=medium
+
+  * The installed system boots on PCs that forget UEFI boot entries,
+    like many X79 boards: the fallback EFI/BOOT loader is now shim with
+    GullDesk's GRUB and its own grub.cfg, so it no longer stops at a bare
+    grub> prompt, and it works with Secure Boot on. The installer sets
+    it up, updates fix existing installs, and new GRUB or shim versions
+    are copied over by a dpkg trigger. A fallback loader that belongs to
+    another system is left alone.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 14 Nov 2026 09:00:00 -0800
+
+gulldesk-desktop (1.4.75) UNRELEASED; urgency=medium
+
+  * Moving an updated system to the status bar layout also makes the
+    taskbar square and edge to edge, like Googlebook, instead of keeping
+    the old rounded floating panel.
+  * Folder icons are tonal tiles with a filled folder or special-folder
+    symbol, a step stronger than file tiles; folder names used as glyphs
+    keep their symbolic icons.
+  * Blur like Android 16: quick settings, the apps menu (now in the dark
+    theme too) and Plasma popups such as notifications are translucent
+    over a blurred background when KWin's blur is on, the window overview
+    blurs the wallpaper, and the lock screen blurs the wallpaper as the
+    password prompt comes up.
+  * Google Sans Flex is the system typeface in the Material 3 style, from
+    the new fonts-google-sans package: the shell, the login screen, KDE and
+    GTK apps and window titles. Cyrillic and other letters it lacks come
+    from Google Sans. The classic Material 1 and 2 styles keep Roboto.
+  * Text styles follow how Pixel sets up Google Sans Flex: the optical size
+    follows the text size, and emphasized styles are one step heavier and
+    rounded. Like Android 16, the status bar, quick settings tiles and
+    notification titles use the emphasized styles, and the lock screen and
+    login clocks are rounded.
+  * Upgrades switch a Roboto font set in kdeglobals or GTK to Google Sans
+    Flex (kconf_update gulldesk-google-sans-flex).
+  * File icons are tonal rounded tiles with a filled symbol in the accent
+    colour, like Files on Googlebook. Symbolic file icons stay plain glyphs.
+  * Picture wallpapers sorted into collections come with the desktop
+    through the new gulldesk-wallpapers package.
+  * Windows have all four corners rounded and a soft shadow, through the
+    new kwin-effect-rounded-corners package. The window frame no longer
+    leaves a dark line or a light seam at its edges on fractional scales;
+    the dark theme adds a faint light outline.
+  * Status bar at the top: time and date on the left, notifications, network,
+    battery and what is playing on the right, over the wallpaper.
+  * The status bar never gets a background. Its text and icons follow the
+    wallpaper under it: dark over a light wallpaper, white over a dark one,
+    with a soft shade at the top when white needs it.
+  * Meta+N opens notifications and Meta+Q quick settings, like on Googlebook.
+  * A green pill shows when an app uses the camera or the microphone, and
+    shrinks to a dot after a few seconds.
+  * The notification panel under the status bar has no title and fits its
+    notifications. Silent ones get their own section, Clear all and the
+    settings button sit at the bottom, and a card shows its close and
+    settings buttons when the pointer is over it.
+  * The bottom panel is square by default.
+  * New apps menu: it opens in the middle of the screen above the taskbar
+    and dims everything behind it, the status bar included. A search pill
+    with LibreWolf at the top, all apps from A to Z in six columns, a thin
+    scrollbar that shows the letter while it is dragged.
+  * Typing searches apps, GullDesk Settings, files and quick answers, with
+    "Search the web" in LibreWolf and "Search in Store" rows. Enter opens
+    the first result.
+  * Right-click an app: its own actions, Add to taskbar or Remove from
+    taskbar, Add to Home screen and App info. Dragging an app hides the
+    menu so it can be dropped on the desktop or the taskbar.
+  * The apps button is a wide pill that lights up while the menu is open.
+    Meta opens the menu with the cursor in the search field.
+  * A two-finger swipe up on the desktop opens the menu, a two-finger
+    swipe down at the top of the list closes it.
+  * The layout with everything at the bottom keeps the previous menu.
+  * Quick settings like Googlebook: edit tiles, Settings and a Power menu
+    (Lock, Sleep, Sign out, Restart, Power off) at the top, thick sliders
+    with Night Light next to brightness and sound devices next to volume,
+    two columns of pill tiles (Wi-Fi, Bluetooth, Screen capture, Do Not
+    Disturb, Quick Share, Mic access, Dark theme, Keyboard), the GullDesk
+    version at the bottom. Edit mode adds Undo and asks before Reset.
+  * New detail views for sound devices and keyboard layouts.
+  * The Now playing pill opens its own media card; it left quick settings.
+  * The classic layout keeps the previous quick settings.
+  * Light theme like Googlebook: the taskbar is white, nothing dims behind
+    the apps menu and quick settings, and the apps menu is frosted glass
+    over a blurred wallpaper with a white search pill. The dark theme keeps
+    the dimmed background.
+  * Settings can switch back to everything at the bottom and to the rounded
+    panel.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 13 Nov 2026 19:00:00 -0800
+
+gulldesk-desktop (1.4.74) UNRELEASED; urgency=medium
+
+  * Android apps start once right after setup, before "ready" is announced:
+    Google Play and the app menu entries are there, and the first sign-in is
+    no longer cut off by Google Play services finishing their own setup.
+  * Text copied on the desktop can be pasted into Android apps.
+  * Android windows that grow on their own move back onto the screen.
+    Permission questions stay above other windows and out of the panel.
+  * Answers to permission questions reach the app that asked, also when
+    another Android window covers it.
+  * Bringing an Android window forward only reorders Android when it really
+    has another window on top, so the first click isn't swallowed.
+  * Opening an app no longer leaves a "Deleting (Failed)" notification.
+  * Android apps use the language chosen in GullDesk.
+  * The time left while downloading Android is steadier.
+  * The size of Android apps counts their data. The package cache is cleaned
+    after setup.
+  * Saving an Android report asks for the password with its own message.
+  * Logging in starts with an empty desktop, as Settings says, instead of
+    reopening the apps of the last session.
+  * After a desktop update, restarting is offered.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sun, 08 Nov 2026 10:00:00 -0800
+
+gulldesk-desktop (1.4.73) UNRELEASED; urgency=medium
+
+  * The panel's widget list no longer offers GullDesk's desktop widgets.
+  * A desktop widget that is on a panel anyway shows as an icon that opens its
+    card, instead of squeezing the card into the panel.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 07 Nov 2026 12:30:00 -0800
+
+gulldesk-desktop (1.4.72) UNRELEASED; urgency=medium
+
+  * Drivers: a catalog of optional drivers, a hardware scanner and a root job
+    that installs and removes them with progress and rollback.
+  * Finds firmware the kernel asked for and could not load.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 06 Nov 2026 20:00:00 -0800
+
+gulldesk-desktop (1.4.71) UNRELEASED; urgency=medium
+
+  * Add Panel, Default Panel adds the GullDesk panel instead of KDE's.
+  * A panel added after deleting the old one gets the launcher, quick
+    settings, clipboard and emoji shortcuts back.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 06 Nov 2026 16:30:00 -0800
+
+gulldesk-desktop (1.4.70) UNRELEASED; urgency=medium
+
+  * Android windows survive an app restarting its screen: fullscreen,
+    maximize and position stay, and the last frame stays on screen meanwhile.
+  * Android apps scale to the window frame while it is being resized.
+  * Fullscreen, maximize and resize work for apps whose task has its own
+    affinity name.
+  * Only real permission questions become GullDesk dialogs, one at a time.
+  * Video shows in apps that play through a wrapped context, like YouTube and
+    Google Photos: a small library in the composer gives those layers their
+    task, and software graphics can show the 16-bit video buffers.
+  * Clicks and the mouse wheel reach the Android window under the pointer:
+    Android's input order now follows focus, and a press waits for it.
+  * A window that appears under a still pointer knows where the pointer is.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 06 Nov 2026 14:00:00 -0800
+
+gulldesk-desktop (1.4.69.2) UNRELEASED; urgency=medium
+
+  * Keep stable and demo contents separated and use versions above the
+    briefly published intermediate packages so all systems can update.
+  * Preserve the existing demo desktop contents and install the matching
+    desktop revision alongside the Files update.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 06 Nov 2026 12:00:00 -0800
+
+gulldesk-desktop (1.4.69) UNRELEASED; urgency=medium
+
+  * Android apps that can't be resized open as normal windows instead of
+    covering the whole Android screen and closing every other window.
+  * The display helper wakes the Android compositor twice a second, so a new
+    window can't leave it waiting forever and restart Android.
+  * A new Android window waits for its menu entry, so it gets the right icon
+    and its own panel button instead of sharing one marked W.
+  * Android windows are placed again when an app changes orientation or a
+    window goes away, and their backing surfaces are released on close.
+  * Android reports list open apps, why apps closed and Android restarts.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 05 Nov 2026 19:00:00 -0800
+
+gulldesk-desktop (1.4.68) UNRELEASED; urgency=medium
+
+  * Windows look like Chrome OS: a thin title bar with the icon and title on
+    the left and quiet buttons.
+  * Android permission questions open as GullDesk dialogs. The Android dialog
+    is hidden and the answer is passed back to Android.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Wed, 04 Nov 2026 22:00:00 -0800
+
+gulldesk-desktop (1.4.67) UNRELEASED; urgency=medium
+
+  * Android apps: explain that they need a Wayland session instead of
+    failing silently under X11, and offer to sign out into Wayland.
+  * Android apps use the computer's time zone.
+  * Android apps open in real GullDesk windows: gulldesk-android-display sits
+    between Android and the desktop, the desktop draws the frame, and moving
+    a window no longer goes through Android. Apps get their whole window,
+    with no Android title bar over their buttons and no see-through areas.
+  * Resizing happens in one step when the mouse is released.
+  * Windows stay open when another Android window covers them.
+  * Apps that can resize open large, and windows follow an app that asks for
+    the other orientation.
+  * Opening an app while Android is stopping no longer waits five minutes.
+  * Report a problem: add the session type, processor features, service
+    journals, kernel messages, native crashes and the rotated Waydroid log.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Wed, 04 Nov 2026 17:00:00 -0800
+
+gulldesk-desktop (1.4.66.1) UNRELEASED; urgency=medium
+
+  * Backport stable locale catalog restoration, installer preparation and
+    repair of missing configured locales to demo installations.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Wed, 04 Nov 2026 20:15:00 -0800
+
+gulldesk-desktop (1.4.66) UNRELEASED; urgency=medium
+
+  * Backport the stable smoothing fix for account pictures and rounded
+    press effects, including active ripple texture initialization.
+  * Retain all existing demo features.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Tue, 03 Nov 2026 20:45:00 -0800
+
+gulldesk-desktop (1.4.65) UNRELEASED; urgency=medium
+
+  * Bring the stable CPU temperature widget and its menu preview to demo
+    systems, retaining the existing Android features.
+  * Include CPU sensor dependencies and English/Russian translations.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Tue, 03 Nov 2026 19:00:00 -0800
+
+gulldesk-desktop (1.4.64) UNRELEASED; urgency=medium
+
+  * Android windows are no longer resized after an app starts. Widening
+    every new window was a configuration change: Unity games such as
+    Toca Boca World lost their surface and died, logins reset and windows
+    jumped through several sizes. Android remembers a size the user picks.
+    gulldesk-android-windows only runs with several monitors and moves a
+    new window that lands across two of them onto the main one, without
+    changing its size.
+  * Only apps: the sync turns off Android's phone apps that nothing on a
+    computer needs and that kept running in the background (the Google
+    app, Messages, Contacts, Clock, IMS, Seedvault, calendar sync, Android
+    Auto), about 500 MB less memory in a GAPPS image.
+  * Android stops completely 30 minutes after its last window closed and
+    gives all its memory back (suspend_action stop); with "Open apps
+    faster" on it is frozen instead, as before. Android's screensaver is
+    off: Waydroid reports a charging battery, so Android wanted to start a
+    dream at the timeout and never slept. The window helper keeps Android
+    awake (screen_off_timeout at the maximum) while any app window is open
+    and sets 30 minutes when the last one closes.
+  * The waydroid command lets users run app commands only; show-full-ui
+    and first-launch say that Full UI mode is disabled.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sun, 01 Nov 2026 22:00:00 -0700
+
+gulldesk-desktop (1.4.63) UNRELEASED; urgency=medium
+
+  * Android started in no virtual machine with a virtio GPU without 3D:
+    the GPU's DRM device is the PCI device (driver virtio-pci), not
+    virtio_gpu, so the check for virgl never ran, Waydroid chose Mesa and
+    SurfaceFlinger aborted every five seconds ("output buffer not gpu
+    writeable"). Windows stayed see-through and nothing opened. The check
+    now reads device/virtio*/features as well.
+  * Any computer where SurfaceFlinger keeps crashing gets the same way
+    out: 40 seconds after Android starts without booting, the session asks
+    gulldesk-android graphics-check (through gulldesk-android-refresh), which
+    samples SurfaceFlinger's pid twice. If it changed, Android draws in
+    software on this computer from then on (kept with the list of DRM
+    devices) and restarts once.
+  * Android's "isn't responding" dialog is back (hide_error_dialogs 0):
+    with it hidden Android killed the app on every ANR, and right after
+    boot Google Play and others vanished that way. Android's ANR timeouts
+    are three times longer instead (ro.hw_timeout_multiplier=3).
+  * The update service no longer installs or restarts the container while
+    Android is starting (a running "waydroid session start" counts as
+    active), and the refresh before a start waits for a running update
+    instead of skipping it.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sun, 01 Nov 2026 20:00:00 -0700
+
+gulldesk-desktop (1.4.62) UNRELEASED; urgency=medium
+
+  * Android apps move between monitors. Waydroid has a single Android
+    screen and every Android window is a see-through window of that size,
+    so a window could not leave the first monitor. With more than one
+    monitor, gulldesk-android-session --screens records the layout before
+    Android starts, the refresh puts persist.waydroid.width/height for
+    the whole desktop into waydroid.cfg, and a KWin rule (gulldesk-android
+    in the user's kwinrulesrc) keeps Android's windows at the desktop's
+    corner. New windows open on the main monitor. Android's own maximize
+    then covers every monitor.
+  * gulldesk-android report saves what Android apps logged, recent crash
+    reports, the graphics and network state and the Waydroid log in the
+    user's Downloads, for GullDesk's developers.
+  * Android sleeps 30 minutes after its last window closes instead of one
+    (screen_off_timeout): Waydroid freezes it then, which stopped Google
+    Play downloads. Private DNS is off; the computer resolves names.
+  * A virtio GPU without 3D counts as no GPU, so Android in a virtual
+    machine draws in software instead of showing black windows.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sun, 01 Nov 2026 12:00:00 -0700
+
+gulldesk-desktop (1.4.61) UNRELEASED; urgency=medium
+
+  * Android apps run apps built only for ARM, which is most of Google Play.
+    gulldesk-android-device downloads an ARM translator for the processor
+    (Google's libndk_translation on AMD, Intel's libhoudini on Intel, from
+    pinned archives checked by SHA-256), copies it into Waydroid's system
+    overlay and adds the ARM ABIs and the native bridge to waydroid.cfg.
+    It comes with the setup; Android apps that are already set up get it
+    from the update service. The binfmt_misc rules are left out, since
+    registering them in the container would take over ARM executables on
+    the host.
+  * Android apps no longer open as black windows when the screen runs on
+    an NVIDIA card: if the boot VGA card is driven by nvidia or nouveau,
+    or no other render node exists, Android draws in software (gralloc
+    default, SwiftShader, Vulkan pastel). Waydroid picked the integrated
+    GPU there, whose buffers KWin on the NVIDIA card cannot show.
+  * The choice is checked before every start of Android
+    (gulldesk-android-refresh through polkit org.gulldesk.android.refresh),
+    so a new driver or card is picked up; GullDesk keeps track of the
+    properties it set and takes them back out when they no longer apply.
+  * The window helper remembers apps by install (package and first
+    install time), so an app that is removed and installed again opens in
+    a computer-sized window again instead of the phone size.
+  * Apps that start with a see-through trampoline activity (VLC's
+    StartActivity, many splash screens) were skipped for good when opened
+    while Android ran; the helper now looks at a new task again for a few
+    seconds until its real window is up.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sun, 01 Nov 2026 03:00:00 -0700
+
+gulldesk-desktop (1.4.60) UNRELEASED; urgency=medium
+
+  * Android apps type in the keyboard layout chosen in GullDesk. Waydroid
+    hands Android raw key codes, so Android always used US English and
+    Russian typed as Latin letters. Once Android is up, and on every
+    layout switch in Plasma, gulldesk-android-keyboard sets the same layout
+    for Waydroid's keyboard through Android's input service (no toast, no
+    key presses), and Android keeps only that one.
+  * The sync turns off the system on-screen keyboard app itself instead
+    of only its input method: Android enabled it again after every
+    restart of its system, and it then opened as an "InputMethod" window.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sun, 01 Nov 2026 01:00:00 -0700
+
+gulldesk-desktop (1.4.59) UNRELEASED; urgency=medium
+
+  * Android apps keep to apps: the sync turns off Android's on-screen
+    keyboards (the physical keyboard types straight into the app, and the
+    keyboard no longer opens as a big window of its own), hides Android's
+    "isn't responding" and "has stopped" dialogs (hide_error_dialogs),
+    marks the device as set up and turns off Google's and LineageOS's
+    setup wizards, so nothing asks to finish setting up the device.
+  * Hidden entries with the GullDesk icon for more Android windows: the
+    keyboard, Settings search, the setup wizard, device provisioning and
+    speech services.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 31 Oct 2026 23:00:00 -0700
+
+gulldesk-desktop (1.4.58) UNRELEASED; urgency=medium
+
+  * Android apps open in computer-sized windows: the new
+    /usr/libexec/gulldesk-android-windows (started through polkit once
+    Android has booted) follows Android's wm_create_task events and gives
+    every app's first window a landscape size of about three quarters of
+    the screen. Apps that ask for portrait only, see-through windows and
+    Android's own dialogs keep their size, and a window that ends up
+    letterboxed goes back. Android remembers the size per app afterwards.
+  * Android uses GullDesk's scale: the sync sets the density to 160 times
+    the scale of the main screen and follows scale changes.
+  * Android calls this computer "GullDesk Laptop" or "GullDesk PC" (from
+    the chassis) instead of "WayDroid x86_64 Device", in Google Play too,
+    and apps see a Wi-Fi connection so downloads and updates are not
+    held back. Existing setups get this once no app is open.
+  * Setting up shows one progress from the start, including Waydroid's
+    own packages, and the bytes downloaded. When the setup ends, a
+    notification says so and opens Settings.
+  * The sync keeps the Google device ID and whether a Google account is
+    signed in in /var/lib/gulldesk/android/google for the Google Play
+    steps in Settings; "gulldesk-android-session --google" starts Android
+    and waits for the ID.
+  * Waiting for Android also counts three seconds after
+    sys.user.0.ce_available as ready: Waydroid missed the unlock event on
+    a first boot with Google Play, so nothing after boot ran.
+  * The download shows the time left only after five seconds of data.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 31 Oct 2026 20:00:00 -0700
+
+gulldesk-desktop (1.4.57) UNRELEASED; urgency=medium
+
+  * Android apps download their image much faster: the new
+    /usr/libexec/gulldesk-android-fetch finds several SourceForge mirrors,
+    fetches the image in parts from all of them at once, lets fast mirrors
+    take over the rest of a slow or stuck one, checks the SHA-256 from the
+    Waydroid OTA channel and puts system.img and vendor.img in place with
+    their dates in waydroid.cfg, so "waydroid init" does not download them
+    again. Waydroid's own single-mirror download stays as the fallback.
+  * The state file and "gulldesk-android status" report the time left.
+  * Daily image updates use the same download, keep a downloaded image
+    until no app is open and install it with "waydroid upgrade -o".
+    Setting up or removing Android apps stops a running update first.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 31 Oct 2026 12:00:00 -0700
+
+gulldesk-desktop (1.4.56) UNRELEASED; urgency=medium
+
+  * Android apps, first demo: /usr/libexec/gulldesk-android sets Android up
+    on request from Settings. It adds Debian's trixie-backports for
+    Waydroid only, installs Waydroid without recommends, downloads the
+    LineageOS 20 image the user picked (plain or with Google Play) with
+    progress in /var/lib/gulldesk/android/state, turns on separate windows
+    for every app and starts the container. It can cancel the download,
+    print the Google device ID and remove Android with every user's data.
+  * /usr/bin/waydroid is diverted to a wrapper: launching, installing or
+    removing an app first starts the gulldesk-android user service and
+    waits until Android has finished booting, with a "Starting Android"
+    notification, so an app opens on the first try from anywhere.
+  * Waydroid's own launcher entry and APK handler are diverted; .apk files
+    open in GullDesk's installer.
+  * Icon theme: Android, APK, APK installer and Google Play symbols.
+  * Android app windows wear the GullDesk title bar: a static overlay,
+    GullDeskCaption, built by tools/gen-android-overlay (own binary XML and
+    resource table, signed with AOSP's public platform test key that the
+    image uses) gives Android's caption the Material surface colours and
+    Material Symbols with GullDesk's pressed circles.
+  * gulldesk-android-sync (no password for the active user) hands Android
+    the GullDesk colour as its Material You seed and the light or dark
+    theme, lists Android's own packages so their entries stay out of the
+    launcher, and turns off the image's own updater. It runs when Android
+    has booted and whenever kdeglobals or gulldeskrc change.
+  * gulldesk-android-update.timer installs a new image once a day when one
+    is out and no app is open.
+  * Hidden entries give Android's permission, installer and Google
+    windows the GullDesk icon; the market:// handler no longer says
+    Waydroid.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 30 Oct 2026 20:00:00 -0700
+
+gulldesk-desktop (1.4.55) UNRELEASED; urgency=medium
+
+  * Widget picker: widgets from KDE are cards like GullDesk's own now, each
+    with a Material preview drawn for it (clock faces, a month, charts for
+    the system monitor sensors, a folder, sliders, device and network
+    lists, panel pieces on a little panel) and a Pixel style icon, a
+    Material symbol on a circle in the theme colour, next to its name.
+    GullDesk's cards get the same icon. Desktop widgets come first, grouped
+    by kind; on a panel the panel widgets lead.
+  * widgets.js maps each known widget to its icon, group and preview;
+    unknown widgets keep their own icon on a Material shape.
+  * Icon theme: Material symbols for ksysguardd, plasmavault,
+    device-notifier, org.kde.plasma.pager, org.kde.plasma.folder,
+    distribute-horizontal-x, filename-divider and draw-freehand, plus
+    analog and digital clock, bar chart, dock and menu symbols.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 29 Oct 2026 20:00:00 -0700
+
+gulldesk-desktop (1.4.54) UNRELEASED; urgency=medium
+
+  * New live wallpaper Ribbon (org.gulldesk.ribbon), after a community
+    member's sketch: a dark ribbon with a narrow waist crosses a ground in
+    the theme's colour, and Material shapes ride along it. At the waist
+    each one springs into the next of sixteen shapes (cookies, clovers,
+    sunny, heart, pill, flower, gem, soft burst, triangle, arch, ghost,
+    puffy diamond) while it turns and takes a new tone. The ribbon
+    breathes and a slow ripple runs along its edges.
+  * gen-wallpaper-assets writes Ribbon's palette and morphs.js, the
+    shapes as radii round their centre; the polar sampling moved from
+    gen-loading-shapes into material_shapes.py.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 29 Oct 2026 12:00:00 -0700
+
+gulldesk-desktop (1.4.53) UNRELEASED; urgency=medium
+
+  * The icon of the new Task Manager (org.gulldesk.taskmanager): the filled
+    Material symbol "monitoring" on the round tonal container, like the
+    other GullDesk apps.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 29 Oct 2026 12:00:00 -0700
+
+gulldesk-desktop (1.4.52) UNRELEASED; urgency=medium
+
+  * Tooltips in Plasma (quick settings tiles, panel buttons) were light text
+    on the light tooltip in dark mode: the style's tooltip text now always
+    uses inverseOnSurface, matching its inverseSurface background, instead
+    of the Plasma theme's tooltip colours.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Wed, 28 Oct 2026 12:00:00 -0700
+
+gulldesk-desktop (1.4.51) UNRELEASED; urgency=medium
+
+  * Apps that are starting no longer get KDE's spinner over their dock
+    icon: the icon gently pulses until the window shows up, and stays
+    still with reduced motion. Task.qml of the task manager is diverted
+    for it, a copy of plasma-desktop 6.3.6 with only that changed.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Mon, 26 Oct 2026 12:00:00 -0700
+
+gulldesk-desktop (1.4.50) UNRELEASED; urgency=medium
+
+  * Apps can be dragged from the app menu onto the desktop and they're
+    copied right away, no Copy / Move / Link menu. The menu closes after
+    the drop.
+  * App launchers on the desktop are never links any more: a link to an
+    installed launcher gets replaced by a copy (so no link emblem and no
+    italic name), and a copy that matches an installed launcher byte for
+    byte is made executable so it starts without the untrusted warning.
+    Anything else on the desktop is left alone.
+  * Ctrl + mouse wheel over the desktop makes the icons bigger or smaller
+    (the same seven sizes as in the desktop settings), and the size is
+    kept.
+  * Icon theme: about 220 more KDE and freedesktop names drawn with
+    Material Symbols, so menus, dialogs and files stop showing Breeze:
+    file types (text, PDF, office, code, archives, packages, disk images,
+    pictures, video, music, fonts), emblems (link, locked, shared...),
+    select all / none, properties, save as, text formatting, mail, tags,
+    network and sync states, zoom, window actions and more. Crashed
+    processes viewer got a GullDesk app icon.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sun, 25 Oct 2026 13:00:00 -0700
+
+gulldesk-desktop (1.4.49) UNRELEASED; urgency=medium
+
+  * Quick settings work with the panel on any side. With the panel on top
+    the sheet opened above the screen and only its handle showed; on the
+    left or right it covered the panel. Now it drops down under a top
+    panel (drag and scroll the other way round) and sits next to a side
+    panel at the height of the status chip.
+  * In a vertical panel the status chip stacks the icons and shows the
+    time on two lines instead of spilling out of the panel.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 24 Oct 2026 19:30:00 -0700
+
+gulldesk-desktop (1.4.48) UNRELEASED; urgency=medium
+
+  * Quick Share's progress in notifications is a plain bar, no waves.
+  * m3: MCircularProgress can be flat too (wavy: false).
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 24 Oct 2026 16:30:00 -0700
+
+gulldesk-desktop (1.4.47) UNRELEASED; urgency=medium
+
+  * Quick Share in quick settings works like ChromeOS: the tile icon turns
+    Quick Share on and off, the tile opens a panel with an On/Off row,
+    Everyone / Hidden and "Visible to everyone, for 10 min" with a
+    countdown. Sublabels: Off, Hidden, Everyone, "Everyone, 9 min".
+  * The Quick Share panel got the M3 Expressive look: the symbol in a
+    spinning cookie shape, "Ready to receive" and the name you appear
+    as, Everyone / Everyone for 10 minutes / Hidden as rows with icons,
+    and Send and receive, which opens the app.
+  * Icons: gulldesk-quickshare is now the Quick Share symbol (a ring of two
+    arrows), drawn by tools/draw-symbols in the Material Symbols Rounded
+    style, with a filled one for the tile when it's on and the
+    org.gulldesk.quickshare app icon. Also laptop, tablet, everyone,
+    upload and filled download/upload/timer/hidden/devices symbols.
+  * m3: MShape draws any of the Material shapes, materialshapes.js ships
+    with every copy of the m3 module.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 24 Oct 2026 12:00:00 -0700
+
+gulldesk-desktop (1.4.46) UNRELEASED; urgency=medium
+
+  * Quick settings: a Quick Share tile. Tap makes this computer visible to
+    everyone for 10 minutes, the arrow opens its settings page.
+  * Icon theme: gulldesk-quickshare (the share symbol).
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 23 Oct 2026 21:00:00 -0700
+
+gulldesk-desktop (1.4.45) UNRELEASED; urgency=medium
+
+  * Transparent panel (merged PR #4 by lexaaakorolevv-cyber): the panel is
+    the surface colour at 82% with blur behind, solid/ stays opaque.
+  * Turn on adaptive transparency in the theme, else Plasma ignores the
+    panel's opacity mode and the opaque setting never shows.
+  * The launcher applies panelOpacityRequest from its config to the panel
+    view it sits in, since panel.opacity from a script is broken on 6.3.
+  * Cut the panel shape out of the panel shadow, it showed through as a
+    dark band along the top and in the round ends.
+  * Task buttons are chips inset around the icon instead of full-height
+    boxes, those looked like a glitch on the see-through panel. Hovering
+    the active task keeps the primary tint, pinned apps get a hover chip
+    too (launcher-hover, Plasma never falls back to hover for them).
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 23 Oct 2026 16:30:00 -0700
+
+gulldesk-desktop (1.4.44) UNRELEASED; urgency=medium
+
+  * No loading screen after signing in: the session splash shows the chosen
+    wallpaper (from /var/lib/gulldesk/greeter/wallpaper.qml, written by the
+    new gulldesk-splash-wallpaper) instead of the logo and spinner, and the
+    desktop appears on top of it.
+  * Live wallpapers run on the clock, so the login screen, the splash, the
+    lock screen and the desktop show the same frame. They only grow in when
+    the wallpaper was just switched (IntroAt), not at every login.
+  * The lock screen wallpaper holds still; the desktop holds while it is not
+    shown and glides back to the clock afterwards, so unlocking has no jump.
+  * Login and lock screens slide their clock and card away on success.
+  * Android style swipe on both: they start as a clock, and dragging up
+    (mouse, touch or the wheel) pulls the card in on a spring. A short
+    drag springs back, typing opens it right away, moving the mouse nudges
+    the screen and shows a hint.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 22 Oct 2026 23:50:00 -0700
+
+gulldesk-desktop (1.4.43) UNRELEASED; urgency=medium
+
+  * Less KDE:
+    - divert the KDE landing page (it offers global themes) and the task
+      switcher picker, like the other theme pickers;
+    - the task icon menu is GullDesk's: "Pin to panel" / "Unpin from panel",
+      no widget or panel settings in it (they stay in the panel menu);
+    - the widgets menu drops the KDE store and empty separators.
+  * MMenu sizes itself from its widest row, so no clipped labels.
+  * The volume and brightness OSD is an expressive slider for md3: active
+    track, a handle bar between gaps, inactive track with a stop dot.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Wed, 21 Oct 2026 18:00:00 -0700
+
+gulldesk-desktop (1.4.42) UNRELEASED; urgency=medium
+
+  * More Material 3 Expressive for md3:
+    - emphasized type tokens; the current navigation item uses them;
+    - menus are rounder (16) with a 12 highlight, and the checked item
+      sits on a tertiary pill (QML menus, combo boxes, Kvantum menus);
+    - org.gulldesk.ui FloatingToolbar, IconButton checkedFill/checkedInk;
+    - shape changes in the shade rows, media card, launcher button, lock
+      screen, logout tiles, button groups and the installer keyboard and
+      finish badge run on the expressive springs.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 17 Oct 2026 23:30:00 -0700
+
+gulldesk-desktop (1.4.41) UNRELEASED; urgency=medium
+
+  * gulldesk-calamares starts the installer when the live session logs in;
+    gulldesk-installer --autostart does nothing outside a live boot.
+  * kconf_update hides Welcome from the menu for people who already went
+    through it.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 17 Oct 2026 21:00:00 -0700
+
+gulldesk-desktop (1.4.40) UNRELEASED; urgency=medium
+
+  * Quick settings in the Android 16/17 expressive style: an Internet tile
+    that knows about cables, split tiles (the icon toggles, the label opens
+    the details), small round tiles, Internet and Bluetooth panels inside
+    the shade with the networks and devices, and a pencil to move, resize,
+    hide and add tiles. The layout lives in gulldesk-quicksettingsrc.
+  * Launcher: tiles pop in and squish on springs, emphasized section
+    headers and a connected session button group.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 17 Oct 2026 19:00:00 -0700
+
+gulldesk-desktop (1.4.39) UNRELEASED; urgency=medium
+
+  * The boot splash follows the colour and the light or dark theme. The
+    build packs white alpha masks of the splash pieces once
+    (gen-plymouth-theme --masks, pack-boot-masks) and gulldesk-boot-theme
+    paints them in the chosen palette into the gulldesk-colour Plymouth
+    theme, switches to it and rebuilds the initramfs in the background.
+    GullDesk dark keeps the stock gulldesk theme.
+  * The session splash uses the M3 colours too and shows the same wavy
+    ring as the boot splash.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 17 Oct 2026 15:00:00 -0700
+
+gulldesk-desktop (1.4.38) UNRELEASED; urgency=medium
+
+  * The boot menu follows the colour and the light or dark theme: every
+    colour gets a light and a dark GRUB theme, gulldesk-grub-theme copies
+    the chosen one to /boot/grub/themes/gulldesk and the greeter helper
+    calls it whenever the login screen gets a new colour or mode.
+  * The installer calls the release GullDesk OS 1, without Ember.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 17 Oct 2026 12:00:00 -0700
+
+gulldesk-desktop (1.4.37) UNRELEASED; urgency=medium
+
+  * Divert the KDE theme pickers (global theme, Plasma style, colours,
+    application style, icons, cursors, window decorations, splash screen,
+    login screen, sound theme), the Breeze decoration settings,
+    lookandfeeltool and Kvantum Manager. GullDesk keeps its own look; every
+    real setting is still in Settings.
+  * The dark theme tile opens Wallpaper & style.
+  * Users on the Ocean sounds move to the GullDesk sounds once.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 17 Oct 2026 10:00:00 -0700
+
+gulldesk-desktop (1.4.36) UNRELEASED; urgency=medium
+
+  * Buttons morph on the M3 Expressive springs (new expressiveFast and
+    expressiveDefault tokens, MMorph helper in org.gulldesk.m3), with a
+    little bounce. Checked buttons turn into rounded squares.
+  * The navigation highlight grows out of the icon on a spring.
+  * md1 and md2 keep their old motion.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 16 Oct 2026 20:00:00 -0700
+
+gulldesk-desktop (1.4.35) UNRELEASED; urgency=medium
+
+  * Segmented buttons became the expressive connected button group: the
+    chosen button turns into a pill, the pressed one grows a bit and
+    pushes its neighbours. md1 and md2 keep the outlined segments.
+  * New MLoadingIndicator in org.gulldesk.m3, the shape morphing loading
+    indicator (soft burst, cookie, gem, pill, sun, cookie, oval).
+  * IconButton changes shape when pressed or checked.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 16 Oct 2026 17:00:00 -0700
+
+gulldesk-desktop (1.4.34) UNRELEASED; urgency=medium
+
+  * Progress bars and spinners are the Material 3 Expressive wavy ones:
+    MLinearProgress and MCircularProgress in org.gulldesk.m3, used by
+    org.gulldesk.ui LinearProgress and the BusyIndicator of the Qt Quick
+    style, which also gets a ProgressBar. The wave flattens near 0 and
+    100 percent, md1 and md2 keep the flat line.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 16 Oct 2026 12:30:00 -0700
+
+gulldesk-desktop (1.4.33) UNRELEASED; urgency=medium
+
+  * The lock screen follows the light and dark theme. Its card, password
+    field, buttons and media pill used the dark palette whatever the theme;
+    only the clock and date stay light over the dimmed wallpaper. M3 now
+    reads light or dark from the GullDesk colour scheme name in kdeglobals,
+    with overrides for the login screen.
+  * The login screen takes its colours from M3 with the colour and theme
+    the update notifier syncs; gulldesk-greeter-background records colour
+    and mode next to the wallpaper and keeps them when called without.
+    Its icons are tinted at run time and the fixed palette.js is gone.
+  * Password entry on the lock and login screens shows Material shapes
+    (MShapeEcho in org.gulldesk.m3): each character pops in as a circle and
+    turns into the next shape; deleting one shrinks it away, a wrong
+    password shakes them. The boot passphrase prompt uses the same shapes.
+  * The GullDesk face is built in every colour (/usr/share/gulldesk/faces).
+  * Boot splash: Material 3 Expressive's wavy loading indicator, 90
+    pre-rendered frames of a wavy arc that grows, shrinks and turns over a
+    gapped track, instead of the cross-fading shapes.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 16 Oct 2026 01:00:00 -0700
+
+gulldesk-desktop (1.4.32) UNRELEASED; urgency=medium
+
+  * VLC turns hardware decoding off on computers with the NVIDIA driver.
+    VLC 3 draws video through XWayland there, and VDPAU/VA-API decoding
+    showed green bars at the bottom of videos. A session script adds
+    avcodec-hw=none once to the Debian and Flatpak VLC configs; a decoder
+    the user picked is kept, and so is a later change in VLC's settings.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 15 Oct 2026 20:00:00 -0700
+
+gulldesk-desktop (1.4.31) UNRELEASED; urgency=medium
+
+  * Remove the Tower live wallpaper. Desktops that used it move to GullDesk
+    Shapes through a Plasma shell update script, kconf_update
+    gulldesk_tower_to_shapes moves the lock screen, and postinst moves the
+    login screen's theme.conf.user.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 15 Oct 2026 16:00:00 -0700
+
+gulldesk-desktop (1.4.30) UNRELEASED; urgency=medium
+
+  * Reduce motion no longer breaks the shell. With animations off Kirigami
+    reports a 1 ms long duration, so M3.motionScale was 0.005 rather than 0:
+    the springs behind the quick settings shade, switches and the volume OSD
+    ran with a 2 ms response and diverged. The shade then stayed an invisible
+    full-screen window that swallowed every click. motionScale is now 0 at
+    1 ms or less, springs pick a stable step for any stiffness and stop on
+    non-finite values, and live wallpapers treat 1 ms as reduced motion.
+  * A widget's toolbar closes when the pointer leaves the widget and its
+    toolbar, and whenever edit mode ends. Plasma 6.3 does not reset an item's
+    edit mode when the layout leaves edit mode, so a toolbar opened before a
+    settings dialog or a move to another window could stay up.
+  * The weather widget scales its reading to the room inside its shape. The
+    cloud shape for overcast skies is a fifth shorter than the others, so
+    the text overflowed it and the widget looked squashed.
+  * Live wallpapers pause only for maximised or full-screen windows on their
+    own screen. The task model's exact screen match failed with mixed
+    scaling; each window's centre is now tested against the screen instead.
+  * Album art in the media widget and the quick settings card is retried
+    when a download fails, instead of staying on the placeholder.
+  * System monitor widgets follow theme changes. Their sensor colours are
+    generated from the accent once and stored; a diverted applet main.qml
+    recolours the generated ones when the accent changes and keeps colours
+    picked by hand.
+  * Restart is in the launcher next to Shut Down, and the shut down dialog
+    offers Restart too.
+  * htop, now part of the base system, gets a GullDesk app icon.
+  * The lock screen shows the wallpaper set for it instead of always drawing
+    Shapes over it; GullDesk Shapes stays the default through
+    /usr/share/gulldesk/xdg, added to XDG_CONFIG_DIRS. The login screen shows
+    the wallpaper an administrator last chose: gulldesk-greeter-background,
+    run through polkit without a password for members of sudo, records it in
+    the theme's theme.conf.user and copies a picture to
+    /var/lib/gulldesk/greeter.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Wed, 14 Oct 2026 18:00:00 -0700
+
+gulldesk-desktop (1.4.29) UNRELEASED; urgency=medium
+
+  * Reserve desktop icon cells occupied by widgets and reflow on geometry changes.
+  * Keep sorted and manual layouts, selected icons and keyboard focus coherent.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Tue, 13 Oct 2026 19:25:00 -0700
+
+gulldesk-desktop (1.4.28) UNRELEASED; urgency=medium
+
+  * Require Calamares with live QML language switching and synchronized
+    welcome/location language selectors.
+  * Refresh the translated city list when its model changes language.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Tue, 13 Oct 2026 10:00:00 -0700
+
+gulldesk-desktop (1.4.27) UNRELEASED; urgency=medium
+
+  * Store icon and verification/licence symbols in all icon variants.
+  * Pin Store in the panel and app menu for new profiles.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sun, 11 Oct 2026 22:30:00 -0700
+
+gulldesk-desktop (1.4.26) UNRELEASED; urgency=medium
+
+  * A widget's settings no longer end edit mode. The settings button on a
+    desktop widget opens the dialog through org.gulldesk.shell (gulldesk-apps)
+    over the edit mode, so moving, resizing and setting up widgets goes on
+    after the dialog closes. Plasma's own path turns edit mode off before it
+    opens the dialog; it stays the fallback when the module is missing.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Tue, 13 Oct 2026 10:00:00 -0700
+
+gulldesk-desktop (1.4.25) UNRELEASED; urgency=medium
+
+  * The task manager's audio indicator follows "Use audio indicators to mute
+    tasks": unchecked, apps that play sound get no indicator at all. Plasma
+    6.3 kept showing it and only stopped the click from muting. Shown, it is
+    a round badge on the app icon's corner (diverted AudioStream.qml),
+    instead of a speaker beside the icon that crowded the next one.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Mon, 12 Oct 2026 18:00:00 -0700
+
+gulldesk-desktop (1.4.24) UNRELEASED; urgency=medium
+
+  * Weather location works like the rest of the widget settings: a chosen
+    or removed city waits for Apply or OK (the page signals
+    configurationChanged and saves in saveConfig), so Apply lights up and
+    closing asks about unsaved changes. Before, the city was written at
+    once and Apply stayed grey, which read as "nothing happened".
+  * The city search runs while typing (after a short pause) instead of only
+    on Enter; late answers for an older query are dropped.
+  * The weather card shrinks a long city or condition ("Переменная
+    облачность") to fit instead of cutting it off.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Mon, 12 Oct 2026 12:00:00 -0700
+
+gulldesk-desktop (1.4.23) UNRELEASED; urgency=medium
+
+  * Graphics drivers install themselves. gulldesk-drivers looks for an NVIDIA
+    display controller in /sys/bus/pci; without one it does nothing and
+    downloads nothing. GeForce GTX 16 / RTX 20 and newer (PCI device
+    0x1e00 and up, RTX 50 included) get nvidia-open from NVIDIA's signed
+    Debian 13 repository (key 02182E60104FCDC26EAE1B8597A5D4CB8793F200,
+    pinned so that only NVIDIA's driver packages come from it); GTX 900 and
+    10 get Debian's nvidia-driver from contrib and non-free; older cards stay
+    on nouveau. A failed install is rolled back.
+  * gulldesk-drivers.timer runs the check 90 seconds after it starts (at boot
+    or right after the package is installed) and every six
+    hours, without delaying the login screen. The live session and systems
+    with Secure Boot on are left alone; /etc/gulldesk/drivers.conf turns the
+    automatic install off.
+  * The package enables and starts only the timer: starting the oneshot
+    service from postinst would run apt-get inside the dpkg transaction and
+    wait for its own lock.
+  * The installer installs the driver into the new system when it is
+    online (shellprocess@drivers after the update step).
+  * gulldesk-drivers@install and @remove serve Settings through pkexec
+    (org.gulldesk.drivers).
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Mon, 12 Oct 2026 01:00:00 -0700
+
+gulldesk-desktop (1.4.22) UNRELEASED; urgency=medium
+
+  * Weather: Enter in the city search searches instead of closing the
+    widget settings (TextInput passes Return on to the dialog, whose
+    default button is OK). The weather and At a Glance widgets notice a
+    newly chosen city within two seconds instead of at the next five-minute
+    poll, and the weather card shows the city's name. The location pages
+    keep their content at the top.
+  * "Add or Manage Widgets…" is in the desktop menu from the first session
+    on, the live session included: a plasma-plasmashell.service drop-in
+    runs gulldesk-add-widgets-menu.sh before plasmashell starts, so the
+    setting no longer races kded's kconf_update. The script also writes the
+    desktop's RightButton containment action when [ActionPlugins][0] is
+    missing: a settings group written before plasmashell's first start kept
+    Plasma from adding its defaults and left the desktop without a menu.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sun, 11 Oct 2026 23:00:00 -0700
+
+gulldesk-desktop (1.4.21) UNRELEASED; urgency=medium
+
+  * The boot splash stays clean: GRUB adds loglevel=3, so harmless kernel
+    errors such as nouveau's "unknown chipset" on NVIDIA RTX 50 cards or
+    amdgpu's "lttpr_caps phy_repeater_cnt" no longer print over it. They
+    stay in the journal. A loglevel the user chose is kept, and the package
+    runs update-grub when the system has a GRUB menu.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sun, 11 Oct 2026 14:00:00 -0700
+
+gulldesk-desktop (1.4.20) UNRELEASED; urgency=medium
+
+  * The notifications applet no longer throws "effectiveStatus is not
+    defined" when it goes passive: the deferred status update keeps its own
+    copy of the value.
+  * The lock screen no longer asks to scan a fingerprint or a smartcard.
+    kscreenlocker reports both authenticators even when the computer has no
+    reader; PAM's own prompts still appear when a reader is in use.
+  * New users see the same default picture in the app menu, on the lock
+    screen and in the power dialog as in Settings: /etc/skel/.face.icon
+    links to .face, the file Plasma's KUser reads.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 10 Oct 2026 18:00:00 -0700
+
+gulldesk-desktop (1.4.19) UNRELEASED; urgency=medium
+
+  * The installer brings the new system up to date when it is online
+    (shellprocess@upgrade after the packages step: apt-get update,
+    full-upgrade and update-grub in the target, with the live session's
+    resolv.conf). The installation medium copies the system it was built
+    with, so without this a fresh install could be days of updates behind.
+    Offline, the step is skipped.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 10 Oct 2026 12:00:00 -0700
+
+gulldesk-desktop (1.4.18) UNRELEASED; urgency=medium
+
+  * New live wallpaper Pastel (org.gulldesk.pastel): Material 3 Expressive
+    shapes in the style of Pixel's shape wallpapers, laid out for landscape
+    screens, in the theme's colour, slowly floating.
+  * Marble Run is removed. Desktops that used it move to Pastel through a
+    Plasma shell update script (contents/updates/gulldesk_marbles_to_pastel.js)
+    when plasmashell starts; kconf_update gulldesk_marbles_to_pastel moves
+    the lock screen.
+  * material_shapes.py gains Material 3's rounded triangle.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 09 Oct 2026 21:30:00 -0700
+
+gulldesk-desktop (1.4.17) UNRELEASED; urgency=medium
+
+  * Window previews in the task bar's tooltips are sharp again on computers
+    and virtual machines without a 3D GPU: the PipeWire stream arrived
+    garbled over DMA-BUF with llvmpipe (Plasma's own tooltip too).
+    GullDeskWindowThumbnail.qml asks for shared-memory buffers instead
+    (allowDmaBuf: false).
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 09 Oct 2026 20:15:00 -0700
+
+gulldesk-desktop (1.4.16) UNRELEASED; urgency=medium
+
+  * The analog GullDesk Clock goes back to its first face (cookie12 dial in
+    the primary container, twelve dots, primary and tertiary hands): the
+    Pixel-style face of 1.4.14 is withdrawn.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 09 Oct 2026 19:30:00 -0700
+
+gulldesk-desktop (1.4.15) UNRELEASED; urgency=medium
+
+  * The analog clock's seconds dot stays inside the dial: it ran on a circle
+    wider than the dips between the dial's scallops (cookie12 is 0.456 of
+    its width at the dips), so it poked out between them.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 09 Oct 2026 19:00:00 -0700
+
+gulldesk-desktop (1.4.14) UNRELEASED; urgency=medium
+
+  * The analog GullDesk Clock follows Pixel's: a pale scalloped dial
+    (cookie12), two equally thick rounded hands that meet in the centre, the
+    hour hand dark and the minute hand in the primary colour, and a seconds
+    dot that steps round the rim. It keeps the light colours on any wallpaper.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 09 Oct 2026 18:30:00 -0700
+
+gulldesk-desktop (1.4.13) UNRELEASED; urgency=medium
+
+  * New live wallpaper Starfall (org.gulldesk.starfall): stars twinkle over a
+    night sky in the theme's colours, the brightest as Material shapes with a
+    soft glow, dark hills against a warm horizon, and a shooting star about
+    every six seconds.
+  * The launcher shows the profile picture again; it drew only the coloured
+    circle behind it. It now uses the shared Avatar.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 09 Oct 2026 17:45:00 -0700
+
+gulldesk-desktop (1.4.12) UNRELEASED; urgency=medium
+
+  * Material Design 1 colours stay legible: the primary and accent keep
+    their hue but take the tone that stands out from the surfaces, filled
+    buttons pick white or dark text by contrast, and the selection, container
+    and secondary text roles reach 4.5:1. tools/check-contrast checks every
+    colour, generation and light or dark scheme, and the source test runs it.
+  * Edit mode in Material Design 1 and 2: flat text buttons in the toolbar,
+    raised paper cards in the widget picker, pill spacers, and a clean light
+    backdrop in light schemes; the toolbar folds to icons when the desktop
+    preview is narrow.
+  * The clock and At a Glance cast a stronger shadow so they read over any
+    shape of the wallpaper.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 09 Oct 2026 16:30:00 -0700
+
+gulldesk-desktop (1.4.11) UNRELEASED; urgency=medium
+
+  * The desktop's right-click menu offers "Add or Manage Widgets…" again
+    (kconf_update gulldesk_add_widgets_menu enables Plasma's hidden action).
+  * The widget picker shows the GullDesk widgets in a fixed order with the
+    clock first, and the edit-mode toolbar keeps "Manage desktops and
+    panels" as an icon so it fits next to the widget picker.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 08 Oct 2026 23:40:00 -0700
+
+gulldesk-desktop (1.4.10) UNRELEASED; urgency=medium
+
+  * Material 3 widgets for the desktop: GullDesk Clock (bold digits or an
+    analog dial on a Material shape), At a Glance, Weather (Open-Meteo, one
+    shared city in gulldeskrc), Batteries, Calendar, Now Playing, Photo and
+    Note. They start at their preferred size and translate into Russian.
+  * The widget picker is GullDesk's: search, a GullDesk section with live
+    previews on Material shapes, the other widgets as a list; tap or drag a
+    widget onto the desktop.
+  * Edit mode in GullDesk's style: a floating toolbar with Widgets,
+    Wallpaper, Add panel and Done, rounded desktop preview, Material resize
+    handles and a side toolbar for each widget, panel spacers and margin
+    highlights in the theme colour, Material previews in the panel settings.
+  * The clipboard and quick settings sheets no longer open by themselves
+    while a panel is being edited.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 08 Oct 2026 21:00:00 -0700
+
+gulldesk-desktop (1.4.9) UNRELEASED; urgency=medium
+
+  * After a kernel panic the computer restarts by itself after ten seconds
+    (/usr/lib/sysctl.d/90-gulldesk-panic.conf); Debian's kernel would wait
+    forever. gulldesk-panic-report.service reads the panic that
+    systemd-pstore archived from the EFI variables and writes
+    /var/lib/gulldesk/kernel-panic.conf, with the log readable by
+    administrators.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 08 Oct 2026 18:00:00 -0700
+
+gulldesk-desktop (1.4.8) UNRELEASED; urgency=medium
+
+  * Colour themes: the GullDesk colour and the Material colours (red, pink,
+    purple, deep purple, indigo, blue, light blue, cyan, teal, green, light
+    green, lime, yellow, amber, orange, deep orange, brown, grey and blue
+    grey). Each has its KDE colour schemes, Kvantum, Aurorae, GTK and
+    terminal themes and wallpaper palettes in every Material generation;
+    its Plasma themes link the shared pictures. GULLDESK_COLOUR picks the
+    seed in the generators; brown, grey and blue grey keep their low chroma.
+  * The M3 tokens follow the colour in gulldeskrc, reading its palette from
+    /usr/share/gulldesk/palettes, and the live wallpapers load the palette of
+    the active colour.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 08 Oct 2026 16:00:00 -0700
+
+gulldesk-desktop (1.4.7) UNRELEASED; urgency=medium
+
+  * GullDesk profile pictures in /usr/share/gulldesk/avatars: fourteen waves
+    and ripples in the GullDesk hues (tools/gen-avatars) and the GullDesk
+    mark, instead of KDE's character pictures.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 08 Oct 2026 12:00:00 -0700
+
+gulldesk-desktop (1.4.6) UNRELEASED; urgency=high
+
+  * Ensure the installed root directory belongs to root before finishing
+    installation, including when installing from an affected older ISO.
+  * Fully release Plymouth and start SDDM after plymouth-quit. This fixes
+    Xorg hanging on QXL guests during the handover from the boot splash.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 08 Oct 2026 13:40:00 -0700
+
+gulldesk-desktop (1.4.4) UNRELEASED; urgency=medium
+
+  * The installer keeps the wallet off on systems that log in
+    automatically: without a password at login the wallet cannot be
+    unlocked, and saving a Wi-Fi password would open KDE's wallet setup.
+  * Ctrl+Alt+T opens the terminal, as it did with Konsole.
+  * A terminal started as plain alacritty shows the GullDesk terminal icon
+    and name instead of the Wayland logo; gulldesk-terminal-entry updates
+    the entry in existing accounts.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 08 Oct 2026 08:00:00 -0700
+
+gulldesk-desktop (1.4.3) UNRELEASED; urgency=medium
+
+  * The greeter names the sessions GullDesk and GullDesk (X11) instead of
+    Plasma.
+  * Crashes no longer open KDE's crash reporter: a drop-in replaces
+    drkonqi-coredump-launcher with gulldesk-crash-notifier, which shows a
+    short notification for apps that have a launcher entry.
+  * The installer removes the live session's /etc/xdg/kwalletrc.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Tue, 06 Oct 2026 08:00:00 -0700
+
+gulldesk-desktop (1.4.2) UNRELEASED; urgency=medium
+
+  * GullDesk sounds: tools/gen-sound-theme synthesises the sound theme
+    "gulldesk" when the package is built. Soft glass and mallet tones in D
+    major pentatonic, lower and darker for errors, a rising chord for the
+    login, short tails, levels matched; it covers every event Plasma plays,
+    the speaker test channels included, and inherits freedesktop for the
+    rest.
+  * The theme is the default: /etc/xdg/kdeglobals, GSettings and the GTK
+    settings of new accounts name it, and a kconf_update script moves
+    existing accounts off Ocean once. The login chime is on
+    (/etc/xdg/plasma_workspace.notifyrc).
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Mon, 05 Oct 2026 08:00:00 -0700
+
+gulldesk-desktop (1.4.1) UNRELEASED; urgency=medium
+
+  * GTK applications in Material 3: the GullDesk GTK themes (GullDesk,
+    GullDeskMD1, GullDeskMD2, tools/gen-gtk-theme) keep Breeze GTK's
+    structure and the GullDesk colours and give buttons, fields, check boxes,
+    radio buttons, switches, sliders, menus and tooltips the Material shapes
+    and roles, so their dialogs no longer look like KDE's.
+  * The theme is the default: GSettings' gtk-theme and the settings.ini of
+    new accounts name it, and a kconf_update script moves existing accounts
+    off Breeze once, leaving any other theme a user chose.
+  * LibreWolf's own dialogs in Material 3: the browser draws them itself and
+    takes only colours from GTK, so tools/gen-browser-theme also writes a
+    userChrome.css with tonal and filled pill buttons for them, and
+    gulldesk.js lets LibreWolf load it. A kconf_update script links it into
+    the account's LibreWolf profiles once, leaving a user's own
+    userChrome.css alone, and prepares the profile of a new account, so the
+    first start has it too.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Sat, 03 Oct 2026 19:00:00 -0700
+
+gulldesk-desktop (1.4) UNRELEASED; urgency=medium
+
+  * Install the Material 3 components as QML modules for the GullDesk
+    applications: org.gulldesk.m3 (tokens, text, icons, sliders, state
+    layers) and org.gulldesk.ui (list rows, groups, pages, dialogs, fields,
+    search, navigation, snackbars).
+  * Light variants of the Plasma theme and the window decoration, so light
+    or dark switches the whole system; both palettes in the QML tokens.
+  * Material text is drawn with Qt's own rendering: native rendering
+    spaced glyphs unevenly under Material's letter spacing.
+  * App icons for the GullDesk applications, the Terminal and the
+    installer, drawn like the Settings icon; new Material Symbols for the
+    applications.
+  * Terminal: Alacritty under the GullDesk name, with light and dark colours
+    from the design tokens, as the desktop's terminal; its window is titled
+    after the prompt ("user@host: ~") rather than "Alacritty".
+  * KDE's System Settings, Alacritty and Calamares entries are hidden in
+    favour of the GullDesk ones.
+  * Default account picture: the mark on a tonal circle.
+  * GullDesk login screen for SDDM: GullDesk Shapes behind a large clock and
+    a Material 3 account card, in English and Russian.
+  * Installer: Material 3 steps, buttons and pages (welcome, location,
+    keyboard, account, summary, finish), a slideshow over GullDesk Shapes,
+    and the gulldesk-installer launcher, which starts Calamares with the
+    GullDesk look in the session's language.
+  * Installer keyboard: a Material 3 keyboard that shows what every key
+    types in the chosen layout and variant (from XKB, by
+    tools/gen-keyboard-maps) and lights up while typing; layout, variant,
+    model and switch as dropdown fields, named in the installer's language
+    (xkeyboard-config's translations), also on the summary.
+  * Installer: cities sorted by their translated names; Russian for the
+    messages Calamares leaves untranslated (tools/gen-qm); the live
+    language service is removed from the installed system.
+  * Installer partition page in Material 3 with GullDesk's Calamares: option
+    cards, partition list and dialogs styled by the branding's stylesheet.qss
+    (tools/gen-installer-style), Material Symbols for its icons
+    (tools/gen-installer-icons); gulldesk-calamares depends on calamares
+    (>= 3.3.14-1gulldesk1).
+  * Push buttons without icons (ShowIconsOnPushButtons=false), as Material
+    buttons carry text only.
+  * GullDesk lock screen: GullDesk Shapes behind a large clock, the account
+    card with its password pill and the power actions, as on the login
+    screen. It replaces Plasma's (diverted) and unlocks through the same
+    kscreenlocker authenticator.
+  * GullDesk on-screen display: volume and brightness as a thick Material 3
+    slider with the icon riding on the fill, messages as a pill; replaces
+    Plasma's (diverted).
+  * GullDesk power menu for log out, restart and shut down: large Material 3
+    tiles on a card, the automatic action counting down.
+  * Alt+Tab shows GullDesk window cards (a KWin window switcher): the app's
+    icon and title over a rounded thumbnail, the chosen card ringed.
+  * The web browser is LibreWolf, in the GullDesk colours: a generated light
+    and dark theme (tools/gen-browser-theme) that LibreWolf installs into
+    new profiles as a distribution add-on, made the default by gulldesk.js
+    in /usr/share/librewolf/browser/defaults/preferences (read after the
+    browser's own defaults), which also has files picked in GullDesk's
+    chooser through the desktop portal. LibreWolf's own policies (uBlock
+    Origin, no telemetry) are left as they are.
+  * /etc/xdg/mimeapps.list: LibreWolf opens web pages and PDFs, Photos
+    pictures, the Text Editor JSON and XML (LibreWolf claims those too).
+  * GullDesk notifications: popups laid out like Android's (the app's
+    badge, "App · time", title, text, the picture beside it, tonal action
+    buttons, M3 progress for file jobs) and a history of connected cards
+    with Do not disturb and "Clear all"; the panel bell badges unread
+    notifications and rings with the jobs' progress. Plasma's applet keeps
+    its C++ plugin; its QML entry point is diverted.
+  * Notification job details show how much is copied again (Plasma's
+    QML failed on an undeclared variable).
+  * Quick settings: Android's media card for whatever plays (any MPRIS
+    player) -- the artwork behind a scrim, a play button that squares off
+    while playing, and a seek bar that flows as a wave.
+  * Quick settings: a Dark Theme tile, which switches the whole system the
+    way Settings does (org.gulldesk.system's Appearance), and a Screenshot
+    tile, which starts the Screenshot app once the shade is gone. On a
+    short screen (a 768px laptop, the media card showing) the shade's
+    content scrolls inside it instead of running past its edge; the handle
+    strip at the top still closes it with a swipe.
+  * Lock screen: the playing media's controls at the bottom centre, usable
+    without unlocking.
+  * Push buttons carry their text alone, in QML (the GullDesk Qt Quick
+    Controls style) and in widget dialogs (Kvantum's iconless_pushbutton)
+    alike; icon-only buttons keep their icon.
+  * Task manager: application counts as Material badges (error-coloured
+    pills), and window previews and album art in the tooltips on rounded
+    tiles without drop shadows (Badge.qml and ToolTipInstance.qml
+    diverted).
+  * Alt+Space opens the GullDesk launcher and its search; KRunner's own
+    window keeps Alt+F2 (its kglobalaccel service file is diverted).
+  * GullDesk boot splash (tools/gen-plymouth-theme): the mark on the dark
+    surface and Material 3's loading indicator, the expressive shapes
+    turning into one another; a passphrase prompt in a pill. Plymouth's
+    defaults are diverted to it, and /etc/default/grub.d/gulldesk.cfg adds
+    "splash" to the installed system's kernel command line.
+  * The splash hands over to the login screen without a text console in
+    between: Plymouth quits keeping its last frame (a plymouth-quit.service
+    drop-in), and the console cursor is off.
+  * GullDesk boot menu (tools/gen-grub-theme): the mark over the entries as
+    rounded Material cards, the chosen one on the secondary container, in
+    Roboto (GRUB fonts made at build time with grub-mkfont, Cyrillic
+    included). The ISO carries it, and grub.d/gulldesk.cfg sets it with the
+    graphical terminal for an installed system.
+  * Styles: Material Design 1, 2 and 3. tools/gulldesk_design.py defines all
+    three generations from the one seed, and the QML tokens carry them all,
+    following ~/.config/gulldeskrc at run time:
+    - their palettes: grey paper with a vivid accent; white and #121212;
+      tonal;
+    - their corners per kind of component, and their shadows;
+    - their buttons: capitals and raised in the older two, pills in
+      Material 3;
+    - their switches, sliders and quick settings: Lollipop's bare icons,
+      Android 9's round toggles, Material 3's tiles.
+    The colour schemes, Plasma theme, Kvantum and window frames are
+    generated for each (GullDeskMD2Dark, gulldesk-md2, ...). The shell, the
+    Qt Quick style and the shared components follow, with Material 3's own
+    expressive details kept.
+  * GullDesk clipboard (org.gulldesk.clipboard): Meta+V opens the clipboard
+    history as a Material 3 sheet above the panel, with search, text,
+    links, pictures and files as connected cards, "Remove" and "Clear
+    all". It loads Plasma's Klipper, which nothing in the panel started
+    before; Klipper's own popup leaves Meta+V to it (a kglobalshortcutsrc
+    for new accounts), and the history keeps pictures (/etc/xdg/klipperrc).
+  * The sheet's second tab is emoji, as on a phone keyboard: Meta+. opens
+    it (Plasma's emoji selector's shortcut file is diverted), with
+    category tabs, recently used ones, search by English and Russian names
+    and keywords, and Noto Color Emoji. The emoji and their names are
+    generated from Unicode's and CLDR's data (tools/gen-emoji-data).
+  * A USB drive or memory card plugged in brings a notification from Files
+    ("USB drive connected", with "Open"), which mounts it and opens it in
+    Files; GullDesk's panel has no device notifier to pop up instead
+    (quick settings' DeviceSource.qml on Plasma's device model,
+    gulldesk-devices.notifyrc).
+  * Plasma theme: the focus and hover rings of fields and buttons sit on the
+    control (Plasma lays them out by their margins, which drew KRunner's
+    focus ring 16px around its field), and pill fields and buttons are half
+    as round as they are tall, so no seam runs through their middle.
+  * Material Symbols for the OSD's switches (Wi-Fi, touchpad, on-screen
+    keyboard, mobile data, sleep blocked), for the display switch (Meta+P:
+    one screen, the other, mirrored, extended left or right), and for
+    reply, send and clear; links as Material's link symbol.
+  * Login screen without SDDM's on-screen keyboard, which covered the
+    account card.
+  * New panels and launchers pin Files and Settings instead of KDE's
+    System Settings.
+  * The settings window of the desktop and of every applet in GullDesk's
+    layout: sections as a navigation list, the current one on a rounded
+    pane under its headline, Material buttons. The desktop's pages are
+    Material groups -- wallpaper and desktop kind as choices, the folder
+    view's Location, Icons and Filter, Mouse Actions with a dialog that
+    catches the new click, an applet's shortcut, and About. Plasma's files
+    are diverted; what they save is unchanged. Buttons at the end of a
+    list row take their own clicks (they went to the row). Plasma's
+    picture and slideshow pages get room for their grid of pictures.
+  * Material Symbols: create_new_folder for folder-new.
+  * Live wallpapers of Material shapes at play, next to GullDesk Shapes and
+    in its flat Material 3 tones: Tower (a stack of shapes rocks, tumbles
+    down and hops back together, simulated on the shapes' outlines),
+    Rhythm (a ring of shapes in a pendulum wave -- spirals, stars and back
+    to a circle -- over a blob that morphs with it) and Marble Run (shape
+    marbles roll down ramps, ring the posts and ride a lift back up); each
+    with a tonal palette from gen-wallpaper-assets, which also gives the
+    shapes' convex hulls. Picture
+    wallpapers are gone: GullDesk Ember is removed and Breeze's picture is
+    kept out by a dpkg path-exclude.
+  * GullDesk cursors (gulldesk_cursors, tools/gen-cursor-theme): Material
+    glyphs with ember badges; wait and progress animate Material 3
+    Expressive's morphing loading indicator. Xcursor and KWin's scalable
+    SVGs; the default in Plasma, SDDM and x-cursor-theme.
+  * No bouncing icon while programs start (/etc/xdg/klaunchrc): the busy
+    cursor is the only launch feedback.
+  * org.gulldesk.ui: StyleCard removed; the style is chosen from a list.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Fri, 25 Sep 2026 12:00:00 -0700
+
+gulldesk-desktop (1.3) UNRELEASED; urgency=medium
+
+  * GullDesk Shapes: a live wallpaper of Material 3 Expressive shapes --
+    cookies, flowers, suns -- turning on rounded orbits, passing over one
+    another in turns and shifting colour on a seamless loop; it pauses
+    behind maximised windows and when animations are off.
+  * GullDesk Kvantum theme for every Qt widget: rounded menus and submenus
+    with an inset tonal hover, pill buttons, filled fields, Material
+    check boxes, radio buttons, sliders, tabs and lists.
+  * GullDesk Qt Quick Controls style for System Settings and QML
+    applications: Material buttons, switches, menus, list rows, tooltips,
+    dialogs and progress, over KDE's desktop style.
+  * GullDesk window decoration: rounded title bar with Material Symbols
+    buttons and a soft shadow.
+  * Material Symbols for every System Settings module and a themed
+    application icon for System Settings.
+  * Application selections use the primary container; the colour schemes
+    no longer carry an accent colour KDE would blend into them.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 24 Sep 2026 12:00:00 -0700
+
+gulldesk-desktop (1.2) UNRELEASED; urgency=medium
+
+  * Material 3 design system generated from one seed colour: an HCT colour
+    engine, KDE colour schemes, QML design tokens and system defaults.
+  * GullDesk Plasma theme: floating pill panel, popups, tooltips, task
+    buttons, lists and sliders drawn from the Material tokens.
+  * GullDesk icon theme drawn from vendored Material Symbols Rounded.
+  * GullDesk Launcher: application menu with search, pinned apps and session
+    actions.
+  * GullDesk Quick Settings: status area and a quick settings shade that is
+    pulled up from the panel and follows the pointer, with Material sliders
+    and toggle tiles.
+  * New default layout: one floating panel with centred tasks.
+  * Russian translations of the shell.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Tue, 22 Sep 2026 12:00:00 -0700
+
+gulldesk-desktop (1.1) UNRELEASED; urgency=medium
+
+  * Keep the Plasma shell and System Settings without standalone KDE apps.
+  * Hide launchers for utilities bundled into required Plasma packages.
+  * Remove absent KDE applications from default favorites and panel launchers.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 10 Sep 2026 12:00:00 -0700
+
+gulldesk-desktop (1.0) UNRELEASED; urgency=medium
+
+  * Initial GullDesk OS desktop appearance package.
+  * Ship the distribution wallpaper and the org.gulldesk.desktop look-and-feel.
+  * Add the Calamares installer configuration and GullDesk branding.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Mon, 01 Sep 2026 21:00:00 -0700

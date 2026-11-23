@@ -1,0 +1,25 @@
+# Maintainer: GullOS Contributors
+pkgname=gulldesk-apps
+pkgver=1.1.97
+pkgrel=1
+pkgdesc="GullDesk applications and system services"
+arch=('x86_64')
+url="https://github.com/neverjoskiy/gullos"
+license=('GPL-2.0-or-later')
+depends=('qt6-base' 'qt6-declarative' 'qt6-svg' 'qt6-quickcontrols2' 'kf6-archive' 'kf6-config' 'kf6-coreaddons' 'kf6-dbusaddons' 'kf6-i18n' 'kf6-kio' 'kf6-notifications' 'kf6-service' 'kf6-windowsystem' 'plasma-desktop' 'plasma-workspace' 'kwin' 'packagekit' 'flatpak' 'appstream' 'libarchive' 'qtermwidget' 'crypt' 'gulldesk-desktop-shell')
+makedepends=('cmake' 'extra-cmake-modules' 'gettext' 'pkgconf' 'python' 'libkscreen')
+source=()
+options=('!strip')
+
+_GULLDESK_SRC="${startdir}/../../src/gulldesk-apps"
+
+build() {
+  cd "${_GULLDESK_SRC}"
+  cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DKDE_INSTALL_LIBDIR=lib -DBUILD_TESTING=OFF
+  cmake --build build -j"$(nproc)"
+}
+
+package() {
+  cd "${_GULLDESK_SRC}"
+  DESTDIR="${pkgdir}" cmake --install build
+}

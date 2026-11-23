@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+"""usage: gen-greeter-palette SYMBOL_DIRECTORY THEME_DIRECTORY
+"""
+
+from __future__ import annotations
+
+import pathlib
+import sys
+
+import gulldesk_design as design
+
+SYMBOLS = {
+    "arrow_forward_24px.svg": ("login", "onPrimary"),
+    "power_settings_new_24px.svg": ("shutdown", "onSurface"),
+    "restart_alt_24px.svg": ("reboot", "onSurface"),
+    "bedtime_24px.svg": ("suspend", "onSurface"),
+    "keyboard_24px.svg": ("keyboard", "onSurfaceVariant"),
+    "desktop_windows_24px.svg": ("session", "onSurfaceVariant"),
+    "account_circle_24px.svg": ("user", "onPrimaryContainer"),
+    "lock_24px.svg": ("lock", "onSurface"),
+}
+
+
+def main(argv: list[str]) -> int:
+    if len(argv) != 3:
+        print(__doc__.strip(), file=sys.stderr)
+        return 2
+    symbols = pathlib.Path(argv[1])
+    theme = pathlib.Path(argv[2])
+    (theme / "icons").mkdir(parents=True, exist_ok=True)
+    for source, (name, role) in SYMBOLS.items():
+        text = (symbols / source).read_text(encoding="utf-8")
+        text = text.replace("<svg ", f'<svg fill="{design.DARK[role]}" ', 1)
+        (theme / "icons" / f"{name}.svg").write_text(text, encoding="utf-8")
+    print(f"greeter symbols: {theme}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv))

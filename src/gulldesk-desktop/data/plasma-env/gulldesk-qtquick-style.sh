@@ -1,0 +1,2 @@
+export QT_QUICK_CONTROLS_STYLE=org.gulldesk.desktop
+export QSG_ANTIALIASING_METHOD=vertex

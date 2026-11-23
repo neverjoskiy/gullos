@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+ "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<!-- SPDX-FileCopyrightText: 2026 GullDesk Developers
+     SPDX-License-Identifier: GPL-2.0-or-later -->
+<policyconfig>
+  <vendor>GullDesk OS</vendor>
+  <action id="org.gulldesk.drivers">
+    <description>Manage drivers</description>
+    <description xml:lang="ru">Управление драйверами</description>
+    <message>Installing or removing a driver changes the system</message>
+    <message xml:lang="ru">Установка или удаление драйвера меняет систему</message>
+    <icon_name>cpu</icon_name>
+    <defaults>
+      <allow_any>no</allow_any>
+      <allow_inactive>no</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/gulldesk-drivers</annotate>
+  </action>
+</policyconfig>

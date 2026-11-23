@@ -1,0 +1,4 @@
+Version=6
+
+Id=gulldesk_marbles_to_pastel
+Script=gulldesk-marbles-to-pastel.sh,sh

@@ -1,0 +1,14 @@
+[Default Applications]
+x-scheme-handler/http=librewolf.desktop;
+x-scheme-handler/https=librewolf.desktop;
+text/html=librewolf.desktop;
+application/xhtml+xml=librewolf.desktop;
+application/pdf=librewolf.desktop;
+image/png=org.gulldesk.photos.desktop;
+image/jpeg=org.gulldesk.photos.desktop;
+image/gif=org.gulldesk.photos.desktop;
+image/webp=org.gulldesk.photos.desktop;
+application/json=org.gulldesk.editor.desktop;
+application/xml=org.gulldesk.editor.desktop;
+text/xml=org.gulldesk.editor.desktop;
+application/vnd.android.package-archive=org.gulldesk.apkinstaller.desktop;

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=File Chooser
+Name[ru]=Выбор файла
+Comment=GullDesk's file dialogs
+Comment[ru]=Диалоги открытия и сохранения файлов GullDesk
+Icon=org.gulldesk.files
+Exec=false
+NoDisplay=true

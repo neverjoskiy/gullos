@@ -1,0 +1,19 @@
+# Maintainer: GullOS Contributors
+pkgname=gulldesk-wallpapers
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="GullDesk picture wallpapers"
+arch=('any')
+url="https://github.com/neverjoskiy/gullos"
+license=('GPL-2.0-or-later')
+depends=()
+source=()
+options=('!strip')
+
+_GULLDESK_SRC="${startdir}/../../src/gulldesk-wallpapers"
+
+package() {
+  cd "${_GULLDESK_SRC}"
+  install -d "${pkgdir}/usr/share/wallpapers"
+  cp -a wallpapers/. "${pkgdir}/usr/share/wallpapers/" 2>/dev/null || true
+}

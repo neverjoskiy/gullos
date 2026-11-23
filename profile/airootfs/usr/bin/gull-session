@@ -1,6 +1,6 @@
 #!/bin/sh
 # /usr/bin/gull-session
-# Launches the pure Wayland desktop session (labwc -> gull-lock on installed -> gull-term)
+# Launches the pure Wayland desktop session (Plasma 6 + GullDesk)
 set -eu
 
 UID_NUM="$(id -u)"
@@ -12,14 +12,15 @@ export XDG_CONFIG_HOME="${HOME}/.config"
 export XDG_CACHE_HOME="${HOME}/.cache"
 export XDG_DATA_HOME="${HOME}/.local/share"
 export XDG_SESSION_TYPE="wayland"
-export XDG_CURRENT_DESKTOP="labwc:wlroots"
+export XDG_CURRENT_DESKTOP="KDE"
+export XDG_SESSION_DESKTOP="plasma"
 
 export MOZ_ENABLE_WAYLAND=1
 export GDK_BACKEND=wayland
 export SDL_VIDEODRIVER=wayland
 export COLORTERM=truecolor
-export WLR_NO_HARDWARE_CURSORS=1
-export LIBSEAT_BACKEND=seatd
+export QT_QPA_PLATFORM="wayland;xcb"
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 
 mkdir -p "${XDG_RUNTIME_DIR}" "${XDG_CONFIG_HOME}" "${XDG_CACHE_HOME}" "${XDG_DATA_HOME}"
 chmod 0700 "${XDG_RUNTIME_DIR}" 2>/dev/null || true
@@ -34,7 +35,7 @@ if [ -x /usr/bin/gull-term ] && [ -z "${WAYLAND_DISPLAY:-}" ] && [ "$(tty 2>/dev
 fi
 
 if command -v dbus-run-session >/dev/null 2>&1; then
-    exec dbus-run-session -- labwc -C "${HOME}/.config/labwc" -s /usr/libexec/gull-autostart
+    exec dbus-run-session -- startplasma-wayland
 else
-    exec labwc -C "${HOME}/.config/labwc" -s /usr/libexec/gull-autostart
+    exec startplasma-wayland
 fi

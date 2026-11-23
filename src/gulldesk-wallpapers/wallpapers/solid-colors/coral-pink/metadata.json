@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Id": "gulldesk-solid-colors-coral-pink",
+        "Name": "Coral Pink",
+        "Name[ru]": "Коралловый розовый",
+        "Authors": [
+            {
+                "Name": "GullDesk Team"
+            }
+        ],
+        "License": "CC0-1.0"
+    },
+    "KPackageStructure": "Wallpaper/Images",
+    "X-GullDesk-Category": "solid-colors"
+}

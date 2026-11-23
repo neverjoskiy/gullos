@@ -1,0 +1,15 @@
+data/calamares/settings.conf etc/calamares
+data/calamares/modules etc/calamares
+data/calamares/branding/gulldesk etc/calamares/branding
+generated/branding/gulldesk-logo.png etc/calamares/branding/gulldesk
+generated/branding/lang etc/calamares/branding/gulldesk
+generated/branding/images etc/calamares/branding/gulldesk
+generated/branding/symbols etc/calamares/branding/gulldesk
+generated/branding/setupdata.js etc/calamares/branding/gulldesk
+generated/branding/stylesheet.qss etc/calamares/branding/gulldesk
+data/installer/gulldesk-installer usr/bin
+data/installer/org.gulldesk.installer.policy usr/share/polkit-1/actions
+data/installer/49-gulldesk-installer.rules usr/share/polkit-1/rules.d
+data/installer/org.gulldesk.installer.desktop usr/share/applications
+data/installer/gulldesk-setup.desktop usr/share/wayland-sessions
+data/installer/gulldesk-setup-session usr/libexec

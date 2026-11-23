@@ -1,0 +1,68 @@
+# Maintainer: GullOS Contributors
+pkgname=gulldesk-desktop-shell
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="GullDesk Plasma 6 shell: panel, launcher, shade, lockscreen, OSD, notifications, edit mode"
+arch=('x86_64')
+url="https://github.com/neverjoskiy/gullos"
+license=('GPL-2.0-or-later')
+depends=('plasma-desktop' 'plasma-workspace' 'kwin' 'kwin-wayland' 'kglobalacceld' 'kded' 'kscreen' 'powerdevil' 'bluedevil' 'plasma-nm' 'plasma-pa' 'kvantum' 'breeze-gtk-theme' 'qt6-base' 'qt6-declarative' 'qt6-quickcontrols2' 'qt6-svg' 'kirigami' 'noto-fonts' 'ttf-roboto' 'gulldesk-desktop-themes' 'gulldesk-desktop-icons' 'gulldesk-desktop-wallpapers' 'gulldesk-desktop-widgets' 'gulldesk-desktop-services')
+makedepends=('gcc' 'cmake' 'extra-cmake-modules' 'python' 'librsvg' 'grub' 'gettext' 'make')
+source=()
+options=('!strip')
+
+_GULLDESK_SRC="${startdir}/../../src/gulldesk-desktop"
+
+build() {
+  cd "${_GULLDESK_SRC}"
+  export PYTHONDONTWRITEBYTECODE=1
+  python3 tools/fetch-symbols --check 2>/dev/null || true
+  make -f debian/rules override_dh_auto_build
+}
+
+package() {
+  cd "${_GULLDESK_SRC}"
+  while IFS= read -r line; do
+    [ -z "$line" ] && continue
+    case "$line" in \#*) continue;; esac
+    src="${line%% *}"; dst="${line#* }"
+    # claim filter
+    claim=$(python3 - "$src" "$dst" <<'PYEOF'
+import sys
+src,dst=sys.argv[1],sys.argv[2]
+s=src.lower(); d=dst.lower()
+def has(*ks):
+    return any(k in s or k in d for k in ks)
+if has('color-schemes','desktoptheme','kvantum','aurorae','gtk-themes','sounds','grub','plymouth','palettes','terminal','sddm-theme','sddm/gulldesk','sddm/kernora'):
+    print('themes')
+elif has('icon-theme','icon-themes','hicolor'):
+    print('icons')
+elif 'cursors' in s or 'cursors' in d:
+    print('cursors')
+elif 'wallpapers/org.' in s or 'wallpapers/org.' in d:
+    print('wallpapers')
+elif 'plasmoids/org.gulldesk.widget' in s or 'plasmoids/org.gulldesk.widget' in d:
+    print('widgets')
+elif any(k in d for k in ['systemd','kconf_update','libexec','skel','polkit','crash','drivers','android','greeter','plasma-env','xdg','locales','kglobalaccel','applications','knotifications','kwin-scripts']):
+    print('services')
+else:
+    print('shell')
+PYEOF
+)
+    [ "$claim" = "shell" ] || continue
+    for f in $src; do
+      [ -e "$f" ] || continue
+      if [ -d "$f" ] && [ ! -L "$f" ]; then
+        target="${pkgdir}/${dst}/$(basename "$f")"
+        mkdir -p "${pkgdir}/${dst}"
+        cp -aL "$f" "$target"
+      elif [ -L "$f" ]; then
+        target="${pkgdir}/${dst}/$(basename "$f")"
+        mkdir -p "${pkgdir}/${dst}"
+        cp -aL "$f" "$target"
+      else
+        install -Dm644 "$f" "${pkgdir}/${dst}/$(basename "$f")"
+      fi
+    done
+  done < debian/gulldesk-desktop.install
+}

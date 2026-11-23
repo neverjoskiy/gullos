@@ -1,0 +1,47 @@
+#!/bin/sh
+set -e
+
+if [ "$1" = configure ]; then
+    if [ -n "${2:-}" ] && [ -d /run ]; then
+        touch /run/reboot-required 2>/dev/null || true
+        echo gulldesk-desktop >> /run/reboot-required.pkgs 2>/dev/null || true
+    fi
+    /usr/libexec/gulldesk-locales
+    update-alternatives --install /usr/share/icons/default/index.theme x-cursor-theme \
+        /usr/share/icons/gulldesk_cursors/cursor.theme 100
+    if [ -d /boot/grub ]; then
+        /usr/libexec/gulldesk-grub-theme || true
+    fi
+    if [ -e /boot/grub/grub.cfg ] && command -v update-grub >/dev/null 2>&1; then
+        update-grub || true
+    fi
+    greeter=/usr/share/sddm/themes/gulldesk/theme.conf.user
+    if [ -f "$greeter" ] && grep -q '^wallpaper=org\.gulldesk\.tower$' "$greeter"; then
+        sed -i 's/^wallpaper=org\.gulldesk\.tower$/wallpaper=org.gulldesk.shapes/' "$greeter"
+    fi
+    /usr/libexec/gulldesk-splash-wallpaper || true
+    if [ -s /var/lib/waydroid/waydroid.cfg ]; then
+        /usr/libexec/gulldesk-android refresh || true
+    fi
+    /usr/libexec/gulldesk-boot-theme || true
+    active=$(/usr/sbin/plymouth-set-default-theme 2>/dev/null || true)
+    splash=/usr/share/plymouth/themes/${active:-gulldesk}
+    stamp=/var/lib/gulldesk/plymouth-theme
+    if [ -d "$splash" ] && [ -x /usr/sbin/update-initramfs ]; then
+        sum=$( { echo "${active:-gulldesk}"; cd "$splash" && find . -type f | LC_ALL=C sort | xargs md5sum; } | md5sum | cut -d' ' -f1)
+        if [ "$sum" != "$(cat "$stamp" 2>/dev/null || true)" ]; then
+            dpkg-trigger --no-await update-initramfs || update-initramfs -u || true
+            install -d -m 0755 /var/lib/gulldesk
+            printf '%s\n' "$sum" > "$stamp"
+        fi
+    fi
+fi
+
+if [ "$1" = configure ] || [ "$1" = triggered ]; then
+    if [ -x /usr/bin/kwin_wayland ] && command -v setcap >/dev/null 2>&1; then
+        setcap cap_sys_nice=ep /usr/bin/kwin_wayland || true
+    fi
+    /usr/libexec/gulldesk-efi-fallback || true
+fi
+
+#DEBHELPER#

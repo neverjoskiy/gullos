@@ -1,0 +1,211 @@
+#!/usr/bin/make -f
+
+export PYTHONDONTWRITEBYTECODE = 1
+
+ICON_SIZES = 16 22 24 32 48 64 128 256
+LOGO = data/icons/gulldesk-logo.svg
+ROBOTO = /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
+
+START_ICON = start-here-kde-symbolic
+START_ALIASES = start-here-kde start-here start-here-symbolic
+
+THEME_APPS = generated/icon-theme/scalable/apps
+
+TOOLS = tools
+SYMBOLS = data/symbols
+SETUP_SYMBOLS = accessibility_new account_circle arrow_back arrow_forward check check_circle computer error folder hard_drive image \
+  keyboard lan language lock music_note network_wifi_1_bar network_wifi_2_bar network_wifi_3_bar palette password person \
+  photo_library settings signal_wifi_4_bar visibility visibility_off wifi
+APPLETS = launcher:org.gulldesk.launcher shade:org.gulldesk.quicksettings clipboard:org.gulldesk.clipboard datetime:org.gulldesk.datetime
+WIDGETS = clock worldclock stopwatch timer glance weather battery cputemperature calendar media photo note
+COLOURS := $(shell cd $(TOOLS) && python3 -c 'import gulldesk_design as d; print(" ".join(d.COLOURS))')
+EXTRA_COLOURS := $(filter-out gulldesk,$(COLOURS))
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	set -e; for size in $(ICON_SIZES); do \
+	  install -d generated/hicolor/$${size}x$${size}/apps; \
+	  rsvg-convert --width=$$size --height=$$size \
+	    --output=generated/hicolor/$${size}x$${size}/apps/gulldesk-logo.png \
+	    $(LOGO); \
+	done
+	install -d generated/branding generated/skel
+	rsvg-convert --width=160 --height=160 \
+	  --output=generated/branding/gulldesk-logo.png $(LOGO)
+	python3 $(TOOLS)/gen-qm data/calamares/lang/calamares-gulldesk_ru.ts \
+	  generated/branding/lang/calamares-gulldesk_ru.qm
+	python3 $(TOOLS)/gen-installer-icons $(SYMBOLS) generated/branding/images
+	install -d generated/branding/symbols
+	set -e; for symbol in $(SETUP_SYMBOLS); do \
+	  install -m 0644 $(SYMBOLS)/$${symbol}_24px.svg generated/branding/symbols/; \
+	done
+	python3 $(TOOLS)/gen-installer-style data/calamares/stylesheet.qss.in \
+	  generated/branding/stylesheet.qss
+	python3 $(TOOLS)/gen-avatar $(LOGO) generated/skel/face.svg
+	rsvg-convert --width=256 --height=256 \
+	  --output=generated/skel/.face generated/skel/face.svg
+	python3 $(TOOLS)/gen-avatars generated/avatars
+	rsvg-convert --width=512 --height=512 \
+	  --output=generated/avatars/00-gulldesk.png generated/skel/face.svg
+	set -e; for image in generated/avatars/*.svg; do \
+	  rsvg-convert --width=512 --height=512 --output=$${image%.svg}.png $$image; \
+	  rm $$image; \
+	done
+	rm generated/skel/face.svg
+	install -d generated/faces
+	set -e; for colour in $(COLOURS); do \
+	  GULLDESK_COLOUR=$$colour python3 $(TOOLS)/gen-avatar $(LOGO) generated/faces/$$colour.svg; \
+	  rsvg-convert --width=512 --height=512 --output=generated/faces/$$colour.png generated/faces/$$colour.svg; \
+	  rm generated/faces/$$colour.svg; \
+	done
+	python3 $(TOOLS)/fetch-symbols --check
+	python3 $(TOOLS)/gen-icon-theme $(SYMBOLS) generated/icon-theme
+	set -e; for colour in $(EXTRA_COLOURS); do \
+	  GULLDESK_COLOUR=$$colour python3 $(TOOLS)/gen-icon-theme $(SYMBOLS) generated/icon-themes/GullDesk-$$colour; \
+	done
+	python3 $(TOOLS)/gen-cursor-theme generated/gulldesk_cursors
+	sed \
+	  -e 's|<g transform=|<style type="text/css" id="current-color-scheme">.ColorScheme-Text{color:#eff0f1;}</style>\n  <g class="ColorScheme-Text" transform=|' \
+	  -e 's|fill="#eff0f1"|fill="currentColor"|' \
+	  $(LOGO) > $(THEME_APPS)/$(START_ICON).svg
+	set -e; for name in $(START_ALIASES); do \
+	  cp $(THEME_APPS)/$(START_ICON).svg $(THEME_APPS)/$$name.svg; \
+	done
+	python3 $(TOOLS)/gen-color-schemes generated/color-schemes
+	python3 $(TOOLS)/gen-plasma-theme $(SYMBOLS) generated/desktoptheme/gulldesk
+	set -e; for generation in md1 md2; do \
+	  GULLDESK_GENERATION=$$generation python3 $(TOOLS)/gen-color-schemes generated/color-schemes; \
+	  GULLDESK_GENERATION=$$generation python3 $(TOOLS)/gen-plasma-theme $(SYMBOLS) generated/desktoptheme/gulldesk-$$generation; \
+	done
+	set -e; for colour in $(EXTRA_COLOURS); do \
+	  for generation in md1 md2 md3; do \
+	    suffix=$$(test $$generation = md3 || echo -$$generation); \
+	    GULLDESK_COLOUR=$$colour GULLDESK_GENERATION=$$generation python3 $(TOOLS)/gen-color-schemes generated/color-schemes; \
+	    GULLDESK_COLOUR=$$colour GULLDESK_GENERATION=$$generation python3 $(TOOLS)/gen-plasma-theme $(SYMBOLS) \
+	      generated/desktoptheme/gulldesk-$$colour$$suffix generated/desktoptheme/gulldesk$$suffix; \
+	  done; \
+	done
+	set -e; for colour in $(COLOURS); do \
+	  GULLDESK_COLOUR=$$colour python3 $(TOOLS)/gen-qml-tokens --palette generated/palettes/$$colour.conf; \
+	done
+	python3 $(TOOLS)/gen-setup-data generated/palettes data/wallpaper generated/branding/setupdata.js
+	python3 $(TOOLS)/gen-kdeglobals generated/xdg/kdeglobals
+	set -e; for entry in $(APPLETS); do \
+	  source=$${entry%%:*}; id=$${entry#*:}; \
+	  target=generated/plasmoids/$$id; \
+	  install -d $$target; \
+	  cp -a data/shell/$$source/. $$target/; \
+	  cp -a data/shell/m3 $$target/contents/ui/m3; \
+	  python3 $(TOOLS)/gen-qml-tokens $$target/contents/ui/m3/M3.qml; \
+	done
+	install -d generated/wallpapers
+	cp -a data/wallpaper/org.gulldesk.shapes generated/wallpapers/
+	python3 $(TOOLS)/gen-wallpaper-assets generated/wallpapers/org.gulldesk.shapes/contents/ui
+	for theme in rhythm starfall pastel ribbon; do \
+	  cp -a data/wallpaper/org.gulldesk.$$theme generated/wallpapers/; \
+	  python3 $(TOOLS)/gen-wallpaper-assets generated/wallpapers/org.gulldesk.$$theme/contents/ui $$theme; \
+	done
+	set -e; for entry in $(APPLETS); do \
+	  cp generated/wallpapers/org.gulldesk.shapes/contents/ui/materialshapes.js generated/plasmoids/$${entry#*:}/contents/ui/m3/; \
+	done
+	set -e; for widget in $(WIDGETS); do \
+	  target=generated/plasmoids/org.gulldesk.widget.$$widget; \
+	  install -d $$target; \
+	  cp -a data/widgets/$$widget/. $$target/; \
+	  cp -a data/widgets/common/. $$target/contents/ui/; \
+	  cp generated/wallpapers/org.gulldesk.shapes/contents/ui/materialshapes.js $$target/contents/ui/; \
+	  cp -a data/shell/m3 $$target/contents/ui/m3; \
+	  cp generated/wallpapers/org.gulldesk.shapes/contents/ui/materialshapes.js $$target/contents/ui/m3/; \
+	  python3 $(TOOLS)/gen-qml-tokens $$target/contents/ui/m3/M3.qml; \
+	done
+	cp data/shell/shade/contents/ui/sources/BatterySource.qml generated/plasmoids/org.gulldesk.widget.glance/contents/ui/
+	cp data/shell/shade/contents/ui/sources/MediaSource.qml data/shell/shade/contents/ui/WavyProgress.qml \
+	  generated/plasmoids/org.gulldesk.widget.media/contents/ui/
+	install -d generated/explorer
+	cp data/explorer/*.qml data/explorer/*.js data/widgets/common/MaterialShape.qml data/widgets/common/TemperatureCard.qml data/widgets/common/ClockFace.qml data/widgets/common/WeatherFace.qml data/widgets/common/WeatherGlyph.qml data/widgets/common/StopwatchFace.qml data/widgets/common/TimerFace.qml data/widgets/common/SymbolIcon.qml data/widgets/common/ShapedPhoto.qml generated/explorer/
+	cp generated/wallpapers/org.gulldesk.shapes/contents/ui/materialshapes.js generated/explorer/
+	install -d generated/picker
+	cp data/folderview/picker/*.qml data/explorer/WidgetPreview.qml data/widgets/common/MaterialShape.qml data/widgets/common/TemperatureCard.qml data/widgets/common/ClockFace.qml data/widgets/common/WeatherFace.qml data/widgets/common/WeatherGlyph.qml data/widgets/common/StopwatchFace.qml data/widgets/common/TimerFace.qml data/widgets/common/SymbolIcon.qml data/widgets/common/ShapedPhoto.qml generated/picker/
+	cp generated/wallpapers/org.gulldesk.shapes/contents/ui/materialshapes.js generated/picker/
+	set -e; for colour in $(EXTRA_COLOURS); do \
+	  GULLDESK_COLOUR=$$colour python3 $(TOOLS)/gen-wallpaper-assets generated/wallpapers/org.gulldesk.shapes/contents/ui; \
+	  for theme in rhythm starfall pastel ribbon; do \
+	    GULLDESK_COLOUR=$$colour python3 $(TOOLS)/gen-wallpaper-assets generated/wallpapers/org.gulldesk.$$theme/contents/ui $$theme; \
+	  done; \
+	done
+	set -e; for colour in $(COLOURS); do \
+	  for generation in md1 md2 md3; do \
+	    GULLDESK_COLOUR=$$colour GULLDESK_GENERATION=$$generation python3 $(TOOLS)/gen-kvantum-theme generated/kvantum; \
+	    GULLDESK_COLOUR=$$colour GULLDESK_GENERATION=$$generation python3 $(TOOLS)/gen-aurorae-theme generated/aurorae; \
+	    GULLDESK_COLOUR=$$colour GULLDESK_GENERATION=$$generation python3 $(TOOLS)/gen-gtk-theme generated/gtk-themes; \
+	  done; \
+	done
+	python3 $(TOOLS)/gen-android-overlay generated/android/GullDeskCaption.apk
+	python3 $(TOOLS)/gen-android-overlay generated/android/GullDeskShell.apk shell
+	$(CC) -std=c11 -Wall -Wextra -O2 -fPIC -shared -nostdlib -ffreestanding -fno-builtin \
+	  -fno-stack-protector -fcf-protection=none -fno-asynchronous-unwind-tables \
+	  -Wl,-soname,libgulldesk-android-layers.so -Wl,--hash-style=gnu -Wl,-z,noexecstack \
+	  -Wl,-z,now -Wl,--build-id=none \
+	  -o generated/android/libgulldesk-android-layers.so data/android/gulldesk-android-layers.c
+	install -d generated/style/org/gulldesk
+	cp -a data/style/org.gulldesk.desktop generated/style/org/gulldesk/desktop
+	cp -a data/shell/m3 generated/style/org/gulldesk/desktop/impl
+	python3 $(TOOLS)/gen-qml-tokens generated/style/org/gulldesk/desktop/impl/M3.qml
+	cp -a data/shell/bartint generated/style/org/gulldesk/bartint
+	cp -a data/shell/m3 generated/style/org/gulldesk/m3
+	sed -i '1i module org.gulldesk.m3' generated/style/org/gulldesk/m3/qmldir
+	python3 $(TOOLS)/gen-qml-tokens generated/style/org/gulldesk/m3/M3.qml
+	cp generated/wallpapers/org.gulldesk.shapes/contents/ui/materialshapes.js generated/style/org/gulldesk/m3/
+	python3 $(TOOLS)/gen-loading-shapes generated/style/org/gulldesk/m3/loadingshapes.js
+	cp generated/style/org/gulldesk/m3/loadingshapes.js generated/style/org/gulldesk/m3/materialshapes.js generated/style/org/gulldesk/desktop/impl/
+	cp -a data/ui generated/style/org/gulldesk/ui
+	python3 $(TOOLS)/gen-translations data/shell/po generated/locale
+	set -e; for colour in $(COLOURS); do \
+	  GULLDESK_COLOUR=$$colour python3 $(TOOLS)/gen-terminal-theme generated/terminal; \
+	done
+	python3 $(TOOLS)/gen-sound-theme generated/sounds
+	python3 $(TOOLS)/gen-browser-theme generated/librewolf/theme@gulldesk.os.xpi generated/librewolf/userChrome.css
+	python3 $(TOOLS)/gen-plymouth-theme $(LOGO) $(SYMBOLS) generated/plymouth/gulldesk
+	set -e; for image in generated/plymouth/gulldesk/*.svg; do \
+	  rsvg-convert --output=$${image%.svg}.png $$image; \
+	  rm $$image; \
+	done
+	python3 $(TOOLS)/gen-plymouth-theme --masks $(LOGO) $(SYMBOLS) generated/plymouth-masks
+	set -e; for image in generated/plymouth-masks/*.svg; do \
+	  rsvg-convert --output=$${image%.svg}.png $$image; \
+	done
+	install -d generated/boot
+	python3 $(TOOLS)/pack-boot-masks generated/plymouth-masks generated/boot/plymouth.pack
+	python3 $(TOOLS)/gen-grub-theme $(LOGO) generated/grub/gulldesk
+	set -e; for image in generated/grub/gulldesk/*.svg; do \
+	  rsvg-convert --output=$${image%.svg}.png $$image; \
+	  rm $$image; \
+	done
+	set -e; for colour in $(COLOURS); do for mode in dark light; do \
+	  GULLDESK_COLOUR=$$colour python3 $(TOOLS)/gen-grub-theme $(LOGO) generated/grub-themes/$$colour-$$mode $$mode >/dev/null; \
+	  for image in generated/grub-themes/$$colour-$$mode/*.svg; do \
+	    rsvg-convert --output=$${image%.svg}.png $$image; \
+	    rm $$image; \
+	  done; \
+	done; done
+	set -e; for face in Regular:16 Medium:16 Regular:24; do \
+	  weight=$${face%%:*}; size=$${face#*:}; \
+	  grub-mkfont --size=$$size --name="Roboto $$weight" \
+	    --range=0x20-0x7E,0xA0-0x17F,0x400-0x45F,0x2010-0x2027,0x2190-0x2193 \
+	    --output=generated/grub/gulldesk/roboto-$$(echo $$weight | tr A-Z a-z)-$$size.pf2 \
+	    $(ROBOTO)/Roboto-$$weight.ttf; \
+	done
+	install -d generated/sddm
+	cp -a data/sddm-theme/gulldesk generated/sddm/gulldesk
+	python3 $(TOOLS)/gen-greeter-palette $(SYMBOLS) generated/sddm/gulldesk
+
+override_dh_installsystemduser:
+	dh_installsystemduser --no-enable
+
+override_dh_installsystemd:
+	dh_installsystemd -pgulldesk-desktop gulldesk-drivers.timer gulldesk-panic-report.service gulldesk-android-update.timer
+
+override_dh_auto_clean:
+	rm -rf generated $(TOOLS)/__pycache__

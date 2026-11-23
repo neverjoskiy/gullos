@@ -1,0 +1,4 @@
+Version=6
+
+Id=gulldesk_welcome_retired
+Script=gulldesk-welcome-retired.sh,sh

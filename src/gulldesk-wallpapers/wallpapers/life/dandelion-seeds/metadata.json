@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Id": "gulldesk-life-dandelion-seeds",
+        "Name": "Dandelion Seeds",
+        "Name[ru]": "Семена одуванчика",
+        "Authors": [
+            {
+                "Name": "Hasan Almasi"
+            }
+        ],
+        "License": "Unsplash License"
+    },
+    "KPackageStructure": "Wallpaper/Images",
+    "X-GullDesk-Category": "life"
+}

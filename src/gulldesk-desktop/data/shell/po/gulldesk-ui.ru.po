@@ -1,0 +1,312 @@
+# Russian translation of the GullDesk interface components.
+# SPDX-FileCopyrightText: 2026 GullDesk Developers
+# SPDX-License-Identifier: GPL-2.0-or-later
+msgid ""
+msgstr ""
+"Project-Id-Version: gulldesk-ui\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "OK"
+msgstr "ОК"
+
+msgid "Clear"
+msgstr "Очистить"
+
+msgid "Search"
+msgstr "Поиск"
+
+msgid "Show password"
+msgstr "Показать пароль"
+
+msgid "Hide password"
+msgstr "Скрыть пароль"
+
+msgctxt "a Material generation"
+msgid "Material Design 1"
+msgstr "Material Design 1"
+
+msgctxt "a Material generation"
+msgid "Material Design 2"
+msgstr "Material Design 2"
+
+msgctxt "a Material generation"
+msgid "Material 3"
+msgstr "Material 3"
+
+msgctxt "when Material Design 1 appeared"
+msgid "2014 · paper and ink"
+msgstr "2014 · бумага и чернила"
+
+msgctxt "when Material Design 2 appeared"
+msgid "2018 · Material Theming"
+msgstr "2018 · Material Theming"
+
+msgctxt "when Material 3 appeared"
+msgid "2021 · Material You"
+msgstr "2021 · Material You"
+
+msgctxt "a button in the style preview"
+msgid "Done"
+msgstr "Готово"
+
+msgid "Settings"
+msgstr "Параметры"
+
+msgid "Desktop"
+msgstr "Рабочий стол"
+
+msgid "Placement"
+msgstr "Размещение"
+
+msgid "Alignment"
+msgstr "Выравнивание"
+
+msgid "Sort by"
+msgstr "Упорядочить"
+
+msgid "Appearance"
+msgstr "Внешний вид"
+
+msgid "%1 px"
+msgstr "%1 пикс."
+
+msgid "Place"
+msgstr "Точка входа"
+
+msgid "Desktop folder"
+msgstr "Папка «Рабочий стол»"
+
+msgid "A place"
+msgstr "Точка входа"
+
+msgid "Choose from Places"
+msgstr "Выбрать из точек входа"
+
+msgid "Another folder"
+msgstr "Другая папка"
+
+msgid "A path or a web address"
+msgstr "Путь или веб-адрес"
+
+msgid "Choose a folder"
+msgstr "Выбрать папку"
+
+msgid "Remove"
+msgstr "Удалить"
+
+msgid "Change trigger"
+msgstr "Изменить кнопку"
+
+msgid "Action"
+msgstr "Действие"
+
+msgid "Click in the area with the mouse button you want, holding Ctrl, Shift, Alt or Meta if you like, or turn the wheel there."
+msgstr "Щёлкните в этой области нужной кнопкой мыши (можно с Ctrl, Shift, Alt или Meta) или прокрутите в ней колесо."
+
+msgid "Another action already starts this way."
+msgstr "Так уже запускается другое действие."
+
+msgid "Shortcut"
+msgstr "Сочетание клавиш"
+
+msgid "Discard"
+msgstr "Не применять"
+
+msgid "Close"
+msgstr "Закрыть"
+
+msgid "Search widgets"
+msgstr "Поиск виджетов"
+
+msgid "Other widgets"
+msgstr "Другие виджеты"
+
+msgid "Wallpaper"
+msgstr "Обои"
+
+msgid "Done"
+msgstr "Готово"
+
+msgid "Pin to panel"
+msgstr "Закрепить на панели"
+
+msgid "Unpin from panel"
+msgstr "Открепить от панели"
+
+msgid "More"
+msgstr "Ещё"
+
+msgid "Swipe up or start typing"
+msgstr "Проведите вверх или начните вводить пароль"
+
+msgid "Wallpaper & style"
+msgstr "Обои и стиль"
+
+msgid "Widgets"
+msgstr "Виджеты"
+
+msgid "Home settings"
+msgstr "Главный экран"
+
+msgctxt "drop target that takes a widget off the home screen"
+msgid "Remove"
+msgstr "Убрать"
+
+msgid "Change widget settings"
+msgstr "Изменить настройки виджета"
+
+msgid "Battery"
+msgstr "Батарея"
+
+msgid "Calendar"
+msgstr "Календарь"
+
+msgid "Clock"
+msgstr "Часы"
+
+msgid "Media Player"
+msgstr "Медиаплеер"
+
+msgid "Notes"
+msgstr "Заметки"
+
+msgid "Photos"
+msgstr "Фото"
+
+msgid "Task Manager"
+msgstr "Диспетчер задач"
+
+msgid "Weather"
+msgstr "Погода"
+
+msgid "Analog clock"
+msgstr "Аналоговые часы"
+
+msgid "Digital clock"
+msgstr "Цифровые часы"
+
+msgid "Stacked clock"
+msgstr "Вертикальные часы"
+
+msgid "London"
+msgstr "Лондон"
+
+msgid "Current weather"
+msgstr "Текущая погода"
+
+msgid "Forecasted weather"
+msgstr "Прогноз погоды"
+
+msgid "Mostly sunny"
+msgstr "Преимущественно солнечно"
+
+msgid "Now"
+msgstr "Сейчас"
+
+msgid "Feels like %1"
+msgstr "Ощущается как %1"
+
+msgid "Source: Open-Meteo"
+msgstr "Источник: Open-Meteo"
+
+msgid "Essentials"
+msgstr "Основное"
+
+msgid "Suggested for you"
+msgstr "Рекомендации"
+
+msgid "Suggestions"
+msgstr "Рекомендованные"
+
+msgid "Clear text from search box"
+msgstr "Удалить текст из окна поиска"
+
+msgid "%1 widget"
+msgid_plural "%1 widgets"
+msgstr[0] "%1 виджет"
+msgstr[1] "%1 виджета"
+msgstr[2] "%1 виджетов"
+
+msgid "No widgets found"
+msgstr "Виджеты не найдены"
+
+msgctxt "widget size in cells, width by height"
+msgid "%1 × %2"
+msgstr "%1 x %2"
+
+msgid "Add"
+msgstr "Добавить"
+
+msgid "Add %1 widget"
+msgstr "Добавить виджет «%1»"
+
+msgid "Lap %1"
+msgstr "Круг %1"
+
+msgid "Timers"
+msgstr "Таймеры"
+
+msgctxt "@label timer length"
+msgid "%1m"
+msgstr "%1 мин"
+
+msgid "Cookie"
+msgstr "Печенье"
+
+msgid "Star"
+msgstr "Звезда"
+
+msgid "Flower"
+msgstr "Цветок"
+
+msgid "Circle"
+msgstr "Круг"
+
+msgid "Square"
+msgstr "Квадрат"
+
+msgid "Pill"
+msgstr "Таблетка"
+
+msgid "Full size"
+msgstr "Во весь размер"
+
+msgid "Getting your desktop ready…"
+msgstr "Готовим рабочий стол…"
+
+msgid "The first start takes a little longer. Here is what is worth knowing in the meantime."
+msgstr "Первый запуск занимает чуть больше времени. А пока — несколько полезных вещей."
+
+msgid "Meta opens the launcher"
+msgstr "Meta открывает меню запуска"
+
+msgid "Start typing to find apps, files and settings"
+msgstr "Начните печатать, чтобы найти приложения, файлы и настройки"
+
+msgid "Network and battery icons open quick settings"
+msgstr "Значки сети и батареи открывают быстрые настройки"
+
+msgid "Wi-Fi, sound, brightness, Do Not Disturb and more"
+msgstr "Wi-Fi, звук, яркость, «Не беспокоить» и другое"
+
+msgid "Touch and hold the desktop"
+msgstr "Нажмите и удерживайте рабочий стол"
+
+msgid "Wallpaper & style, widgets and Home settings"
+msgstr "Обои и стиль, виджеты и главный экран"
+
+msgid "Print takes a screenshot"
+msgstr "Print делает снимок экрана"
+
+msgid "Choose an area, the screen or a window"
+msgstr "Область, весь экран или окно"

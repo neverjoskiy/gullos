@@ -1,0 +1,7 @@
+[Unit]
+Description=Give Android the GullDesk colour and theme
+ConditionPathExists=/var/lib/waydroid/waydroid.cfg
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/gulldesk-android-session --sync

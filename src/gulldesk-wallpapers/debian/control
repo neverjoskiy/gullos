@@ -1,0 +1,18 @@
+Source: gulldesk-wallpapers
+Section: graphics
+Priority: optional
+Maintainer: GullDesk Developers <developers@gulldesk.invalid>
+Standards-Version: 4.7.4
+Build-Depends: debhelper-compat (= 13)
+Rules-Requires-Root: no
+
+Package: gulldesk-wallpapers
+Architecture: all
+Multi-Arch: foreign
+Depends:
+ ${misc:Depends}
+Description: GullDesk OS picture wallpapers
+ Picture wallpapers for GullDesk OS, sorted into collections such as Art,
+ Earth, Landscapes, Life, Motif, Textures and Solid colours. Settings shows
+ them under Wallpaper & style, and the Plasma wallpaper dialog lists them
+ too. Some come with a dark variant that follows the dark theme.

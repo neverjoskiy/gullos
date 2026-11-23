@@ -1,0 +1,4 @@
+Version=6
+
+Id=gulldesk_terminal_entry
+Script=gulldesk-terminal-entry.sh,sh

@@ -1,0 +1,2134 @@
+[
+  {
+    "id": "2026-11-22-1",
+    "date": "2026-11-22",
+    "items": [
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Android permission windows stay visible",
+          "ru": "Без чёрных окон при запросе разрешений"
+        },
+        "text": {
+          "en": "Fixed an issue where an Android permission question could leave an app window black until another click. Opening and closing the question now refreshes the window correctly. After installing this update, close Android apps and sign out and back in.",
+          "ru": "Исправлена ошибка, из-за которой при запросе разрешения Android окно приложения могло оставаться чёрным до следующего нажатия. Теперь окно правильно перерисовывается при открытии и закрытии диалога. После установки обновления закройте Android-приложения, выйдите из сеанса и войдите снова."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-16-2",
+    "date": "2026-11-16",
+    "items": [
+      {
+        "icon": "chronometer",
+        "title": {
+          "en": "Stopwatch and timers",
+          "ru": "Секундомер и таймеры"
+        },
+        "text": {
+          "en": "The Clock app in the widget list now has all six widgets of Google Clock. The Stopwatch starts, pauses and counts laps right on the desktop. The Timer starter runs 10, 1 or 5 minutes with one tap, and + opens a keypad for any time. When time is up an alarm rings until you stop it.",
+          "ru": "В разделе «Часы» списка виджетов теперь все шесть виджетов Google Часов. Секундомер запускается, ставится на паузу и считает круги прямо на рабочем столе. Быстрый таймер запускает 10, 1 или 5 минут одним нажатием, а «+» открывает клавиатуру для любого времени. Когда время выходит, звенит будильник, пока вы его не остановите."
+        }
+      },
+      {
+        "icon": "view-preview",
+        "title": {
+          "en": "More widget styles",
+          "ru": "Больше стилей виджетов"
+        },
+        "text": {
+          "en": "Photos offers its shapes right in the widget list: cookie, star, flower, circle, square, pill and full size. Touch and hold a widget and let go to see the other widgets of its app, and tap another style to change it in place.",
+          "ru": "Фото предлагает формы прямо в списке виджетов: печенье, звезда, цветок, круг, квадрат, таблетка и во весь размер. Нажмите и удерживайте виджет, потом отпустите, и появятся другие виджеты этого приложения. Нажмите на другой стиль, и виджет сразу изменится."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-16-1",
+    "date": "2026-11-16",
+    "items": [
+      {
+        "icon": "memory",
+        "title": {
+          "en": "More room in memory",
+          "ru": "Больше места в памяти"
+        },
+        "text": {
+          "en": "GullDesk now compresses what sits idle in memory, the way Android and ChromeOS do. On a computer with 4 GB of RAM, almost twice as many apps and tabs fit before things slow down. If memory still runs out, only the process that ate it is closed, like a single browser tab, and the system no longer freezes.",
+          "ru": "GullDesk теперь сжимает то, что без дела лежит в памяти, как это делают Android и ChromeOS. На компьютере с 4 ГБ памяти до первых тормозов помещается почти вдвое больше программ и вкладок. Если память всё-таки кончится, закроется только процесс, который её съел, например одна вкладка браузера, а система не зависнет."
+        }
+      },
+      {
+        "icon": "speedometer",
+        "title": {
+          "en": "Smoother on older computers",
+          "ru": "Плавнее на старых компьютерах"
+        },
+        "text": {
+          "en": "The desktop answers faster while the computer is busy. A hard drive or memory card no longer makes everything wait while something copies or installs, and apps opened right after login start sooner.",
+          "ru": "Рабочий стол быстрее откликается, когда компьютер занят. Жёсткий диск или карта памяти больше не тормозят всю систему во время копирования и установки, а программы, открытые сразу после входа, запускаются быстрее."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-15-1",
+    "date": "2026-11-15",
+    "items": [
+      {
+        "icon": "preferences-desktop-color",
+        "title": {
+          "en": "Touch and hold the desktop",
+          "ru": "Нажмите и удерживайте рабочий стол"
+        },
+        "text": {
+          "en": "Touch and hold an empty spot on the desktop for the same menu as on Android: Wallpaper & style, Widgets and Home settings. Settings open full screen from it, and Home settings can put the icons of new apps on the desktop.",
+          "ru": "Нажмите и удерживайте пустое место на рабочем столе, и откроется то же меню, что на Android: «Обои и стиль», «Виджеты» и «Главный экран». Настройки из него открываются на весь экран, а в «Главном экране» можно сделать так, чтобы значки новых приложений сами появлялись на рабочем столе."
+        }
+      },
+      {
+        "icon": "preferences-desktop-widgets",
+        "title": {
+          "en": "Widgets like on Android",
+          "ru": "Виджеты как на Android"
+        },
+        "text": {
+          "en": "Widgets in that menu opens a picker with the widgets of each app. Add one with a tap or drag it onto the desktop. Touch and hold a widget to move it, drop it on Remove to take it away, or let go to resize it.",
+          "ru": "«Виджеты» в этом меню открывают список виджетов по приложениям. Добавьте виджет нажатием или перетащите на рабочий стол. Чтобы переместить виджет, нажмите и удерживайте его. Бросьте на «Убрать», чтобы удалить, или просто отпустите, чтобы изменить размер."
+        }
+      },
+      {
+        "icon": "clock",
+        "title": {
+          "en": "Google Clock widgets",
+          "ru": "Часы как в Google"
+        },
+        "text": {
+          "en": "The Clock app in the widget picker now has the round analog clock with a scalloped dial, the digital and stacked clocks, and a world clock for any city. They take the colours of your theme and turn dark with the dark theme.",
+          "ru": "В разделе «Часы» списка виджетов теперь круглые аналоговые часы с волнистым циферблатом, цифровые и вертикальные часы, а также мировое время для любого города. Они берут цвета вашей темы и темнеют вместе с тёмной темой."
+        }
+      },
+      {
+        "icon": "view-grid",
+        "title": {
+          "en": "An even grid like on a Pixel",
+          "ru": "Ровная сетка как на Pixel"
+        },
+        "text": {
+          "en": "Widgets sit on the cells of the grid. While you drag or resize one, an outline shows where it will land and widgets in the way move aside to make room. If there is no room, the widget goes back.",
+          "ru": "Виджеты стоят ровно по клеткам. Пока вы перетаскиваете или растягиваете виджет, контур показывает, куда он встанет, а мешающие виджеты отодвигаются. Если места нет, виджет вернётся обратно."
+        }
+      },
+      {
+        "icon": "weather-few-clouds",
+        "title": {
+          "en": "Weather like Google Weather",
+          "ru": "Погода как в Google"
+        },
+        "text": {
+          "en": "The Weather app in the widget picker has Current weather and Forecasted weather. The forecast shows how warm it feels, the next hours and the coming days, and the more room you give it, the more days it shows.",
+          "ru": "В разделе «Погода» списка виджетов теперь «Текущая погода» и «Прогноз погоды». Прогноз показывает, как ощущается температура, ближайшие часы и следующие дни, а чем больше виджет, тем больше дней в нём видно."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-14-3",
+    "date": "2026-11-14",
+    "items": [
+      {
+        "icon": "preferences-desktop-icons",
+        "title": {
+          "en": "App icons the way they were",
+          "ru": "Значки приложений как раньше"
+        },
+        "text": {
+          "en": "Settings › Wallpaper & style now has Original icon shapes. Turn it on and apps without a GullDesk icon show their own icon again, without the white circle. It stays off unless you turn it on.",
+          "ru": "В «Настройки › Обои и стиль» появился переключатель «Исходная форма значков». Если его включить, приложения без значка GullDesk снова показывают свой обычный значок, без белого круга. Сам он выключен, пока вы его не включите."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-14-2",
+    "date": "2026-11-14",
+    "items": [
+      {
+        "icon": "utilities-terminal",
+        "title": {
+          "en": "A new Terminal",
+          "ru": "Новый Терминал"
+        },
+        "text": {
+          "en": "The Terminal now looks and works like the one on a Googlebook. Tabs sit at the top of the window like in Chrome, and a tab shows what is running in it. Settings open as a tab: color schemes for the light and dark theme, font, your own keyboard shortcuts, ports that programs open to the network, shared folders, a memory limit, keep awake and a reset.",
+          "ru": "Терминал теперь выглядит и работает как на Googlebook. Вкладки стоят наверху окна, как в Chrome, а на вкладке видно, что в ней сейчас запущено. Настройки открываются отдельной вкладкой: цветовые схемы для светлой и тёмной темы, шрифт, свои сочетания клавиш, порты, которые программы открывают в сеть, общие папки, ограничение памяти, режим без сна и сброс."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-14-1",
+    "date": "2026-11-14",
+    "items": [
+      {
+        "icon": "preferences-desktop-display",
+        "title": {
+          "en": "Smoother circles and icons",
+          "ru": "Более гладкие круги и значки"
+        },
+        "text": {
+          "en": "Improved antialiasing for circular backgrounds, account pictures and interaction effects, including on low-resolution screens. Application and symbolic SVG icons now keep their requested size at scales below 100%, too. Sign out and back in after installing this update to apply the rendering change.",
+          "ru": "Улучшено сглаживание круглых подложек, фотографий профиля и эффектов нажатия, в том числе на экранах с небольшим разрешением. Значки приложений и символические SVG теперь сохраняют заданный размер и при масштабе ниже 100%. После установки обновления выйдите из сеанса и войдите снова, чтобы применить изменение отрисовки."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-13-1",
+    "date": "2026-11-13",
+    "hero": "ked2",
+    "items": [
+      {
+        "icon": "gulldesk-dock",
+        "title": {
+          "en": "Status bar at the top",
+          "ru": "Строка состояния сверху"
+        },
+        "text": {
+          "en": "The time and date now sit at the top left, and notifications, the network, the battery and what is playing sit at the top right. Quick settings and notifications drop down from the top, and the clock opens a calendar. The bar is always clear, and its text and icons turn dark over a light wallpaper and white over a dark one. Meta+N opens notifications and Meta+Q opens quick settings.",
+          "ru": "Время и дата теперь слева вверху, а уведомления, сеть, батарея и то, что сейчас играет, — справа вверху. Быстрые настройки и уведомления выпадают сверху, а по нажатию на часы открывается календарь. Строка всегда прозрачная, а текст и значки на ней сами становятся тёмными на светлых обоях и белыми на тёмных. Meta+N открывает уведомления, а Meta+Q — быстрые настройки."
+        }
+      },
+      {
+        "icon": "view-app-grid",
+        "title": {
+          "en": "New apps menu",
+          "ru": "Новое меню приложений"
+        },
+        "text": {
+          "en": "The apps menu opens in the middle of the screen above the taskbar and dims everything behind it. All apps are in one list from A to Z, and dragging the scrollbar shows the letter you are at. Start typing to find apps, GullDesk settings, files and quick answers, or search the web with LibreWolf. Right-click an app to add it to the taskbar or the Home screen. With a touchpad, swipe up with two fingers on the desktop to open the menu.",
+          "ru": "Меню приложений открывается по центру экрана над панелью задач, а всё за ним затемняется. Все приложения в одном списке от А до Я, а если тянуть полосу прокрутки, видно, на какой вы букве. Начните печатать, чтобы найти приложения, разделы Настроек, файлы и быстрые ответы или поискать в интернете через LibreWolf. Правый клик по приложению добавляет его на панель задач или на главный экран. На тачпаде меню открывается свайпом двумя пальцами вверх по рабочему столу."
+        }
+      },
+      {
+        "icon": "preferences-desktop",
+        "title": {
+          "en": "New quick settings",
+          "ru": "Новые быстрые настройки"
+        },
+        "text": {
+          "en": "Quick settings look like Googlebook: thick sliders with a Night Light button next to brightness and a sound devices button next to volume, and two columns of tiles. Click a tile's icon to turn it on or off and its name for details. The power button opens Lock, Sleep, Sign out, Restart and Power off. Click the Now playing pill to control music.",
+          "ru": "Быстрые настройки теперь как в Googlebook: толстые ползунки с кнопкой «Ночной свет» у яркости и выбором устройств звука у громкости, плитки в два столбца. Клик по значку плитки включает или выключает её, клик по названию открывает подробности. Кнопка питания открывает «Заблокировать», «Сон», «Выйти», «Перезагрузить» и «Выключить». Музыкой можно управлять, нажав на «пилюлю» «Сейчас играет»."
+        }
+      },
+      {
+        "icon": "preferences-desktop-theme",
+        "title": {
+          "en": "Light theme like Googlebook",
+          "ru": "Светлая тема как в Googlebook"
+        },
+        "text": {
+          "en": "In the light theme the taskbar is white, the apps menu looks like frosted glass over your wallpaper, and the screen no longer dims behind the apps menu and quick settings.",
+          "ru": "В светлой теме панель задач белая, меню приложений похоже на матовое стекло поверх обоев, а экран больше не темнеет за меню приложений и быстрыми настройками."
+        }
+      },
+      {
+        "icon": "window-maximize",
+        "title": {
+          "en": "A square taskbar",
+          "ru": "Прямоугольная панель задач"
+        },
+        "text": {
+          "en": "The bottom panel runs from edge to edge without rounded corners, and the apps button is a wide pill. The rounded panel and the layout with everything at the bottom are one tap away in Settings, Wallpaper and style, Panel.",
+          "ru": "Нижняя панель идёт от края до края без скруглённых углов, а кнопка приложений стала широкой «пилюлей». Закруглённую панель и раскладку, где всё внизу, можно вернуть в Настройках: «Обои и стиль» → «Панель»."
+        }
+      },
+      {
+        "icon": "preferences-desktop-wallpaper",
+        "title": {
+          "en": "New wallpapers",
+          "ru": "Новые обои"
+        },
+        "text": {
+          "en": "Wallpaper & style now sorts wallpapers into collections like on Googlebook: GullDesk live wallpapers, Landscapes, Earth, Art, Life, Patterns, Textures and Solid colours. Open a collection and pick a picture. Solid colours turn darker in the dark theme.",
+          "ru": "В разделе «Обои и стиль» обои теперь разложены по коллекциям, как в Googlebook: живые обои GullDesk, Пейзажи, Земля, Искусство, Жизнь, Узоры, Текстуры и Однотонные. Откройте коллекцию и выберите картинку. Однотонные обои в тёмной теме становятся темнее."
+        }
+      },
+      {
+        "icon": "window-maximize",
+        "title": {
+          "en": "Rounded windows",
+          "ru": "Скруглённые окна"
+        },
+        "text": {
+          "en": "Windows now have all four corners rounded and a soft shadow, without the thin dark line along the edges. Maximised windows stay square. In the dark theme windows get a faint light edge so they stand out from a dark wallpaper.",
+          "ru": "Теперь у окон скруглены все четыре угла, а вокруг них мягкая тень без тонкой тёмной линии по краю. Развёрнутые окна остаются с прямыми углами. В тёмной теме у окон появляется еле заметный светлый край, чтобы они не сливались с тёмными обоями."
+        }
+      },
+      {
+        "icon": "view-app-grid",
+        "title": {
+          "en": "App groups",
+          "ru": "Группы приложений"
+        },
+        "text": {
+          "en": "Drag an app onto another app on the desktop to put them in a group, like on Googlebook. Click a group to open it, click its name to rename it, and right-click an app to take it out.",
+          "ru": "Перетащите приложение на другое приложение на рабочем столе, и они окажутся в одной группе, как в Googlebook. Нажмите на группу, чтобы открыть её, на название — чтобы переименовать, а правый клик по приложению убирает его из группы."
+        }
+      },
+      {
+        "icon": "folder-documents",
+        "title": {
+          "en": "New file icons",
+          "ru": "Новые значки файлов"
+        },
+        "text": {
+          "en": "Documents, pictures, music, archives and other files now have rounded tiles in your accent colour, like Files on Googlebook.",
+          "ru": "У документов, картинок, музыки, архивов и других файлов теперь скруглённые плитки в цвете вашей темы, как в Файлах на Googlebook."
+        }
+      },
+      {
+        "icon": "preferences-desktop-font",
+        "title": {
+          "en": "Google Sans Flex",
+          "ru": "Шрифт Google Sans Flex"
+        },
+        "text": {
+          "en": "The whole system now uses Google Sans Flex, the typeface of Android and Googlebook: the status bar, menus, Settings, apps and window titles. The clock and quick settings use its rounded style.",
+          "ru": "Вся система теперь на Google Sans Flex — шрифте Android и Googlebook: строка состояния, меню, Настройки, приложения и заголовки окон. Часы и быстрые настройки — в его скруглённом начертании."
+        }
+      },
+      {
+        "icon": "battery-charging",
+        "title": {
+          "en": "Battery like Googlebook",
+          "ru": "Батарея как на Googlebook"
+        },
+        "text": {
+          "en": "On a laptop, the battery shows its level inside the icon and turns green while charging, yellow in power saver and red when it runs low. When you plug in the charger, a light bar runs along the top of the screen up to the charge level, like the Glowbar on a Googlebook.",
+          "ru": "На ноутбуке уровень заряда виден прямо внутри значка батареи: при зарядке она зелёная, в режиме энергосбережения жёлтая, а при низком заряде красная. Когда подключаете зарядку, вдоль верхнего края экрана пробегает светящаяся полоса до уровня заряда, как Glowbar на Googlebook."
+        }
+      },
+      {
+        "icon": "folder",
+        "title": {
+          "en": "Folders like Googlebook",
+          "ru": "Папки как на Googlebook"
+        },
+        "text": {
+          "en": "In Files, folders sit on top as compact chips and files follow as cards, like Google Drive. Documents, Downloads, Pictures and other folders have their own symbol, and folder icons on the desktop are rounded tiles.",
+          "ru": "В Файлах папки идут сверху компактными плашками, а файлы ниже карточками, как в Google Диске. У Документов, Загрузок, Изображений и других папок свой значок, а папки на рабочем столе — скруглённые плитки."
+        }
+      },
+      {
+        "icon": "gulldesk-blur",
+        "title": {
+          "en": "Blur like Android",
+          "ru": "Размытие как в Android"
+        },
+        "text": {
+          "en": "Quick settings, notifications, the apps menu and app groups are translucent over a blurred background, the window overview blurs the wallpaper, and the lock screen blurs it when you enter your password. Accessibility › Reduce blur turns it off.",
+          "ru": "Быстрые настройки, уведомления, меню приложений и группы приложений полупрозрачные с размытым фоном, обзор окон размывает обои, а экран блокировки — когда вводите пароль. Отключить можно в Спец. возможностях › «Уменьшить размытие»."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-08-1",
+    "date": "2026-11-08",
+    "items": [
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Android apps are ready from the first minute",
+          "ru": "Android-приложения готовы с первой минуты"
+        },
+        "text": {
+          "en": "After setup, Android starts once in the background, so Google Play shows up in the app menu and signing in works on the first try. Text copied on the desktop can be pasted into Android apps, and Android apps use the language you chose in GullDesk.",
+          "ru": "После настройки Android один раз запускается в фоне, поэтому Google Play сразу появляется в меню приложений, а вход в аккаунт проходит с первой попытки. Текст, скопированный на рабочем столе, можно вставить в Android-приложение, а сами приложения говорят на языке, выбранном в GullDesk."
+        }
+      },
+      {
+        "icon": "preferences-system-windows",
+        "title": {
+          "en": "Android windows stay on the screen",
+          "ru": "Окна Android-приложений не уходят за экран"
+        },
+        "text": {
+          "en": "Windows that grow on their own move back onto the screen, the first click into a new window is no longer lost, and permission questions stay above other windows and reach the right app.",
+          "ru": "Окна, которые сами увеличиваются, возвращаются на экран, первый клик в новое окно больше не теряется, а вопросы о разрешениях держатся поверх других окон и доходят до нужного приложения."
+        }
+      },
+      {
+        "icon": "preferences-desktop-theme",
+        "title": {
+          "en": "Fewer surprises after updates",
+          "ru": "Меньше сюрпризов после обновлений"
+        },
+        "text": {
+          "en": "Closing Settings while a theme is being applied no longer leaves it half done, the update notification goes away once updates are installed, and logging in starts with an empty desktop as Settings says.",
+          "ru": "Если закрыть Настройки во время смены темы, она всё равно применится до конца, уведомление об обновлениях исчезает после установки, а вход в систему начинается с пустого рабочего стола, как и указано в Настройках."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-07-1",
+    "date": "2026-11-07",
+    "items": [
+      {
+        "icon": "preferences-desktop-widgets",
+        "title": {
+          "en": "Widgets no longer squeeze into the panel",
+          "ru": "Виджеты больше не сжимаются на панели"
+        },
+        "text": {
+          "en": "Now Playing and the other desktop widgets are gone from the panel's widget list. If one is already on your panel, it turns into a small icon, and a click opens the full card.",
+          "ru": "«Сейчас играет» и другие виджеты рабочего стола убраны из списка виджетов панели. Если такой виджет уже стоит на панели, он станет маленьким значком, а по нажатию откроется полная карточка."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-06-5",
+    "date": "2026-11-06",
+    "items": [
+      {
+        "icon": "gulldesk-drivers",
+        "title": {
+          "en": "New Drivers app",
+          "ru": "Новое приложение «Драйверы»"
+        },
+        "text": {
+          "en": "See every device in your computer and which driver it uses. Install drivers for NVIDIA cards, Broadcom Wi-Fi, printers and scanners, update drivers and firmware, and save a hardware report when you need help.",
+          "ru": "Здесь видно все устройства компьютера и их драйверы. Можно установить драйверы для видеокарт NVIDIA, Wi-Fi Broadcom, принтеров и сканеров, обновить драйверы и прошивки и сохранить отчёт об оборудовании, если нужна помощь."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-06-4",
+    "date": "2026-11-06",
+    "items": [
+      {
+        "icon": "preferences-desktop-widgets",
+        "title": {
+          "en": "New panels look like GullDesk",
+          "ru": "Новые панели теперь как в GullDesk"
+        },
+        "text": {
+          "en": "The default panel in the Add Panel menu is now the GullDesk panel. If you delete your panel and add a new one, its keyboard shortcuts come back on their own.",
+          "ru": "Стандартная панель из меню добавления теперь такая же, как панель GullDesk. Если удалить панель и добавить новую, сочетания клавиш вернутся сами."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-06-3",
+    "date": "2026-11-06",
+    "items": [
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Video plays in Android apps",
+          "ru": "Видео в приложениях Android"
+        },
+        "text": {
+          "en": "YouTube and other video apps now show the picture instead of a black window.",
+          "ru": "YouTube и другие приложения с видео теперь показывают картинку, а не чёрное окно."
+        }
+      },
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Clicks go to the right Android app",
+          "ru": "Клики попадают в нужное приложение"
+        },
+        "text": {
+          "en": "With several Android apps open, clicks and the mouse wheel now reach the window under the pointer, not the app you opened last.",
+          "ru": "Когда открыто несколько приложений Android, клики и колесо мыши теперь попадают в окно под курсором, а не в приложение, открытое последним."
+        }
+      },
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Better fullscreen and resizing",
+          "ru": "Полный экран и размер окна работают лучше"
+        },
+        "text": {
+          "en": "Android apps stay in fullscreen when they restart their screen, and the picture follows the window while you resize it.",
+          "ru": "Приложения Android больше не выпадают из полного экрана, а при изменении размера картинка следует за окном."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-06-2",
+    "date": "2026-11-06",
+    "items": [
+      {
+        "icon": "folder",
+        "title": {
+          "en": "Tabs in Files",
+          "ru": "Вкладки в файловом менеджере"
+        },
+        "text": {
+          "en": "Keep several folders open in one window. Each tab remembers its history, search, selection and scroll position. Use Ctrl+T to open a tab, Ctrl+W to close it, or middle-click a folder to open it in the background.",
+          "ru": "Открывайте несколько папок в одном окне. Каждая вкладка запоминает историю, поиск, выделение и положение прокрутки. Ctrl+T открывает вкладку, Ctrl+W закрывает её, а средняя кнопка мыши открывает папку в фоне."
+        }
+      },
+      {
+        "icon": "edit-select-all",
+        "title": {
+          "en": "Select files your way",
+          "ru": "Удобный выбор нескольких файлов"
+        },
+        "text": {
+          "en": "Select a group with Ctrl or Shift, use checkboxes and selection mode, or drag a rectangle over empty space. Keyboard range selection works too, and names containing spaces and special characters stay selected correctly.",
+          "ru": "Выделяйте группу с Ctrl или Shift, используйте чекбоксы и режим выбора либо растяните рамку на свободном месте. Работает и выделение диапазона с клавиатуры; имена с пробелами и специальными символами выделяются корректно."
+        }
+      },
+      {
+        "icon": "edit-copy",
+        "title": {
+          "en": "Drag, copy and move",
+          "ru": "Перетаскивание, копирование и перемещение"
+        },
+        "text": {
+          "en": "Drag one file or a whole selection into a folder, a place, the path bar or another tab. Hover a tab to switch to it, then choose Copy here or Move here. Cancel safely or choose how to handle matching names.",
+          "ru": "Перетаскивайте файл или целую группу в папку, место на боковой панели, строку пути или другую вкладку. Задержитесь над вкладкой, чтобы перейти в неё, затем выберите копирование или перемещение. Операцию можно отменить, а для совпадающих имён — выбрать подходящее действие."
+        }
+      },
+      {
+        "icon": "system-software-update",
+        "title": {
+          "en": "Stable and Demo updates",
+          "ru": "Обычные обновления и Demo"
+        },
+        "text": {
+          "en": "Regular updates keep the stable desktop; the optional Demo channel keeps its additional features. This update also corrects a brief mix-up between channels. If you received that interim update, sign out and back in after installing this one.",
+          "ru": "Обычный канал сохраняет стабильный рабочий стол, а дополнительный канал Demo — свои функции. Это обновление также исправляет кратковременное смешение каналов. Если вы успели получить промежуточное обновление, после установки выйдите из сеанса и войдите снова."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-05-4",
+    "date": "2026-11-05",
+    "items": [
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Android windows stay open",
+          "ru": "Окна Android больше не пропадают"
+        },
+        "text": {
+          "en": "Games and apps with a fixed size now open in a normal window and no longer hide your other Android apps. A rare freeze when opening a new window is fixed too.",
+          "ru": "Игры и приложения с фиксированным размером теперь открываются в обычном окне и не прячут другие приложения Android. Заодно исправлено редкое зависание при открытии нового окна."
+        }
+      },
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Every Android app gets its own button",
+          "ru": "У каждого приложения Android своя кнопка"
+        },
+        "text": {
+          "en": "A freshly installed app now opens with its own icon on the panel instead of sharing one button with Google Play.",
+          "ru": "Только что установленное приложение открывается со своим значком на панели и не делит одну кнопку с Google Play."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-05-3",
+    "date": "2026-11-05",
+    "items": [
+      {
+        "icon": "system-software-install",
+        "title": {
+          "en": "More Debian apps available",
+          "ru": "Больше доступных приложений Debian"
+        },
+        "text": {
+          "en": "Debian contrib and non-free are now enabled alongside the existing firmware source. On 64-bit PCs, 32-bit package support is enabled for Steam and other apps that need it. Refresh your package lists, then install Steam with “sudo apt install steam-installer”. Apps distributed only by their developer, such as Proton VPN, still require that developer’s official repository.",
+          "ru": "Включены разделы Debian contrib и non-free в дополнение к существующему источнику прошивок. На 64-битных ПК включена поддержка 32-битных пакетов для Steam и других приложений. Обновите списки пакетов, затем установите Steam командой «sudo apt install steam-installer». Приложения, распространяемые только разработчиком, например Proton VPN, по-прежнему требуют его официального репозитория."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-05-1",
+    "date": "2026-11-05",
+    "items": [
+      {
+        "icon": "preferences-system-bluetooth",
+        "title": {
+          "en": "Clearer Bluetooth device names",
+          "ru": "Понятные имена Bluetooth-устройств"
+        },
+        "text": {
+          "en": "Pairing now picks up device names as they arrive and starts searching when your adapter is ready. Named devices stay in a stable list; devices that have not provided a name remain accessible under “Show devices without names”. Your custom names are kept. Failed searches can be retried, and leaving the page releases only GullDesk’s own search session.",
+          "ru": "При сопряжении названия обновляются по мере получения, а поиск запускается, когда адаптер готов. Именованные устройства отображаются в стабильном списке; остальные доступны через «Показать устройства без имени». Ваши собственные названия сохраняются. Неудачный поиск можно повторить, а при уходе со страницы освобождается только поисковая сессия GullDesk."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-04-4",
+    "date": "2026-11-04",
+    "items": [
+      {
+        "icon": "preferences-desktop-theme",
+        "title": {
+          "en": "A lighter look for windows",
+          "ru": "Новый лёгкий вид окон"
+        },
+        "text": {
+          "en": "Every window now has a thin title bar with its icon and title on the left, and quiet buttons, like on a Chromebook.",
+          "ru": "У всех окон теперь тонкая полоса заголовка с иконкой и названием слева и спокойные кнопки, как на Chromebook."
+        }
+      },
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Android apps ask in a GullDesk window",
+          "ru": "Android-приложения спрашивают в окне GullDesk"
+        },
+        "text": {
+          "en": "When an Android app asks for a permission, the question now opens as a GullDesk window with the app's icon.",
+          "ru": "Когда Android-приложение просит разрешение, вопрос теперь открывается окном GullDesk с иконкой приложения."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-04-3",
+    "date": "2026-11-04",
+    "items": [
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Android apps in real GullDesk windows",
+          "ru": "Android-приложения в настоящих окнах GullDesk"
+        },
+        "text": {
+          "en": "Android apps now open in the same windows as the rest of GullDesk, like on a Chromebook. Windows move and resize smoothly, every button in an app can be clicked, nothing is see-through any more, and closing or covering one app leaves the others alone. Apps that support it open large, so YouTube shows a proper grid of sharp previews.",
+          "ru": "Android-приложения теперь открываются в таких же окнах, как всё остальное в GullDesk, как на Chromebook. Окна плавно двигаются и меняют размер, все кнопки в приложениях нажимаются, ничего не просвечивает, а если закрыть или перекрыть одно приложение, другие не пропадают. Приложения, которые это умеют, открываются большими, поэтому в YouTube теперь нормальная сетка с чёткими превью."
+        }
+      },
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Android apps explain why they can't open",
+          "ru": "Android-приложения объясняют, почему не открываются"
+        },
+        "text": {
+          "en": "Android apps only run in a Wayland session. If you signed in with X11, they used to fail without a reason. Now GullDesk tells you and offers to sign out, and Wayland is used next time.",
+          "ru": "Android-приложения работают только в сеансе Wayland. Если вы вошли через X11, раньше они просто не открывались. Теперь GullDesk об этом сообщает и предлагает выйти из системы, а в следующий раз включается Wayland."
+        }
+      },
+      {
+        "icon": "preferences-system-time",
+        "title": {
+          "en": "The right time in Android apps",
+          "ru": "Правильное время в Android-приложениях"
+        },
+        "text": {
+          "en": "Android apps now use the same time zone as your computer, so clocks, reminders and chats show the right time.",
+          "ru": "Android-приложения теперь используют тот же часовой пояс, что и компьютер, поэтому в часах, напоминаниях и чатах время верное."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-04-2",
+    "date": "2026-11-04",
+    "items": [
+      {
+        "icon": "preferences-desktop-locale",
+        "title": {
+          "en": "Philippine regional locale fix",
+          "ru": "Исправлены филиппинские локали"
+        },
+        "text": {
+          "en": "Missing locales selected in system and regional settings are now generated during this update, including Philippine English and Filipino. This fixes the “cannot change locale” warnings without changing your language or regional formats. The installer and future Live builds also retain the full locale catalog. Sign out and back in if an open app still shows the old warning.",
+          "ru": "При обновлении создаются недостающие локали, выбранные в системных и региональных настройках, включая английскую для Филиппин и филиппинскую. Это устраняет предупреждения «cannot change locale», сохраняя ваш язык и форматы. Установщик и будущие Live-образы также сохраняют полный список локалей. Если открытое приложение ещё показывает старое предупреждение, выйдите из сеанса и войдите снова."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-03-2",
+    "date": "2026-11-03",
+    "items": [
+      {
+        "icon": "user-identity",
+        "title": {
+          "en": "Smoother rounded edges",
+          "ru": "Плавные края круглых элементов"
+        },
+        "text": {
+          "en": "Account pictures and press effects now keep smooth rounded edges, including at fractional display scales. The fix covers Settings, the launcher, sign-in, the lock screen and the power menu.",
+          "ru": "У аватаров и эффектов нажатия теперь плавные края, в том числе при дробном масштабе экрана. Исправлены Настройки, меню приложений, экран входа, блокировка и меню выключения."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-03",
+    "date": "2026-11-03",
+    "items": [
+      {
+        "icon": "cpu",
+        "title": {
+          "en": "CPU temperature widget",
+          "ru": "Виджет температуры CPU"
+        },
+        "text": {
+          "en": "Add CPU temperature from the widget menu to see the hottest or average CPU reading, a two-minute history and the peak since the widget started. Choose Celsius or Fahrenheit in the widget settings. If no CPU sensor is available, the widget tells you.",
+          "ru": "Добавьте «Температура CPU» из меню виджетов, чтобы видеть самую высокую или среднюю температуру процессора, график за две минуты и максимум с запуска виджета. В настройках доступны °C и °F. Если датчик процессора недоступен, виджет сообщит об этом."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-02-1",
+    "date": "2026-11-02",
+    "items": [
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Steadier Android apps that use less memory",
+          "ru": "Android-приложения стабильнее и берут меньше памяти"
+        },
+        "text": {
+          "en": "Android apps keep the size they open with, so games and sign-ins are no longer interrupted. Phone apps you don't need on a computer stay off, which saves about half a gigabyte, and Android hands all its memory back half an hour after you close the last app.",
+          "ru": "Android-приложения больше не меняют размер после запуска, поэтому игры и вход в аккаунт не прерываются. Ненужные на компьютере телефонные приложения выключены, это экономит около полугигабайта, а через полчаса после закрытия последнего приложения Android полностью освобождает память."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-01-4",
+    "date": "2026-11-01",
+    "items": [
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Android apps start on more computers",
+          "ru": "Android-приложения запускаются на большем числе компьютеров"
+        },
+        "text": {
+          "en": "On some computers and in virtual machines, Android apps stayed see-through and never opened. GullDesk now notices this and switches Android to drawing on the processor by itself. Setting up Google Play is simpler too: open it and sign in.",
+          "ru": "На некоторых компьютерах и в виртуальных машинах Android-приложения оставались прозрачными и не открывались. Теперь GullDesk замечает это и сама переключает Android на отрисовку процессором. И настроить Google Play стало проще: откройте его и войдите."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-01-3",
+    "date": "2026-11-01",
+    "items": [
+      {
+        "icon": "video-display",
+        "title": {
+          "en": "Android apps on every monitor",
+          "ru": "Android-приложения на всех мониторах"
+        },
+        "text": {
+          "en": "With more than one monitor, drag an Android app by its title bar to any of them. New apps open on your main monitor.",
+          "ru": "Если мониторов несколько, Android-приложение можно перетащить за заголовок на любой из них. Новые приложения открываются на основном мониторе."
+        }
+      },
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Downloads go on in the background",
+          "ru": "Загрузки идут в фоне"
+        },
+        "text": {
+          "en": "Android used to fall asleep a minute after its last window closed, and Google Play stopped downloading. Now it keeps going for half an hour.",
+          "ru": "Раньше Android засыпал через минуту после закрытия последнего окна, и Google Play переставал скачивать. Теперь загрузки продолжаются ещё полчаса."
+        }
+      },
+      {
+        "icon": "preferences-desktop-feedback",
+        "title": {
+          "en": "Report a problem with Android apps",
+          "ru": "Сообщить о проблеме с Android-приложениями"
+        },
+        "text": {
+          "en": "If an Android app misbehaves, open Settings, Android apps, Report a problem. It saves a file with what Android logged that you can send to us.",
+          "ru": "Если Android-приложение ведёт себя странно, откройте Настройки, Android-приложения, «Сообщить о проблеме». Появится файл с журналами Android, который можно отправить нам."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-01-2",
+    "date": "2026-11-01",
+    "items": [
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Apps made for phones",
+          "ru": "Приложения для телефонов"
+        },
+        "text": {
+          "en": "Most apps on Google Play are built only for phone processors. Android apps now run them on your computer too: GullDesk adds what they need by itself, so they install from Google Play and from APK files like any other app.",
+          "ru": "Большинство приложений в Google Play собраны только под процессоры телефонов. Теперь они работают и на компьютере: GullDesk сама добавляет всё нужное, и такие приложения ставятся из Google Play и из APK-файлов, как любые другие."
+        }
+      },
+      {
+        "icon": "video-display",
+        "title": {
+          "en": "Android apps on NVIDIA graphics",
+          "ru": "Android-приложения на видеокартах NVIDIA"
+        },
+        "text": {
+          "en": "On computers where the screen runs on an NVIDIA graphics card, Android apps opened as black windows. They now draw on the processor there and show up as they should.",
+          "ru": "На компьютерах, где экран подключён к видеокарте NVIDIA, Android-приложения открывались чёрными окнами. Теперь там они рисуются силами процессора и отображаются как надо."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-11-01-1",
+    "date": "2026-11-01",
+    "items": [
+      {
+        "icon": "input-keyboard",
+        "title": {
+          "en": "Android apps type in your layout",
+          "ru": "Android-приложения печатают в вашей раскладке"
+        },
+        "text": {
+          "en": "Android apps used to type only in English. Now they use the same keyboard layouts as GullDesk and switch along with it, so you can write in Russian, Ukrainian or any other layout you have.",
+          "ru": "Раньше Android-приложения печатали только по-английски. Теперь у них те же раскладки, что и в GullDesk, и они переключаются вместе с ней, так что можно писать по-русски, по-украински и на любой другой вашей раскладке."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-4",
+    "date": "2026-10-31",
+    "items": [
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Android apps without the extras",
+          "ru": "Android-приложения без лишнего"
+        },
+        "text": {
+          "en": "Android apps no longer pop up an on-screen keyboard: you type with your own keyboard, like in any other app. Android doesn't ask you to finish setting up the device anymore, and its \"isn't responding\" windows stay out of the way.",
+          "ru": "Android-приложения больше не открывают экранную клавиатуру: вы печатаете на своей, как в любой другой программе. Android больше не просит завершить настройку устройства, а его окна «приложение не отвечает» не мешают."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-3",
+    "date": "2026-10-31",
+    "items": [
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Android apps open like computer apps",
+          "ru": "Android-приложения открываются как программы для компьютера"
+        },
+        "text": {
+          "en": "Android apps now open in wide windows sized for a computer and match the scale of the rest of GullDesk, and Android calls this computer GullDesk Laptop or GullDesk PC instead of a tablet. Setting them up shows the progress from the very first second and tells you when everything is ready, and Settings takes you through signing in to Google Play in two steps.",
+          "ru": "Android-приложения теперь открываются в широких окнах размером для компьютера и совпадают по масштабу с остальной GullDesk, а сам Android называет этот компьютер GullDesk Laptop или GullDesk PC, а не планшетом. Настройка показывает прогресс с первой секунды и сообщает, когда всё готово, а вход в Google Play в Настройках разбит на два шага."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-2",
+    "date": "2026-10-31",
+    "items": [
+      {
+        "icon": "gulldesk-google-play",
+        "title": {
+          "en": "Google Play is the recommended choice",
+          "ru": "Google Play — рекомендуемый вариант"
+        },
+        "text": {
+          "en": "When you set up Android apps, Google Play and APK files together now come first and are picked for you, so apps install the way they do on an Android phone. Installing an APK file also looks like it does on Android now: the app, its version and two clear buttons.",
+          "ru": "При настройке Android-приложений вариант «Google Play и APK-файлы» теперь стоит первым и выбран сразу, так что приложения ставятся так же, как на телефоне Android. Установка APK-файла тоже выглядит как на Android: приложение, его версия и две понятные кнопки."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-31-1",
+    "date": "2026-10-31",
+    "items": [
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Android apps set up much faster",
+          "ru": "Android-приложения настраиваются намного быстрее"
+        },
+        "text": {
+          "en": "Setting up Android apps used to depend on one download server, and a slow one could make it take hours. Now GullDesk downloads from several servers at once and leaves the slow ones behind, and Settings shows how much time is left. Updates for Android apps download the same way.",
+          "ru": "Раньше настройка Android-приложений зависела от одного сервера, и медленный сервер мог растянуть её на часы. Теперь GullDesk качает сразу с нескольких серверов и не ждёт медленные, а в Настройках видно, сколько осталось. Обновления для Android-приложений качаются так же."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-30-1",
+    "date": "2026-10-30",
+    "items": [
+      {
+        "icon": "gulldesk-android",
+        "title": {
+          "en": "Android apps (demo)",
+          "ru": "Android-приложения (демо)"
+        },
+        "text": {
+          "en": "GullDesk runs apps made for Android phones now. Set them up once in Settings, Android apps: pick APK files or Google Play, and GullDesk downloads everything they need. Then open any .apk file to install an app. Each one gets its own window in your colours, sits with your other apps and keeps itself up to date. This is an early demo, so tell us what works and what doesn't.",
+          "ru": "GullDesk теперь запускает приложения для телефонов на Android. Один раз настройте их в Настройках, раздел «Android-приложения»: выберите APK-файлы или Google Play, и GullDesk сама скачает всё нужное. Потом откройте любой .apk-файл, чтобы установить приложение. Каждое открывается в своём окне в ваших цветах, стоит рядом с остальными приложениями и обновляется само. Это ранняя демо-версия, расскажите нам, что работает, а что нет."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-29-3",
+    "date": "2026-10-29",
+    "items": [
+      {
+        "icon": "preferences-desktop-widgets",
+        "title": {
+          "en": "A preview for every widget",
+          "ru": "Превью для каждого виджета"
+        },
+        "text": {
+          "en": "In the widget list, the widgets that came with KDE are now cards like GullDesk's own: each one shows a small Material preview of what it looks like, and its icon sits on a circle in your colour, like on Pixel. Desktop widgets come first, the panel ones further down.",
+          "ru": "В списке виджетов виджеты из KDE теперь выглядят как карточки GullDesk: у каждого маленькое превью в стиле Material, а значок стоит на круге вашего цвета, как на Pixel. Сначала идут виджеты для рабочего стола, ниже — для панели."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-29-2",
+    "date": "2026-10-29",
+    "items": [
+      {
+        "icon": "preferences-desktop-wallpaper",
+        "title": {
+          "en": "Ribbon live wallpaper",
+          "ru": "Живые обои «Лента»"
+        },
+        "text": {
+          "en": "Shapes ride along a ribbon in your theme's colour and change into new ones at its narrowest point: sixteen Material shapes, from cookies and clovers to a heart and a ghost. Thanks to the community member who drew the idea. Pick it in Settings, Wallpaper & style.",
+          "ru": "Фигуры едут по ленте в цвете вашей темы и в самом узком месте превращаются в новые: шестнадцать фигур Material, от печенья и клевера до сердца и призрака. Спасибо участнику сообщества, который нарисовал идею. Выберите их в Настройках, «Обои и стиль»."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-29-1",
+    "date": "2026-10-29",
+    "items": [
+      {
+        "icon": "speedometer",
+        "title": {
+          "en": "Task Manager",
+          "ru": "Диспетчер задач"
+        },
+        "text": {
+          "en": "See what's running and how busy the computer is: apps, background processes and live charts for the processor, memory, graphics card, disk and network. End anything that hangs. Open it from the app menu or with Ctrl+Shift+Esc.",
+          "ru": "Что запущено и насколько загружен компьютер: приложения, фоновые процессы и живые графики процессора, памяти, видеокарты, диска и сети. Зависшее можно завершить. Откройте из меню приложений или по Ctrl+Shift+Esc."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-28-1",
+    "date": "2026-10-28",
+    "items": [
+      {
+        "icon": "preferences-desktop-icons",
+        "title": {
+          "en": "App icons all the same size",
+          "ru": "Значки приложений одного размера"
+        },
+        "text": {
+          "en": "Icons of apps from Flathub and Debian now match GullDesk's own: round icons fill the same circle, the others sit on a white circle, in the dock, the app menu, on the desktop and everywhere else.",
+          "ru": "Значки приложений из Flathub и Debian теперь выглядят как значки GullDesk: круглые занимают тот же круг, остальные стоят на белом круге. В доке, в меню приложений, на рабочем столе и везде."
+        }
+      },
+      {
+        "icon": "color-picker",
+        "title": {
+          "en": "Themed app icons",
+          "ru": "Тематические значки"
+        },
+        "text": {
+          "en": "Like on Pixel: turn on Themed app icons in Settings > Wallpaper & style and every app icon takes on your colour.",
+          "ru": "Как на Pixel: включите «Тематические значки приложений» в «Настройки → Обои и стиль», и все значки приложений окрасятся в ваш цвет."
+        }
+      },
+      {
+        "icon": "dialog-information",
+        "title": {
+          "en": "Readable tooltips",
+          "ru": "Читаемые подсказки"
+        },
+        "text": {
+          "en": "Tooltips in quick settings and on the panel no longer show light text on a light background in dark mode.",
+          "ru": "Подсказки в быстрых настройках и на панели в тёмной теме больше не пишут светлым по светлому."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-26-1",
+    "date": "2026-10-26",
+    "items": [
+      {
+        "icon": "system-run",
+        "title": {
+          "en": "Calmer app start",
+          "ru": "Спокойный запуск приложений"
+        },
+        "text": {
+          "en": "While an app is starting, its icon in the dock gently pulses instead of showing KDE's spinner.",
+          "ru": "Пока приложение запускается, его значок в доке мягко пульсирует вместо крутилки KDE."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-25-2",
+    "date": "2026-10-25",
+    "items": [
+      {
+        "icon": "preferences-system-splash",
+        "title": {
+          "en": "Demo updates",
+          "ru": "Демо-обновления"
+        },
+        "text": {
+          "en": "Settings > System has a new Demo updates switch under Early access. Turn it on to get new versions before everyone else, while they are still being tested. If you turn it off, you keep what you have until the next normal update.",
+          "ru": "В «Настройки → Система» в разделе «Ранний доступ» появился переключатель «Демо-обновления». Включите его, чтобы получать новые версии раньше всех, пока они ещё проверяются. Если выключить, у вас останется то, что уже установлено, до следующего обычного обновления."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-25-1",
+    "date": "2026-10-25",
+    "items": [
+      {
+        "icon": "apps",
+        "title": {
+          "en": "Drag apps to the desktop",
+          "ru": "Приложения на рабочий стол"
+        },
+        "text": {
+          "en": "Drag an app from the app menu onto the desktop and it lands there right away, without asking whether to copy or link. App shortcuts on the desktop no longer carry the little link badge.",
+          "ru": "Перетащите приложение из меню на рабочий стол, и ярлык сразу появится там, без вопроса «копировать или создать ссылку». Значок-ссылка на ярлыках приложений больше не показывается."
+        }
+      },
+      {
+        "icon": "zoom-in",
+        "title": {
+          "en": "Bigger or smaller desktop icons",
+          "ru": "Значки на рабочем столе крупнее или мельче"
+        },
+        "text": {
+          "en": "Hold Ctrl and turn the mouse wheel over the desktop to make the icons bigger or smaller.",
+          "ru": "Зажмите Ctrl и покрутите колёсико мыши над рабочим столом, чтобы сделать значки крупнее или мельче."
+        }
+      },
+      {
+        "icon": "text-plain",
+        "title": {
+          "en": "Material icons everywhere",
+          "ru": "Иконки Material везде"
+        },
+        "text": {
+          "en": "Files on the desktop and in menus now use Material icons too: documents, PDFs, spreadsheets, code, archives, packages, pictures, music and video, plus badges and menu actions that still looked like KDE.",
+          "ru": "Файлы на рабочем столе и в меню теперь тоже с иконками Material: документы, PDF, таблицы, код, архивы, пакеты, фото, музыка и видео, а ещё значки и пункты меню, которые до сих пор выглядели как в KDE."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-24-3",
+    "date": "2026-10-24",
+    "items": [
+      {
+        "icon": "preferences-desktop-display",
+        "title": {
+          "en": "Panel on any side",
+          "ru": "Панель с любой стороны"
+        },
+        "text": {
+          "en": "Quick settings open properly with the panel on the top, left or right of the screen, and the clock and status icons fit in a side panel.",
+          "ru": "Быстрые настройки нормально открываются, когда панель сверху, слева или справа, а часы и значки помещаются в боковую панель."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-24-2",
+    "date": "2026-10-24",
+    "items": [
+      {
+        "icon": "gulldesk-quickshare",
+        "title": {
+          "en": "Calmer Quick Share",
+          "ru": "Quick Share спокойнее"
+        },
+        "text": {
+          "en": "Sending and receiving show a plain progress bar instead of waves, and picking a phone no longer makes it jump around.",
+          "ru": "Отправка и приём показывают обычную полоску прогресса вместо волн, а выбранный телефон больше не дёргается."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-24-1",
+    "date": "2026-10-24",
+    "items": [
+      {
+        "icon": "gulldesk-quickshare",
+        "title": {
+          "en": "Quick Share, like on a Chromebook",
+          "ru": "Quick Share как на Chromebook"
+        },
+        "text": {
+          "en": "Sharing now works the way it does on ChromeOS: pick a device next to a preview of your files, check the secure connection ID and follow the progress in notifications. In quick settings, tap the Quick Share icon to turn it on or off, or tap the tile to choose who can see you.",
+          "ru": "Отправка теперь устроена как в ChromeOS: выберите устройство рядом с превью файлов, сверьте код безопасного подключения и следите за прогрессом в уведомлениях. В быстрых настройках значок Quick Share включает и выключает его, а нажатие на плитку открывает выбор, кто вас видит."
+        }
+      },
+      {
+        "icon": "folder-download",
+        "title": {
+          "en": "Quick Share app",
+          "ru": "Приложение Quick Share"
+        },
+        "text": {
+          "en": "Quick Share now has its own app with Receive and Send, like on Android: see how you appear to others, who can see you, and accept files right in the window. Find it in the app menu or open it from quick settings.",
+          "ru": "У Quick Share теперь есть своё приложение с вкладками «Получить» и «Отправить», как на Android: видно, как вас видят другие и кто может вас найти, а файлы можно принять прямо в окне. Оно есть в меню приложений и открывается из быстрых настроек."
+        }
+      },
+      {
+        "icon": "preferences-desktop-notification",
+        "title": {
+          "en": "Fewer \"nearby is sharing\" pop-ups",
+          "ru": "Меньше «рядом кто-то делится»"
+        },
+        "text": {
+          "en": "Quick Share no longer mistakes earbuds and watches for a phone that shares. The prompt shows once, goes away when the phone stops, stays quiet for 15 minutes after Dismiss, and Don't ask again turns it off.",
+          "ru": "Quick Share больше не путает наушники и часы с телефоном, который делится файлами. Подсказка появляется один раз, исчезает, когда телефон перестаёт делиться, молчит 15 минут после «Закрыть», а «Больше не спрашивать» выключает её совсем."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-23-2",
+    "date": "2026-10-23",
+    "items": [
+      {
+        "icon": "gulldesk-quickshare",
+        "title": {
+          "en": "Quick Share with your phone",
+          "ru": "Quick Share с телефоном"
+        },
+        "text": {
+          "en": "Send photos and files between an Android phone and GullDesk, no cables or apps. On the phone, share and pick this computer; GullDesk asks first and saves to Downloads. To send from GullDesk, right-click a file in Files. Both need to be on the same Wi-Fi. The Quick Share tile in quick settings makes the computer visible for 10 minutes.",
+          "ru": "Фото и файлы между Android-телефоном и GullDesk без кабелей и приложений. На телефоне нажмите «Поделиться» и выберите этот компьютер: GullDesk сначала спросит и сохранит всё в «Загрузки». Чтобы отправить с компьютера, нажмите правой кнопкой на файл в Файлах. Оба устройства должны быть в одной сети Wi-Fi. Плитка Quick Share в быстрых настройках делает компьютер видимым на 10 минут."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-23-1",
+    "date": "2026-10-23",
+    "items": [
+      {
+        "icon": "preferences-desktop-plasma-theme",
+        "title": {
+          "en": "See-through panel",
+          "ru": "Прозрачная панель"
+        },
+        "text": {
+          "en": "The panel now lets your wallpaper show through, softly blurred and tinted in your colour. Open apps get a rounded highlight around their icon. If you like it solid, turn it off in Settings, Wallpaper & style, Panel.",
+          "ru": "Сквозь панель теперь видно обои, мягко размытые и подкрашенные в ваш цвет. Открытые приложения выделяются скруглённой подложкой вокруг значка. Если нравится сплошная панель, выключите это в Настройках: Обои и стиль, Панель."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-22-1",
+    "date": "2026-10-22",
+    "items": [
+      {
+        "icon": "system-lock-screen",
+        "title": {
+          "en": "Straight into your desktop",
+          "ru": "Сразу на рабочий стол"
+        },
+        "text": {
+          "en": "After you sign in there is no loading screen any more: your wallpaper stays on screen and the desktop appears right on top of it. Unlocking works the same way, the lock screen slides away and the wallpaper carries on from where it was.",
+          "ru": "После входа больше нет экрана загрузки: на экране остаются ваши обои, а рабочий стол появляется прямо поверх них. Разблокировка работает так же: экран блокировки уезжает, а обои продолжают с того же места."
+        }
+      },
+      {
+        "icon": "go-up",
+        "title": {
+          "en": "Swipe up to unlock",
+          "ru": "Свайп вверх для входа"
+        },
+        "text": {
+          "en": "The lock screen and the login screen start with just the clock. Swipe up with the mouse, touchpad or finger and the password card follows you up, or simply start typing.",
+          "ru": "Экран блокировки и экран входа сначала показывают только часы. Проведите вверх мышью, тачпадом или пальцем, и карточка с паролем поедет следом, или просто начните вводить пароль."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-21-1",
+    "date": "2026-10-21",
+    "items": [
+      {
+        "icon": "system-file-manager",
+        "title": {
+          "en": "A toolbar for your selection",
+          "ru": "Панель для выделенных файлов"
+        },
+        "text": {
+          "en": "Select files and a floating toolbar pops up with cut, copy, rename and trash. The New folder button shrinks to an icon while you scroll, and the volume and brightness pop-up now looks like the sliders in quick settings.",
+          "ru": "Выделите файлы, и снизу появится плавающая панель с вырезанием, копированием, переименованием и корзиной. Кнопка «Новая папка» сжимается до значка при прокрутке, а подсказка громкости и яркости теперь выглядит как слайдеры в быстрых настройках."
+        }
+      },
+      {
+        "icon": "configure",
+        "title": {
+          "en": "Less KDE around",
+          "ru": "Меньше KDE"
+        },
+        "text": {
+          "en": "More settings only lists what GullDesk has no page of its own for, the widgets menu no longer sends you to the KDE store, and the panel icon menu simply says Pin to panel.",
+          "ru": "«Ещё настройки» показывают только то, для чего в GullDesk нет своей страницы, меню виджетов больше не ведёт в магазин KDE, а меню значка на панели просто предлагает закрепить его на панели."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-18-1",
+    "date": "2026-10-18",
+    "items": [
+      {
+        "icon": "view-preview",
+        "title": {
+          "en": "A floating toolbar in Photos",
+          "ru": "Плавающая панель в «Фото»"
+        },
+        "text": {
+          "en": "When you look at a picture, rotate, slideshow, details and full screen now sit in a rounded toolbar at the bottom, and it hides with the rest when you click the photo.",
+          "ru": "Когда вы смотрите снимок, поворот, слайд-шоу, сведения и полный экран теперь в круглой панели внизу, и она прячется вместе с остальным по щелчку на фото."
+        }
+      },
+      {
+        "icon": "preferences-desktop-theme",
+        "title": {
+          "en": "Springier shapes, bolder picks",
+          "ru": "Пружинистые формы и яркий выбор"
+        },
+        "text": {
+          "en": "Buttons, keys and tiles all over the system change shape on springs, the page you are on is written in bolder letters, and menus got rounder with the chosen option in its own colour.",
+          "ru": "Кнопки, клавиши и плитки по всей системе меняют форму на пружинах, открытая страница в меню выделена жирным, а меню стали круглее, и выбранный пункт теперь своего цвета."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-17-5",
+    "date": "2026-10-17",
+    "items": [
+      {
+        "icon": "system-run",
+        "title": {
+          "en": "Welcome says hello once",
+          "ru": "Приветствие только один раз"
+        },
+        "text": {
+          "en": "Welcome greets you on the first login after installing GullDesk and then leaves the app menu. On the live USB the installer now opens by itself.",
+          "ru": "Приветствие встречает вас при первом входе после установки GullDesk и потом пропадает из меню приложений. На загрузочной флешке установщик теперь открывается сам."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-17-4",
+    "date": "2026-10-17",
+    "items": [
+      {
+        "icon": "network-wired",
+        "title": {
+          "en": "New quick settings",
+          "ru": "Новые быстрые настройки"
+        },
+        "text": {
+          "en": "The Internet tile shows your cable or Wi-Fi network, and its arrow opens the list of networks right in the panel, the Bluetooth arrow opens your devices. Small round tiles keep the panel shorter, and the pencil lets you move, resize, hide and add tiles.",
+          "ru": "Плитка «Интернет» показывает кабель или сеть Wi-Fi, а её стрелка открывает список сетей прямо в панели, стрелка Bluetooth открывает ваши устройства. Маленькие круглые плитки делают панель короче, а карандаш позволяет переставлять, менять размер, скрывать и добавлять плитки."
+        }
+      },
+      {
+        "icon": "view-app-grid",
+        "title": {
+          "en": "A livelier app menu",
+          "ru": "Живое меню приложений"
+        },
+        "text": {
+          "en": "Apps pop into the menu and squish when you press them, and lock, log out, restart and shut down sit together in one group.",
+          "ru": "Приложения выпрыгивают в меню и пружинят при нажатии, а блокировка, выход, перезагрузка и выключение собраны в одну группу."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-17-3",
+    "date": "2026-10-17",
+    "items": [
+      {
+        "icon": "system-reboot",
+        "title": {
+          "en": "Loading screens in your colours",
+          "ru": "Экраны загрузки в ваших цветах"
+        },
+        "text": {
+          "en": "The startup and shutdown screens, the disk password screen and the screen after you log in now follow your colour and your light or dark theme.",
+          "ru": "Экраны включения и выключения, ввода пароля диска и экран после входа теперь следуют вашему цвету и светлой или тёмной теме."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-17-2",
+    "date": "2026-10-17",
+    "items": [
+      {
+        "icon": "system-reboot",
+        "title": {
+          "en": "Boot menu in your colours",
+          "ru": "Меню загрузки в ваших цветах"
+        },
+        "text": {
+          "en": "The boot menu you see when the computer starts now follows your colour and your light or dark theme.",
+          "ru": "Меню загрузки при включении компьютера теперь следует вашему цвету и светлой или тёмной теме."
+        }
+      },
+      {
+        "icon": "gulldesk-logo",
+        "title": {
+          "en": "Just GullDesk OS 1",
+          "ru": "Просто GullDesk OS 1"
+        },
+        "text": {
+          "en": "The system is now called simply GullDesk OS 1, without Ember in the name.",
+          "ru": "Система теперь называется просто GullDesk OS 1, без Ember в названии."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-17-1",
+    "date": "2026-10-17",
+    "items": [
+      {
+        "icon": "preferences-desktop-theme",
+        "title": {
+          "en": "One GullDesk look",
+          "ru": "Единый вид GullDesk"
+        },
+        "text": {
+          "en": "The old KDE theme pickers are gone from More settings, so the system can't slip back into the KDE look by accident. Colours, the dark theme, wallpapers, fonts and cursor size are all in Settings.",
+          "ru": "Старые выборы тем KDE убраны из «Дополнительных настроек», и система больше не может случайно вернуться к виду KDE. Цвета, тёмная тема, обои, шрифты и размер курсора — в Настройках."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-16-5",
+    "date": "2026-10-16",
+    "items": [
+      {
+        "icon": "preferences-desktop-effects",
+        "title": {
+          "en": "Springy buttons",
+          "ru": "Пружинистые кнопки"
+        },
+        "text": {
+          "en": "Buttons squish into a rounder square when you press them and spring back with a little bounce. Buttons that are switched on stay a rounded square.",
+          "ru": "Кнопки при нажатии сжимаются в скруглённый квадрат и отпружинивают обратно с лёгким отскоком. Включённые кнопки остаются скруглённым квадратом."
+        }
+      },
+      {
+        "icon": "view-list-details",
+        "title": {
+          "en": "Livelier menus",
+          "ru": "Живые меню"
+        },
+        "text": {
+          "en": "In Settings, Files and Player the highlight of the chosen item grows out of its icon, and Photos shows morphing shapes while a photo opens.",
+          "ru": "В Настройках, Файлах и Плеере подсветка выбранного пункта вырастает из его иконки, а Фото показывает перетекающие фигуры, пока открывается снимок."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-16-4",
+    "date": "2026-10-16",
+    "items": [
+      {
+        "icon": "preferences-desktop-effects",
+        "title": {
+          "en": "Livelier button groups",
+          "ru": "Живые группы кнопок"
+        },
+        "text": {
+          "en": "Choices like the power mode or the app source are now separate buttons. The one you pick becomes a pill, and the one you press grows a little and nudges its neighbours.",
+          "ru": "Выбор вроде режима питания или источника приложения теперь сделан отдельными кнопками. Выбранная превращается в пилюлю, а нажатая чуть растёт и подвигает соседей."
+        }
+      },
+      {
+        "icon": "view-refresh",
+        "title": {
+          "en": "Shapes while loading",
+          "ru": "Фигуры при загрузке"
+        },
+        "text": {
+          "en": "While screenshots load in Store, a Material shape morphs from one form into another instead of a plain bar.",
+          "ru": "Пока в Магазине грузятся скриншоты, вместо простой полоски фигура Material перетекает из одной формы в другую."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-16-3",
+    "date": "2026-10-16",
+    "items": [
+      {
+        "icon": "download",
+        "title": {
+          "en": "Wavy progress",
+          "ru": "Волнистый прогресс"
+        },
+        "text": {
+          "en": "Downloads in Store, updates and other progress bars now show the wavy Material 3 Expressive line, and loading spinners became wavy rings. The wave calms down when the job is almost done.",
+          "ru": "Загрузки в Магазине, обновления и другие полоски прогресса теперь показывают волнистую линию Material 3 Expressive, а значки ожидания стали волнистыми кольцами. Под конец работы волна успокаивается."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-16-2",
+    "date": "2026-10-16",
+    "items": [
+      {
+        "icon": "utilities-terminal",
+        "title": {
+          "en": "GullDesk in fastfetch",
+          "ru": "GullDesk в fastfetch"
+        },
+        "text": {
+          "en": "Run fastfetch in the terminal and you get the GullDesk spiral instead of the Debian one. The ASCII art was drawn by milanrudis from the community. For narrow windows there is a compact version: fastfetch -c gulldesk-small.",
+          "ru": "Запустите fastfetch в терминале, и вместо логотипа Debian появится спираль GullDesk. ASCII-арт нарисовал milanrudis из сообщества. Для узких окон есть компактная версия: fastfetch -c gulldesk-small."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-16-1",
+    "date": "2026-10-16",
+    "items": [
+      {
+        "icon": "system-lock-screen",
+        "title": {
+          "en": "Lock screen in your colours",
+          "ru": "Экран блокировки в ваших цветах"
+        },
+        "text": {
+          "en": "The lock screen and the login screen follow your light or dark theme and colour, and the GullDesk profile picture changes colour with the rest of the system.",
+          "ru": "Экран блокировки и экран входа следуют вашей светлой или тёмной теме и цвету, а картинка профиля GullDesk меняет цвет вместе с системой."
+        }
+      },
+      {
+        "icon": "preferences-desktop-effects",
+        "title": {
+          "en": "Shapes instead of dots",
+          "ru": "Фигуры вместо точек"
+        },
+        "text": {
+          "en": "When you type your password, every character pops in as a little Material shape: a cookie, a sun, a clover, a flower.",
+          "ru": "Когда вы вводите пароль, каждый символ появляется маленькой фигурой Material: печенькой, солнышком, клевером, цветком."
+        }
+      },
+      {
+        "icon": "system-reboot",
+        "title": {
+          "en": "A softer start",
+          "ru": "Мягкий запуск"
+        },
+        "text": {
+          "en": "While GullDesk starts, a wavy Material 3 Expressive ring spins under the logo.",
+          "ru": "Пока GullDesk загружается, под логотипом крутится волнистое кольцо Material 3 Expressive."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-15-2",
+    "date": "2026-10-15",
+    "items": [
+      {
+        "icon": "system-lock-screen",
+        "title": {
+          "en": "Your wallpaper on the login screen",
+          "ru": "Ваши обои на экране входа"
+        },
+        "text": {
+          "en": "The screen you see when the computer starts now shows your wallpaper, also when you picked it in Welcome or from the desktop menu. It catches up the first time you log in after this update.",
+          "ru": "Экран, который появляется при включении компьютера, теперь показывает ваши обои, даже если вы выбрали их в «Добро пожаловать» или в меню рабочего стола. Он подхватит их при первом входе после этого обновления."
+        }
+      },
+      {
+        "icon": "video-x-generic",
+        "title": {
+          "en": "No more green bars in VLC",
+          "ru": "В VLC больше нет зелёных полос"
+        },
+        "text": {
+          "en": "On computers with an NVIDIA graphics card, VLC now decodes video without hardware acceleration, which drew green bars at the bottom of videos. You can turn it back on in VLC's settings.",
+          "ru": "На компьютерах с видеокартой NVIDIA VLC теперь декодирует видео без аппаратного ускорения, из-за которого внизу видео появлялись зелёные полосы. Его можно снова включить в настройках VLC."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-15-1",
+    "date": "2026-10-15",
+    "items": [
+      {
+        "icon": "system-software-install",
+        "title": {
+          "en": "A new look for the Store",
+          "ru": "Новый вид магазина"
+        },
+        "text": {
+          "en": "Apps, Games and Categories are tabs at the top now, with search and My apps right next to them. App pages show ratings, version and source at a glance, and a big Install button.",
+          "ru": "Приложения, игры и категории теперь во вкладках сверху, рядом поиск и «Мои приложения». На странице приложения сразу видно оценку, версию и источник, а кнопка «Установить» стала большой."
+        }
+      },
+      {
+        "icon": "system-software-update",
+        "title": {
+          "en": "Debian 13.7 underneath",
+          "ru": "Внутри теперь Debian 13.7"
+        },
+        "text": {
+          "en": "GullDesk now builds on Debian 13.7 with its latest fixes and a newer Linux 6.12 kernel.",
+          "ru": "GullDesk теперь основана на Debian 13.7 со всеми свежими исправлениями и более новым ядром Linux 6.12."
+        }
+      },
+      {
+        "icon": "preferences-desktop-wallpaper",
+        "title": {
+          "en": "Tower wallpaper retired",
+          "ru": "Обои «Башня» убраны"
+        },
+        "text": {
+          "en": "The Tower live wallpaper is gone. If you used it, your desktop, lock screen and login screen now show GullDesk Shapes.",
+          "ru": "Живых обоев «Башня» больше нет. Если они у вас стояли, на рабочем столе, экране блокировки и входа теперь «Фигуры GullDesk»."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-14-1",
+    "date": "2026-10-14",
+    "items": [
+      {
+        "icon": "preferences-desktop-effects",
+        "title": {
+          "en": "Reduce motion is safe to use",
+          "ru": "«Уменьшить движение» снова можно включать"
+        },
+        "text": {
+          "en": "Turning off animations no longer leaves an invisible layer over the desktop. Quick settings, switches and the volume indicator simply appear without moving.",
+          "ru": "Отключение анимаций больше не оставляет невидимый слой поверх рабочего стола. Быстрые настройки, переключатели и индикатор громкости просто появляются без движения."
+        }
+      },
+      {
+        "icon": "system-lock-screen",
+        "title": {
+          "en": "Your wallpaper on the lock and login screens",
+          "ru": "Ваши обои на экранах блокировки и входа"
+        },
+        "text": {
+          "en": "\"Use on the lock screen too\" now works with live wallpapers, and the login screen shows the wallpaper you chose.",
+          "ru": "«Использовать и на экране блокировки» теперь работает с живыми обоями, а экран входа показывает выбранные вами обои."
+        }
+      },
+      {
+        "icon": "preferences-desktop-widgets",
+        "title": {
+          "en": "Calmer widgets",
+          "ru": "Виджеты аккуратнее"
+        },
+        "text": {
+          "en": "Widget toolbars close when you move away or leave edit mode, the weather fits every sky, system monitors follow your theme colour and album art loads again if the first try fails.",
+          "ru": "Панель настроек виджета закрывается, когда вы уводите мышь или выходите из редактирования, погода помещается в любую фигуру, системные мониторы перекрашиваются вместе с темой, а обложка альбома загружается повторно, если первая попытка не удалась."
+        }
+      },
+      {
+        "icon": "system-reboot",
+        "title": {
+          "en": "Restart from the app menu",
+          "ru": "Перезагрузка из меню приложений"
+        },
+        "text": {
+          "en": "The app menu has a Restart button next to Shut Down, and the shut down window offers Restart as well. Live wallpapers pause only for windows on their own screen.",
+          "ru": "В меню приложений рядом с выключением появилась кнопка перезагрузки, и в окне выключения тоже есть «Перезагрузить». Живые обои останавливаются только из-за окон на своём экране."
+        }
+      },
+      {
+        "icon": "utilities-terminal",
+        "title": {
+          "en": "Everyday terminal tools",
+          "ru": "Привычные инструменты терминала"
+        },
+        "text": {
+          "en": "git, curl, wget, htop, fastfetch (the successor of neofetch), zip and 7zip come with the system.",
+          "ru": "git, curl, wget, htop, fastfetch (преемник neofetch), zip и 7zip теперь есть в системе сразу."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-13-9",
+    "date": "2026-10-13",
+    "items": [
+      {
+        "icon": "preferences-desktop",
+        "title": {
+          "en": "Room for your widgets",
+          "ru": "Место для виджетов"
+        },
+        "text": {
+          "en": "Desktop icons now leave room for widgets. Moving or resizing a widget shifts overlapping shortcuts to free cells, while automatic sorting also respects widget areas. Sign out and back in after updating to apply the desktop change.",
+          "ru": "Иконки рабочего стола теперь оставляют место для виджетов. При переносе или изменении размера виджета перекрытые ярлыки сдвигаются в свободные ячейки. Автоматическая сортировка тоже учитывает виджеты. После обновления выйдите из системы и войдите снова, чтобы применить изменение."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-13-8",
+    "date": "2026-10-13",
+    "items": [
+      {
+        "icon": "preferences-desktop-locale",
+        "title": {
+          "en": "Choose your installer language",
+          "ru": "Выбор языка установщика"
+        },
+        "text": {
+          "en": "New Live images start in English by default. Choose Russian in GRUB if you prefer. Selecting a language in the installer now updates its pages immediately and sets the language for your installed system.",
+          "ru": "Новые Live-образы по умолчанию запускаются на английском. Русский можно выбрать в GRUB. Выбор языка в установщике теперь сразу переводит его страницы и задаёт язык устанавливаемой системы."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-13-7",
+    "date": "2026-10-12",
+    "items": [
+      {
+        "icon": "network-wireless",
+        "title": {
+          "en": "Wi-Fi power setting rolled back",
+          "ru": "Откат настройки питания Wi-Fi"
+        },
+        "text": {
+          "en": "Following a report of packet loss and lag spikes in CS2 after the last update, the automatic RTL8852CE power-saving change has been withdrawn. Restart after updating to restore the previous Wi-Fi defaults. Your saved connection settings are preserved. The cause of the network delays is still being investigated.",
+          "ru": "После сообщения о потере пакетов и скачках задержки в CS2 после предыдущего обновления автоматическая настройка энергосбережения RTL8852CE отменена. Перезагрузитесь после обновления, чтобы вернуть прежнее поведение Wi-Fi. Сохранённые параметры подключений остаются на месте. Причина сетевых задержек ещё выясняется."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-13-5",
+    "date": "2026-10-12",
+    "items": [
+      {
+        "icon": "system-software-install",
+        "title": {
+          "en": "A more expressive Store",
+          "ru": "Больше Material 3 в магазине"
+        },
+        "text": {
+          "en": "Store has softer tonal surfaces, clearer navigation and a refreshed app page. Cards appear smoothly and respond to hovering and pressing, while screenshots fade in as they load. The layout adapts to smaller windows, and animations follow your desktop speed setting.",
+          "ru": "В магазине появились мягкие тональные поверхности, более чёткая навигация и обновлённая страница приложения. Карточки плавно появляются и реагируют на наведение и нажатие, а снимки экрана проявляются после загрузки. Интерфейс подстраивается под узкое окно, а анимации учитывают выбранную в системе скорость."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-13-4",
+    "date": "2026-10-12",
+    "items": [
+      {
+        "icon": "system-software-install",
+        "title": {
+          "en": "Open the app you installed",
+          "ru": "Запускается установленная версия"
+        },
+        "text": {
+          "en": "Store now starts the installed Flatpak version from the correct installation, even when a Debian launcher has the same name. Native apps use their Debian launcher.",
+          "ru": "Магазин запускает установленную версию Flatpak из нужной области установки, даже если ярлык Debian называется так же. Для обычных пакетов используется ярлык Debian."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-13-3",
+    "date": "2026-10-11",
+    "items": [
+      {
+        "icon": "system-software-install",
+        "title": {
+          "en": "Smoother app browsing",
+          "ru": "Удобнее искать приложения"
+        },
+        "text": {
+          "en": "Typing a new search from an app page now takes you straight to the results. Missing screenshots show a fallback icon. Find Flatpak app updates in Store and system updates in Settings.",
+          "ru": "Новый запрос со страницы приложения сразу открывает результаты поиска. Если снимок экрана недоступен, показывается значок. Обновления Flatpak находятся в магазине, системные — в настройках."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-13-2",
+    "date": "2026-10-11",
+    "items": [
+      {
+        "icon": "system-software-install",
+        "title": {
+          "en": "Your new app store",
+          "ru": "Новый магазин приложений"
+        },
+        "text": {
+          "en": "Find apps and games in Store, choose Flathub or Debian, and install them without a terminal. Browse categories, screenshots and ratings, manage installed apps and update Flatpak apps in one place. System updates stay in Settings.",
+          "ru": "Находите приложения и игры в «Магазине», выбирайте Flathub или Debian и устанавливайте без терминала. Категории, снимки экрана, оценки, установленные приложения и обновления Flatpak теперь в одном месте. Обновления системы остаются в «Настройках»."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-13-1",
+    "items": [
+      {
+        "icon": "preferences-desktop-widgets",
+        "title": {
+          "en": "Widget settings keep edit mode",
+          "ru": "Настройки виджета не выходят из редактирования"
+        },
+        "text": {
+          "en": "Opening a widget's settings while you arrange the desktop no longer ends edit mode. Close the settings and carry on.",
+          "ru": "Если открыть настройки виджета во время редактирования рабочего стола, режим редактирования больше не выключается. Закройте настройки и продолжайте."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-12-4",
+    "items": [
+      {
+        "icon": "applets-screenshooter",
+        "title": {
+          "en": "Screenshots on two monitors",
+          "ru": "Снимки экрана на двух мониторах"
+        },
+        "text": {
+          "en": "Each monitor now shows its own picture while you select an area, and Screen takes the monitor your mouse is on.",
+          "ru": "Каждый монитор теперь показывает свою картинку, пока вы выбираете область, а «Экран» снимает тот монитор, где сейчас мышь."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-12-3",
+    "items": [
+      {
+        "icon": "audio-volume-high",
+        "title": {
+          "en": "A tidier sound badge",
+          "ru": "Аккуратный значок звука"
+        },
+        "text": {
+          "en": "An app that plays sound gets a small round badge on its panel icon; click it to mute. Turn off \"Use audio indicators to mute tasks\" in the panel's settings and the badge goes away.",
+          "ru": "У приложения, которое играет звук, на значке в панели появляется маленький круглый значок — нажмите на него, чтобы выключить звук. Если в настройках панели снять галочку «Использовать индикаторы воспроизведения для отключения звука», значок пропадёт."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-12-2",
+    "items": [
+      {
+        "icon": "weather-few-clouds",
+        "title": {
+          "en": "Choosing the weather city",
+          "ru": "Выбор города для погоды"
+        },
+        "text": {
+          "en": "Cities appear while you type. Pick one and press Apply or OK, like every other widget setting.",
+          "ru": "Города находятся прямо при наборе. Выберите нужный и нажмите «Применить» или «ОК» — как в любых других настройках виджета."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-12",
+    "items": [
+      {
+        "icon": "cpu",
+        "title": {
+          "en": "Drivers install themselves",
+          "ru": "Драйверы ставятся сами"
+        },
+        "text": {
+          "en": "If your computer has an NVIDIA graphics card, GullDesk downloads its driver by itself, RTX 50 cards included, and asks you to restart. Without an NVIDIA card nothing is downloaded. See Settings › System › Drivers.",
+          "ru": "Если в компьютере видеокарта NVIDIA, GullDesk сама скачает для неё драйвер, в том числе для RTX 50, и попросит перезагрузиться. Без видеокарты NVIDIA ничего не скачивается. Подробности — в «Настройки › Система › Драйверы»."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-11-2",
+    "items": [
+      {
+        "icon": "preferences-desktop-default-applications",
+        "title": {
+          "en": "Default apps on the first try",
+          "ru": "Приложения по умолчанию с первого раза"
+        },
+        "text": {
+          "en": "Choosing a default app in Settings › Apps now shows your choice right away.",
+          "ru": "Выбор приложения по умолчанию в «Настройки › Приложения» теперь сразу виден."
+        }
+      },
+      {
+        "icon": "weather-few-clouds",
+        "title": {
+          "en": "Weather shows your city",
+          "ru": "Погода показывает ваш город"
+        },
+        "text": {
+          "en": "Pressing Enter in the city search no longer closes the settings, the widget picks up a new city at once and shows its name.",
+          "ru": "Enter в поиске города больше не закрывает настройки, виджет сразу подхватывает новый город и показывает его название."
+        }
+      },
+      {
+        "icon": "preferences-desktop-widgets",
+        "title": {
+          "en": "Add widgets from the desktop menu",
+          "ru": "Виджеты из меню рабочего стола"
+        },
+        "text": {
+          "en": "Right-click the desktop and choose Add or Manage Widgets… — now from the very first start.",
+          "ru": "Нажмите правой кнопкой на рабочем столе и выберите «Добавить или изменить виджеты…» — теперь с самого первого запуска."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-11",
+    "items": [
+      {
+        "icon": "system-reboot",
+        "title": {
+          "en": "A clean boot screen",
+          "ru": "Чистый экран загрузки"
+        },
+        "text": {
+          "en": "Technical kernel messages, for example about NVIDIA RTX 50 graphics cards, no longer appear on screen while the computer starts.",
+          "ru": "Технические сообщения ядра, например о видеокартах NVIDIA RTX 50, больше не появляются на экране при включении компьютера."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-10",
+    "items": [
+      {
+        "icon": "system-lock-screen",
+        "title": {
+          "en": "A calmer lock screen",
+          "ru": "Спокойный экран блокировки"
+        },
+        "text": {
+          "en": "The lock screen no longer asks you to scan a fingerprint or a smartcard on computers that have no reader.",
+          "ru": "Экран блокировки больше не просит приложить палец или смарт-карту на компьютерах, где нет считывателя."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-09-5",
+    "items": [
+      {
+        "icon": "preferences-desktop-wallpaper",
+        "title": {
+          "en": "Pastel",
+          "ru": "Пастель"
+        },
+        "text": {
+          "en": "New live wallpaper with soft Material shapes, like on Pixel, in the colours of your theme. It replaces Marble Run; if you used Marble Run, you now have Pastel.",
+          "ru": "Новые живые обои с мягкими фигурами Material, как на Pixel, в цветах вашей темы. Они заменяют «Горку»: если у вас стояла «Горка», теперь будет «Пастель»."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-09-4",
+    "items": [
+      {
+        "icon": "preferences-system-windows",
+        "title": {
+          "en": "Sharp window previews",
+          "ru": "Чёткие превью окон"
+        },
+        "text": {
+          "en": "Hovering an app in the panel shows a clear preview of its window again, also in virtual machines, instead of coloured stripes.",
+          "ru": "При наведении на приложение в панели снова видно чёткое превью его окна, в том числе в виртуальных машинах, а не цветные полосы."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-09-2",
+    "items": [
+      {
+        "icon": "preferences-desktop-wallpaper",
+        "title": {
+          "en": "Starfall",
+          "ru": "Звездопад"
+        },
+        "text": {
+          "en": "A new live wallpaper: stars twinkle over quiet hills, and every few seconds a shooting star crosses the sky. Pick it in Settings › Wallpaper & style.",
+          "ru": "Новые живые обои: звёзды мерцают над тихими холмами, и каждые несколько секунд небо пересекает падающая звезда. Выберите их в Настройки › Обои и стиль."
+        }
+      },
+      {
+        "icon": "user-identity",
+        "title": {
+          "en": "Your picture in the app menu",
+          "ru": "Ваше фото в меню приложений"
+        },
+        "text": {
+          "en": "The app menu shows your profile picture again instead of a plain coloured circle.",
+          "ru": "Меню приложений снова показывает фото профиля, а не просто цветной круг."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-09",
+    "items": [
+      {
+        "icon": "preferences-desktop-color",
+        "title": {
+          "en": "Easier to read in every colour",
+          "ru": "Читается в любом цвете"
+        },
+        "text": {
+          "en": "In the Material Design 1 style, yellow, lime, cyan, indigo and other colours no longer melt into the background: text and icons always stand out.",
+          "ru": "В стиле Material Design 1 жёлтый, лаймовый, бирюзовый, индиго и другие цвета больше не сливаются с фоном: текст и значки всегда хорошо видны."
+        }
+      },
+      {
+        "icon": "preferences-desktop-widgets",
+        "title": {
+          "en": "Widgets one click away",
+          "ru": "Виджеты в один клик"
+        },
+        "text": {
+          "en": "Right-click the desktop and choose Add or Manage Widgets. The clock comes first.",
+          "ru": "Нажмите правой кнопкой на рабочем столе и выберите «Добавить или изменить виджеты…». Часы — первые в списке."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-08-7",
+    "items": [
+      {
+        "icon": "preferences-desktop-widgets",
+        "title": {
+          "en": "Material 3 widgets",
+          "ru": "Виджеты Material 3"
+        },
+        "text": {
+          "en": "A big clock, At a Glance, weather, batteries, calendar, music, photos and notes for your desktop, in the colours of your theme. Right-click the desktop, choose Enter Edit Mode and press Widgets.",
+          "ru": "Большие часы, «Коротко о главном», погода, батареи, календарь, музыка, фото и заметки на рабочем столе — в цветах вашей темы. Нажмите правой кнопкой на рабочем столе, выберите «Перейти в режим редактирования» и нажмите «Виджеты»."
+        }
+      },
+      {
+        "icon": "document-edit",
+        "title": {
+          "en": "A new edit mode",
+          "ru": "Новый режим редактирования"
+        },
+        "text": {
+          "en": "Moving and resizing widgets, wallpapers and panels now looks like the rest of GullDesk.",
+          "ru": "Перемещать виджеты, менять их размер, обои и панели теперь можно в том же стиле, что и вся GullDesk."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-08-6",
+    "items": [
+      {
+        "icon": "system-reboot",
+        "title": {
+          "en": "Back on its feet",
+          "ru": "Снова на ногах"
+        },
+        "text": {
+          "en": "If the system ever hits a critical kernel error, the computer restarts by itself, and GullDesk tells you what happened when you are back.",
+          "ru": "Если в ядре когда-нибудь случится критическая ошибка, компьютер перезагрузится сам, а после перезагрузки GullDesk расскажет, что произошло."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-08-5",
+    "items": [
+      {
+        "icon": "preferences-desktop-color",
+        "title": {
+          "en": "Colour themes",
+          "ru": "Цветовые темы"
+        },
+        "text": {
+          "en": "GullDesk now comes in every Material colour, from red to blue grey. Apps, the panel, windows and even the live wallpapers change with it. Pick one in Settings › Wallpaper & style.",
+          "ru": "GullDesk теперь бывает во всех цветах Material — от красного до сине-серого. Вместе с цветом меняются приложения, панель, окна и даже живые обои. Выберите свой в Настройки › Обои и стиль."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-08-4",
+    "items": [
+      {
+        "icon": "user-identity",
+        "title": {
+          "en": "New profile pictures",
+          "ru": "Новые картинки профиля"
+        },
+        "text": {
+          "en": "Waves and ripples in GullDesk's colours instead of KDE's pictures. Pick one in Settings › Account.",
+          "ru": "Волны и узоры в цветах GullDesk вместо картинок KDE. Выберите любую в Настройки › Аккаунт."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-08-3",
+    "items": [
+      {
+        "icon": "system-reboot",
+        "title": {
+          "en": "Installed system boot fixed",
+          "ru": "Исправлена загрузка установленной системы"
+        },
+        "text": {
+          "en": "Fixed root directory ownership that could leave a newly installed system at a black screen. Restart after updating to restore the login screen. New installation images include the fix.",
+          "ru": "Исправлен владелец корневого каталога: из-за ошибки после установки мог появляться чёрный экран. После обновления перезагрузитесь, чтобы восстановить экран входа. Новые установочные образы уже содержат исправление."
+        }
+      }
+    ]
+  },
+  {
+    "id": "2026-10-08",
+    "items": [
+      {
+        "icon": "system-software-update",
+        "title": {
+          "en": "Update notifications",
+          "ru": "Уведомления об обновлениях"
+        },
+        "text": {
+          "en": "GullDesk tells you when updates are ready and reminds you to restart after a system update. After the restart, this window tells you what is new.",
+          "ru": "GullDesk сама сообщает, когда готовы обновления, и напоминает перезагрузиться после обновления системы. А после перезагрузки рассказывает в этом окне, что нового."
+        }
+      },
+      {
+        "icon": "preferences-desktop-sound",
+        "title": {
+          "en": "GullDesk sounds",
+          "ru": "Звуки GullDesk"
+        },
+        "text": {
+          "en": "Soft new sounds for logging in, notifications, volume, screenshots and the trash. Choose and listen to them in Settings › Sound.",
+          "ru": "Новые мягкие звуки для входа, уведомлений, громкости, снимков экрана и корзины. Выбрать и послушать их можно в Настройки › Звук."
+        }
+      },
+      {
+        "icon": "preferences-desktop-keyboard-shortcut",
+        "title": {
+          "en": "Keyboard shortcuts",
+          "ru": "Сочетания клавиш"
+        },
+        "text": {
+          "en": "Every shortcut in one place: find the one you need and just press a new one. Ctrl+Alt+T opens the terminal again.",
+          "ru": "Все сочетания в одном месте: найдите нужное и просто нажмите новое. А Ctrl+Alt+T снова открывает терминал."
+        }
+      },
+      {
+        "icon": "system-users",
+        "title": {
+          "en": "Accounts",
+          "ru": "Аккаунты"
+        },
+        "text": {
+          "en": "Add the people who use this computer, make them administrators and change their passwords right in Settings.",
+          "ru": "Добавляйте людей, которые пользуются компьютером, делайте их администраторами и меняйте пароли прямо в Настройках."
+        }
+      },
+      {
+        "icon": "preferences-desktop-font",
+        "title": {
+          "en": "Fonts and accessibility",
+          "ru": "Шрифты и специальные возможности"
+        },
+        "text": {
+          "en": "Pick a typeface for the interface and one for code. Sticky keys, moving the pointer with the keyboard and shaking the mouse to find the pointer are in Accessibility.",
+          "ru": "Выберите шрифт для интерфейса и для кода. Залипание клавиш, управление указателем с клавиатуры и встряхивание мыши, чтобы найти курсор, — в специальных возможностях."
+        }
+      },
+      {
+        "icon": "applications-system",
+        "title": {
+          "en": "One style everywhere",
+          "ru": "Всё в одном стиле"
+        },
+        "text": {
+          "en": "Fewer windows from KDE: Files asks itself what to do with matching names, a short notification replaces the crash report, and the browser's dialogs look like GullDesk.",
+          "ru": "Меньше окон от KDE: Файлы сами спрашивают, что делать с одинаковыми именами, вместо отчёта о сбое приходит короткое уведомление, а окна браузера выглядят как GullDesk."
+        }
+      }
+    ]
+  }
+]

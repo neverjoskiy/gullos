@@ -1,0 +1,85 @@
+function gulldeskStatusIcons(panel) {
+    if (panel.location !== "top") {
+        return;
+    }
+    var clocks = panel.widgets("org.gulldesk.datetime");
+    var trays = panel.widgets("org.kde.plasma.systemtray");
+    if (clocks.length === 0 || trays.length === 0) {
+        return;
+    }
+    var group = panel.currentConfigGroup;
+    panel.currentConfigGroup = ["General"];
+    var original = String(panel.readConfig("AppletOrder", ""));
+    var order = original.split(";");
+    var clockId = String(clocks[0].id);
+    var tray = trays[0];
+    var trayId = String(tray.id);
+    if (order.indexOf(clockId) >= 0 && order.indexOf(trayId) >= 0) {
+        order = order.filter(function (id) { return id !== trayId; });
+        order.splice(order.indexOf(clockId) + 1, 0, trayId);
+        var updated = order.join(";");
+        if (updated !== original) {
+            panel.writeConfig("AppletOrder", updated);
+            panel.reloadConfig();
+        }
+    }
+    panel.currentConfigGroup = group;
+}
+
+var layoutConfig = ConfigFile("gulldesk-shellrc", "Layout");
+if (String(layoutConfig.readEntry("style")) !== "classic") {
+    var docks = panels().filter(function (panel) {
+        return panel.widgets("org.gulldesk.launcher").length > 0;
+    });
+    docks.forEach(function (dock) {
+        ["org.kde.plasma.systemtray", "org.kde.plasma.notifications", "org.gulldesk.quicksettings"].forEach(function (type) {
+            dock.widgets(type).forEach(function (widget) {
+                widget.remove();
+            });
+        });
+        if (dock.widgets("org.kde.plasma.panelspacer").length !== 2) {
+            var saved = {};
+            dock.widgets("org.kde.plasma.icontasks").forEach(function (tasks) {
+                tasks.currentConfigGroup = ["General"];
+                tasks.configKeys.forEach(function (key) {
+                    saved[key] = tasks.readConfig(key);
+                });
+                tasks.remove();
+            });
+            dock.widgets("org.kde.plasma.panelspacer").forEach(function (spacer) {
+                spacer.remove();
+            });
+            dock.addWidget("org.kde.plasma.panelspacer");
+            var tasks = dock.addWidget("org.kde.plasma.icontasks");
+            tasks.currentConfigGroup = ["General"];
+            Object.keys(saved).forEach(function (key) {
+                tasks.writeConfig(key, saved[key]);
+            });
+            tasks.reloadConfig();
+            dock.addWidget("org.kde.plasma.panelspacer");
+        }
+        dock.lengthMode = "fill";
+        var round = dock.widgets("org.gulldesk.launcher").some(function (launcher) {
+            launcher.currentConfigGroup = ["General"];
+            return String(launcher.readConfig("panelShape")) === "round";
+        });
+        if (!round) {
+            dock.floating = false;
+        }
+    });
+    var hasBar = panels().some(function (panel) {
+        return panel.widgets("org.gulldesk.datetime").length > 0;
+    });
+    if (!hasBar && docks.length > 0) {
+        loadTemplate("org.gulldesk.desktop.statusBar");
+    }
+    layoutConfig.writeEntry("style", "statusbar");
+    panels().forEach(function (panel) {
+        panel.widgets("org.gulldesk.launcher").forEach(function (launcher) {
+            launcher.currentConfigGroup = ["General"];
+            launcher.writeConfig("menuStyle", "googlebook");
+            launcher.reloadConfig();
+        });
+    });
+    panels().forEach(gulldeskStatusIcons);
+}

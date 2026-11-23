@@ -1,0 +1,17 @@
+[Desktop Entry]
+Name=GullDesk Settings
+Name[ru]=Настройки GullDesk
+Comment=Finds pages and options of GullDesk Settings
+Comment[ru]=Находит разделы и параметры Настроек GullDesk
+X-KDE-ServiceTypes=Plasma/Runner
+Type=Service
+Icon=org.gulldesk.settings
+X-KDE-PluginInfo-Name=org.gulldesk.settings
+X-KDE-PluginInfo-Version=1.0
+X-KDE-PluginInfo-License=GPL
+X-KDE-PluginInfo-EnabledByDefault=true
+X-Plasma-API=DBus
+X-Plasma-DBusRunner-Service=org.gulldesk.settings.runner
+X-Plasma-DBusRunner-Path=/runner
+X-Plasma-Request-Actions-Once=true
+X-Plasma-Runner-Min-Letter-Count=2

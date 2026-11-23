@@ -1,0 +1,15 @@
+[Global]
+IconName=org.gulldesk.screenshot
+Name=Screenshot
+Name[ru]=Снимок экрана
+Comment=GullDesk Screenshot
+Comment[ru]=Снимок экрана GullDesk
+DesktopEntry=org.gulldesk.screenshot
+
+[Event/captured]
+Name=Screenshot taken
+Name[ru]=Снимок сделан
+Comment=A shutter sound when the screen is captured
+Comment[ru]=Звук затвора, когда сделан снимок экрана
+Action=Sound
+Sound=camera-shutter

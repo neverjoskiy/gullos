@@ -1,0 +1,5 @@
+[org.gnome.desktop.interface]
+gtk-theme='GullDesk'
+
+[org.gnome.desktop.sound]
+theme-name='gulldesk'

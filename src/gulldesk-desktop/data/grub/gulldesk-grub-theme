@@ -1,0 +1,38 @@
+#!/bin/bash
+set -eu
+
+(( EUID == 0 )) || { echo "gulldesk-grub-theme: run as root" >&2; exit 1; }
+[[ -d /boot/grub ]] || exit 0
+
+settings=/usr/share/sddm/themes/gulldesk/theme.conf.user
+variants=/usr/share/gulldesk/grub
+fonts=/usr/share/grub/themes/gulldesk
+themes=/boot/grub/themes
+target=$themes/gulldesk
+
+previous() {
+  sed -n "s/^$1=//p" "$settings" 2>/dev/null | head -n 1
+}
+colour=$(previous colour)
+mode=$(previous mode)
+[[ $colour =~ ^[a-z]+(-[a-z]+)*$ ]] || colour=gulldesk
+[[ $mode == light ]] || mode=dark
+source=$variants/$colour-$mode
+[[ -f $source/theme.txt ]] || source=$variants/gulldesk-dark
+[[ -f $source/theme.txt ]] || exit 0
+
+install -d -m 0755 "$themes"
+work=$(mktemp -d "$themes/.gulldesk.XXXXXX")
+trap 'rm -rf "$work"' EXIT
+cp "$source"/* "$work"/
+cp "$fonts"/*.pf2 "$work"/
+printf '%s\n' "$(basename "$source")" > "$work/variant"
+chmod 0755 "$work"
+chmod 0644 "$work"/*
+rm -rf "$themes/.gulldesk.old"
+if [[ -e $target ]]; then
+  mv "$target" "$themes/.gulldesk.old"
+fi
+mv "$work" "$target"
+trap - EXIT
+rm -rf "$themes/.gulldesk.old"

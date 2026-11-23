@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=GullDesk Setup
+Name[ru]=Настройка GullDesk
+Comment=Set up GullDesk OS before the desktop starts
+Comment[ru]=Настройка GullDesk OS до запуска рабочего стола
+Exec=/usr/lib/x86_64-linux-gnu/libexec/plasma-dbus-run-session-if-needed /usr/libexec/gulldesk-setup-session
+TryExec=/usr/bin/startplasma-wayland
+DesktopNames=KDE
+NoDisplay=true

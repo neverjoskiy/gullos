@@ -1,0 +1,2039 @@
+/*
+    SPDX-FileCopyrightText: 2014-2015 Eike Hein <hein@kde.org>
+    SPDX-FileCopyrightText: 2023 Harald Sitter <sitter@kde.org>
+
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
+
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
+import QtQml 2.15
+
+import org.kde.plasma.plasmoid 2.0
+import org.kde.kirigami 2.20 as Kirigami
+import org.kde.plasma.components 3.0 as PlasmaComponents
+import org.kde.kquickcontrolsaddons 2.0
+
+import org.kde.private.desktopcontainment.folder as Folder
+import org.kde.plasma.private.containmentlayoutmanager as ContainmentLayoutManager
+import org.kde.plasma.plasma5support as P5Support
+import QtQuick.Window
+import org.gulldesk.bartint
+import org.gulldesk.m3
+import "code/FolderTools.js" as FolderTools
+import "HomeGrid.js" as HomeGrid
+import "picker" as Picker
+
+FocusScope {
+    id: main
+
+    signal pressed()
+
+    property QtObject model: dir
+    property Item rubberBand: null
+
+    property alias view: gridView
+    property alias isRootView: gridView.isRootView
+    property alias currentIndex: gridView.currentIndex
+    property alias url: dir.url
+    property alias status: dir.status
+    property alias perStripe: positioner.perStripe
+    property QtObject positionerApplet: null
+    property alias errorString: dir.errorString
+    property alias dragging: dir.dragging
+    property alias dragInProgressAnywhere: dir.dragInProgressAnywhere
+    property alias locked: dir.locked
+    property alias sortMode: dir.sortMode
+    property alias filterMode: dir.filterMode
+    property alias filterPattern: dir.filterPattern
+    property alias filterMimeTypes: dir.filterMimeTypes
+    property alias showHiddenFiles: dir.showHiddenFiles
+    property alias flow: gridView.flow
+    property alias layoutDirection: gridView.layoutDirection
+    property alias cellWidth: gridView.cellWidth
+    property alias cellHeight: gridView.cellHeight
+    property alias overflowing: gridView.overflowing
+    property alias scrollLeft: gridView.scrollLeft
+    property alias scrollRight: gridView.scrollRight
+    property alias scrollUp: gridView.scrollUp
+    property alias scrollDown: gridView.scrollDown
+    property alias hoveredItem: gridView.hoveredItem
+    property var history: []
+    property var lastPosition: null
+    property bool goingBack: false
+    property Item backButton: null
+    property var dialog: null
+    property Item editor: null
+
+    property int previouslySelectedItemIndex: -1
+
+    readonly property bool homeView: root.isContainment && main.isRootView
+    property bool homeHeld: false
+    property real homeScale: homeOptions.item && homeOptions.item.away ? 0.97 : 1
+
+    Behavior on homeScale {
+        NumberAnimation {
+            duration: Math.max(1, Math.round(350 * (Kirigami.Units.longDuration > 1 ? Kirigami.Units.longDuration / 200 : 0)))
+            easing.type: Easing.Bezier
+            easing.bezierCurve: [0.215, 0.61, 0.355, 1, 1, 1]
+        }
+    }
+
+    function homeArea(): rect {
+        const screen = Plasmoid.containment.screenGeometry;
+        const rect = root.availableScreenRect;
+        return Qt.rect(screen.x + rect.x, screen.y + rect.y, rect.width, rect.height);
+    }
+
+    function canHoldForOptions(x: real, y: real): bool {
+        return main.homeView && homeOptions.item !== null && !homeOptions.item.visible
+            && !Plasmoid.containment.corona.editMode && !main.rubberBand && !(editor && editor.targetItem)
+            && x >= 8 && y >= 8 && x <= listener.width - 8 && y <= listener.height - 8;
+    }
+
+    function showHomeOptions(x: real, y: real): void {
+        if (!canHoldForOptions(x, y)) {
+            return;
+        }
+        main.homeHeld = true;
+        listener.clearPressState();
+        const point = listener.mapToItem(root, x, y);
+        const rect = root.availableScreenRect;
+        homeOptions.item.area = main.homeArea();
+        homeOptions.item.openAt(Qt.point(point.x - rect.x, point.y - rect.y));
+    }
+
+    Binding {
+        target: main.homeView ? root.appletsLayout : null
+        property: "editModeCondition"
+        value: Plasmoid.immutable ? ContainmentLayoutManager.AppletsLayout.Locked
+            : ContainmentLayoutManager.AppletsLayout.Manual
+        when: target !== null
+    }
+
+    Binding {
+        target: main.homeView ? root.appletsLayout : null
+        property: "scale"
+        value: main.homeScale
+        when: target !== null
+    }
+
+    readonly property rect homeRect: root.availableScreenRect ? root.availableScreenRect : Qt.rect(0, 0, 0, 0)
+    readonly property int homeColumns: Math.max(4, Math.round(homeRect.width / 144))
+    readonly property int homeRows: Math.max(4, Math.round(homeRect.height / 100))
+    readonly property real homeCellWidth: homeRect.width > 0 ? Math.floor(homeRect.width / homeColumns) : 144
+    readonly property real homeCellHeight: homeRect.height > 0 ? Math.floor(homeRect.height / homeRows) : 100
+    readonly property int homeGap: 8
+    property string pendingAdd: ""
+    property string pendingEntry: ""
+    property var entrySpans: ({})
+    property bool pickerDragging: false
+    property string dropEntry: ""
+    property var dropCell: null
+
+    readonly property Item homePlaceHolder: root.appletsLayout ? root.appletsLayout.placeHolder : null
+
+    function dressPlaceHolder(): void {
+        if (!main.homePlaceHolder) {
+            return;
+        }
+        for (const child of main.homePlaceHolder.children) {
+            child.visible = !main.homeView;
+        }
+    }
+
+    onHomePlaceHolderChanged: dressPlaceHolder()
+    onHomeViewChanged: dressPlaceHolder()
+
+    HomeDrop {
+        id: pickerDrop
+        layout: main.homeView ? root.appletsLayout : null
+        accent: BarTint.darkInk(Screen.name, "left") ? M3.accent1_900 : M3.accent1_100
+    }
+
+    function followPicker(x: real, y: real): void {
+        if (!main.pickerDragging || !pickerDrop.layout) {
+            return;
+        }
+        if (!pickerDrop.active) {
+            const span = HomeGrid.span(main.dropEntry);
+            pickerDrop.start(null, span[0], span[1]);
+        }
+        pickerDrop.update(x, y);
+    }
+
+    Connections {
+        target: main.homeView ? root.fullRepresentationItem : null
+        ignoreUnknownSignals: true
+        function onDragEnter(event): void {
+            main.followPicker(event.x, event.y);
+        }
+        function onDragMove(event): void {
+            main.followPicker(event.x, event.y);
+        }
+        function onDragLeave(event): void {
+            pickerDrop.cancel();
+        }
+        function onDrop(event): void {
+            if (main.pickerDragging && pickerDrop.active) {
+                main.dropCell = pickerDrop.finish();
+            }
+        }
+    }
+
+    function claimEntry(): void {
+        const layout = root.appletsLayout;
+        if (!main.homeView || !layout || main.pendingEntry.length === 0) {
+            return;
+        }
+        const plugin = HomeGrid.plugin(main.pendingEntry);
+        for (const child of layout.children) {
+            if (child.applet === undefined || !child.applet || !child.applet.plasmoid) {
+                continue;
+            }
+            const plasmoid = child.applet.plasmoid;
+            if (String(plasmoid.pluginName) !== plugin || !plasmoid.configuration || plasmoid.configuration.placed !== false
+                    || main.entrySpans[plasmoid.id] !== undefined) {
+                continue;
+            }
+            const config = HomeGrid.config(main.pendingEntry);
+            for (const key in config) {
+                plasmoid.configuration[key] = config[key];
+            }
+            const spans = Object.assign({}, main.entrySpans);
+            spans[plasmoid.id] = HomeGrid.span(main.pendingEntry);
+            main.entrySpans = spans;
+            main.pendingEntry = "";
+            return;
+        }
+    }
+
+    function firstFreeCell(layout: Item, columns: int, rows: int): point {
+        for (let row = 0; row + rows <= main.homeRows; ++row) {
+            for (let column = 0; column + columns <= main.homeColumns; ++column) {
+                const x = column * layout.cellWidth;
+                const y = row * layout.cellHeight;
+                if (layout.isRectAvailable(x, y, columns * layout.cellWidth, rows * layout.cellHeight)) {
+                    return Qt.point(x, y);
+                }
+            }
+        }
+        return Qt.point(-1, -1);
+    }
+
+    function insetCard(child: Item): void {
+        const card = child.background;
+        const gap = main.homeGap;
+        const margins = card && card.margins ? card.margins : null;
+        const left = gap + (margins ? margins.left : 0);
+        const top = gap + (margins ? margins.top : 0);
+        const right = gap + (margins ? margins.right : 0);
+        const bottom = gap + (margins ? margins.bottom : 0);
+        if (child.leftPadding !== left || child.topPadding !== top || child.rightPadding !== right || child.bottomPadding !== bottom) {
+            child.leftPadding = left;
+            child.topPadding = top;
+            child.rightPadding = right;
+            child.bottomPadding = bottom;
+        }
+        if (card && (card.anchors.fill !== child || card.anchors.margins !== gap || card.x !== gap || card.y !== gap)) {
+            card.anchors.fill = undefined;
+            card.anchors.fill = child;
+            card.anchors.margins = gap;
+        }
+    }
+
+    function nearestFreeCell(layout: Item, columns: int, rows: int, x: real, y: real): point {
+        let best = Qt.point(-1, -1);
+        let distance = Infinity;
+        for (let row = 0; row + rows <= main.homeRows; ++row) {
+            for (let column = 0; column + columns <= main.homeColumns; ++column) {
+                const cx = column * layout.cellWidth;
+                const cy = row * layout.cellHeight;
+                const d = Math.abs(cx - x) + Math.abs(cy - y);
+                if (d < distance && layout.isRectAvailable(cx, cy, columns * layout.cellWidth, rows * layout.cellHeight)) {
+                    best = Qt.point(cx, cy);
+                    distance = d;
+                }
+            }
+        }
+        return best;
+    }
+
+    onHomeCellWidthChanged: widgetTidy.restart()
+    onHomeCellHeightChanged: widgetTidy.restart()
+
+    property bool homeSteady: false
+
+    onHomeRectChanged: {
+        main.homeSteady = false;
+        homeSteadyTimer.restart();
+    }
+
+    Timer {
+        id: homeSteadyTimer
+        interval: 1200
+        running: true
+        onTriggered: {
+            main.homeSteady = true;
+            widgetTidy.restart();
+        }
+    }
+
+    Binding {
+        target: main.homeView ? root.appletsLayout : null
+        property: "relayoutLock"
+        value: true
+        when: target !== null && !main.homeSteady
+    }
+
+    Binding {
+        target: main.homeView ? root.appletsLayout : null
+        property: "cellWidth"
+        value: main.homeCellWidth
+        when: target !== null
+    }
+
+    Binding {
+        target: main.homeView ? root.appletsLayout : null
+        property: "cellHeight"
+        value: main.homeCellHeight
+        when: target !== null
+    }
+
+    Binding {
+        target: main.homeView ? root.appletsLayout : null
+        property: "defaultItemWidth"
+        value: main.homeCellWidth * 2
+        when: target !== null
+    }
+
+    Binding {
+        target: main.homeView ? root.appletsLayout : null
+        property: "defaultItemHeight"
+        value: main.homeCellHeight * 2
+        when: target !== null
+    }
+
+    function tidyWidgets(): void {
+        const layout = root.appletsLayout;
+        if (!main.homeView || !main.homeSteady || !layout || layout.width <= 0 || layout.height <= 0) {
+            return;
+        }
+        main.claimEntry();
+        const cellWidth = layout.cellWidth;
+        const cellHeight = layout.cellHeight;
+        for (const child of layout.children) {
+            if (child.applet === undefined || child.layout === undefined || child.editMode || !child.applet || !child.applet.plasmoid) {
+                continue;
+            }
+            const plugin = String(child.applet.plasmoid.pluginName);
+            const gulldesk = plugin.startsWith(HomeGrid.prefix);
+            const fresh = gulldesk && !!child.applet.plasmoid.configuration && child.applet.plasmoid.configuration.placed === false;
+            const span = main.entrySpans[child.applet.plasmoid.id] || HomeGrid.span(plugin);
+            if (gulldesk) {
+                child.leftPadding = main.homeGap;
+                child.topPadding = main.homeGap;
+                child.rightPadding = main.homeGap;
+                child.bottomPadding = main.homeGap;
+            } else {
+                main.insetCard(child);
+            }
+            const columns = Math.max(1, Math.min(main.homeColumns, fresh ? span[0] : Math.round(child.width / cellWidth)));
+            const rows = Math.max(1, Math.min(main.homeRows, fresh ? span[1] : Math.round(child.height / cellHeight)));
+            let x = Math.round(child.x / cellWidth) * cellWidth;
+            let y = Math.round(child.y / cellHeight) * cellHeight;
+            const inside = Qt.point(Math.max(0, Math.min(x, (main.homeColumns - columns) * cellWidth)),
+                                    Math.max(0, Math.min(y, (main.homeRows - rows) * cellHeight)));
+            const outside = inside.x !== x || inside.y !== y;
+            x = inside.x;
+            y = inside.y;
+            const placeFirst = fresh && plugin === main.pendingAdd;
+            const placeDropped = fresh && !placeFirst && main.dropCell !== null && plugin === HomeGrid.plugin(main.dropEntry);
+            if (!placeFirst && !placeDropped && child.width === columns * cellWidth && child.height === rows * cellHeight
+                    && child.x === x && child.y === y) {
+                continue;
+            }
+            layout.releaseSpace(child);
+            if (placeDropped) {
+                const cell = main.dropCell;
+                main.dropCell = null;
+                main.dropEntry = "";
+                if (layout.isRectAvailable(cell.x * cellWidth, cell.y * cellHeight, columns * cellWidth, rows * cellHeight)) {
+                    x = cell.x * cellWidth;
+                    y = cell.y * cellHeight;
+                } else {
+                    const free = main.firstFreeCell(layout, columns, rows);
+                    if (free.x >= 0) {
+                        x = free.x;
+                        y = free.y;
+                    }
+                }
+            } else if (placeFirst) {
+                main.pendingAdd = "";
+                const free = main.firstFreeCell(layout, columns, rows);
+                if (free.x >= 0) {
+                    x = free.x;
+                    y = free.y;
+                }
+            } else if (outside && !layout.isRectAvailable(x, y, columns * cellWidth, rows * cellHeight)) {
+                const free = main.nearestFreeCell(layout, columns, rows, x, y);
+                if (free.x >= 0) {
+                    x = free.x;
+                    y = free.y;
+                }
+            }
+            child.x = x;
+            child.y = y;
+            child.width = columns * cellWidth;
+            child.height = rows * cellHeight;
+            main.settling = main.settling.concat([child]);
+            widgetSettle.restart();
+        }
+    }
+
+    property var settling: []
+
+    Timer {
+        id: widgetSettle
+        interval: 300
+        onTriggered: {
+            const items = main.settling;
+            main.settling = [];
+            for (const item of items) {
+                if (item && item.layout) {
+                    item.layout.positionItem(item);
+                }
+            }
+        }
+    }
+
+    Timer {
+        id: widgetTidy
+        interval: 400
+        onTriggered: main.tidyWidgets()
+    }
+
+    Connections {
+        target: main.homeView ? root.appletsLayout : null
+        function onChildrenChanged(): void {
+            main.claimEntry();
+            widgetTidy.restart();
+        }
+    }
+
+    Instantiator {
+        model: main.homeView && root.appletsLayout ? root.appletsLayout.children : []
+        delegate: Connections {
+            required property var modelData
+            target: modelData
+            ignoreUnknownSignals: true
+            function onWidthChanged(): void {
+                if (modelData.applet) {
+                    widgetTidy.restart();
+                }
+            }
+            function onHeightChanged(): void {
+                if (modelData.applet) {
+                    widgetTidy.restart();
+                }
+            }
+        }
+    }
+
+    Loader {
+        id: homeOptions
+        active: main.homeView
+        sourceComponent: HomeOptions {
+            onWidgetsRequested: main.openWidgetPicker()
+        }
+    }
+
+    Loader {
+        id: widgetPicker
+        active: main.homeView
+        sourceComponent: Picker.WidgetPicker {
+            onAdding: entry => {
+                main.pendingAdd = HomeGrid.plugin(entry);
+                main.pendingEntry = entry;
+            }
+            onPicked: entry => {
+                main.pendingEntry = entry;
+                main.dropEntry = entry;
+                main.dropCell = null;
+                main.pickerDragging = true;
+            }
+            onDragEnded: {
+                main.pickerDragging = false;
+                pickerDrop.cancel();
+            }
+        }
+    }
+
+    Loader {
+        id: appWidgets
+        active: false
+        sourceComponent: Picker.AppWidgets {
+            onApplied: entry => main.applyVariant(entry)
+            onAdding: entry => {
+                main.pendingAdd = HomeGrid.plugin(entry);
+                main.pendingEntry = entry;
+            }
+        }
+    }
+
+    property QtObject variantTarget: null
+
+    function openAppWidgets(container: Item): void {
+        if (!main.homeView || !container || !container.applet || !container.applet.plasmoid) {
+            return;
+        }
+        const plasmoid = container.applet.plasmoid;
+        const name = String(plasmoid.pluginName);
+        const app = HomeGrid.appOf(name);
+        if (!app || app.plugins.length < 2) {
+            return;
+        }
+        appWidgets.active = true;
+        const sheet = appWidgets.item;
+        if (!sheet) {
+            return;
+        }
+        main.variantTarget = plasmoid;
+        sheet.area = main.homeArea();
+        sheet.containment = Plasmoid;
+        sheet.cellWidth = main.homeCellWidth;
+        sheet.cellHeight = main.homeCellHeight;
+        sheet.app = app.id;
+        sheet.entries = app.plugins;
+        sheet.current = HomeGrid.entryOf(name, plasmoid.configuration);
+        const corner = container.mapToGlobal(0, 0);
+        sheet.avoid = Qt.rect(corner.x, corner.y, container.width, container.height);
+        sheet.open();
+    }
+
+    function closeAppWidgets(): void {
+        if (appWidgets.item) {
+            appWidgets.item.close();
+        }
+    }
+
+    function applyVariant(entry: string): void {
+        const plasmoid = main.variantTarget;
+        if (!plasmoid || String(plasmoid.pluginName) !== HomeGrid.plugin(entry)) {
+            return;
+        }
+        const config = HomeGrid.config(entry);
+        for (const key in config) {
+            plasmoid.configuration[key] = config[key];
+        }
+        if (appWidgets.item) {
+            appWidgets.item.current = entry;
+        }
+    }
+
+    function openWidgetPicker(): void {
+        if (!widgetPicker.item) {
+            return;
+        }
+        widgetPicker.item.area = main.homeArea();
+        widgetPicker.item.containment = Plasmoid;
+        widgetPicker.item.cellWidth = main.homeCellWidth;
+        widgetPicker.item.cellHeight = main.homeCellHeight;
+        widgetPicker.item.open();
+    }
+
+    function positionViewAtBeginning() {
+        gridView.positionViewAtBeginning();
+    }
+
+    function rename() {
+        if (gridView.currentIndex !== -1) {
+            var renameAction = folderView.model.action("rename");
+            if (renameAction && !renameAction.enabled) {
+                return;
+            }
+
+            if (!editor) {
+                editor = editorComponent.createObject(listener);
+            }
+
+            editor.targetItem = gridView.currentItem;
+        }
+    }
+
+    function cancelRename() {
+        if (editor) {
+            editor.targetItem = null;
+        }
+    }
+
+    function linkHere(sourceUrl) {
+        dir.linkHere(sourceUrl);
+    }
+
+    function handleDragMove(x, y) {
+        var child = childAt(x, y);
+
+        if (child !== null && child === backButton) {
+            hoveredItem = null;
+            backButton.handleDragMove();
+        } else {
+            if (backButton && backButton.containsDrag) {
+                backButton.endDragMove();
+            }
+
+            var pos = mapToItem(gridView.contentItem, x, y);
+            var item = gridView.itemAt(pos.x, pos.y);
+
+            if (item && item.isDir) {
+                hoveredItem = item;
+            } else {
+                hoveredItem = null;
+            }
+        }
+    }
+
+    function endDragMove() {
+        if (backButton && backButton.active) {
+            backButton.endDragMove();
+        } else if (hoveredItem && !hoveredItem.popupDialog) {
+            hoveredItem = null;
+        }
+    }
+
+    function dropItemAt(pos) {
+        var item = gridView.itemAt(pos.x, pos.y);
+
+        if (item) {
+            if (item.blank) {
+                return -1;
+            }
+
+            var hOffset = Math.abs(Math.min(gridView.contentX, gridView.originX));
+            var hPos = mapToItem(item.hoverArea, pos.x + hOffset, pos.y);
+
+            if ((hPos.x < 0 || hPos.y < 0 || hPos.x > item.hoverArea.width || hPos.y > item.hoverArea.height)) {
+                return -1;
+            } else {
+                return positioner.map(item.index);
+            }
+        }
+
+        return -1;
+    }
+
+    readonly property bool keepsLaunchers: root.isContainment && Plasmoid.configuration.url === "desktop:/"
+
+    function onlyLaunchers(mimeData) {
+        const urls = mimeData && mimeData.urls ? Array.from(mimeData.urls) : [];
+        return urls.length > 0 && urls.every(url => /^file:\/\/.*\/applications\/[^\/]+\.desktop$/.test(String(url)));
+    }
+
+    function quoted(text) {
+        return "'" + String(text).replace(/'/g, "'\\''") + "'";
+    }
+
+    function groupDrop(item, mimeData) {
+        const targetUrl = item && !item.isDir ? String(item.itemUrl || "") : "";
+        const urls = mimeData && mimeData.urls ? Array.from(mimeData.urls).map(String) : [];
+        if (!main.keepsLaunchers || !targetUrl.endsWith(".desktop") || urls.length === 0
+                || !urls.every(url => url.endsWith(".desktop")) || urls.includes(targetUrl)) {
+            return false;
+        }
+        launcherHelper.connectSource("/usr/bin/gulldesk-appgroup drop " + [targetUrl].concat(urls).map(main.quoted).join(" "));
+        return true;
+    }
+
+    function drop(target, event, pos) {
+        var dropPos = mapToItem(gridView.contentItem, pos.x, pos.y);
+        var dropIndex = gridView.indexAt(dropPos.x, dropPos.y);
+        var dragPos = mapToItem(gridView.contentItem, listener.dragX, listener.dragY);
+        var dragIndex = gridView.indexAt(dragPos.x, dragPos.y);
+
+        if (listener.dragX === -1 || dragIndex !== dropIndex) {
+            var row = dropItemAt(dropPos);
+            if (row !== -1 && main.groupDrop(gridView.itemAt(dropPos.x, dropPos.y), event.mimeData)) {
+                return;
+            }
+            if (main.keepsLaunchers && row === -1 && main.onlyLaunchers(event.mimeData)) {
+                launcherDrop.mimeData = event.mimeData;
+                launcherDrop.x = event.x;
+                launcherDrop.y = event.y;
+                launcherDrop.buttons = event.buttons;
+                dir.drop(target, launcherDrop, -1, false);
+                launcherTidy.restart();
+                return;
+            }
+            dir.drop(target, event, row, root.isContainment && !Plasmoid.immutable);
+        }
+    }
+
+    QtObject {
+        id: launcherDrop
+        property QtObject mimeData: null
+        property int x: 0
+        property int y: 0
+        property int buttons: Qt.LeftButton
+        property int modifiers: Qt.ControlModifier
+        property int proposedAction: Qt.CopyAction
+        property int possibleActions: Qt.CopyAction
+    }
+
+    P5Support.DataSource {
+        id: launcherHelper
+        engine: "executable"
+        onNewData: sourceName => disconnectSource(sourceName)
+    }
+
+    Timer {
+        id: launcherTidy
+        interval: 1000
+        onTriggered: launcherHelper.connectSource("/usr/libexec/gulldesk-desktop-launchers")
+    }
+
+    Connections {
+        target: dir
+        enabled: main.keepsLaunchers
+        function onRowsInserted() {
+            launcherTidy.restart();
+        }
+    }
+
+    function generateDragImage() {
+        for (var i = 0; i < gridView.count; i++) {
+            var item = gridView.itemAtIndex(i);
+            item.updateDragImage();
+        }
+    }
+
+    Connections {
+        target: dir
+        function onPopupMenuAboutToShow(dropJob, mimeData, x, y) {
+            if (root.isContainment && !Plasmoid.immutable) {
+                root.processMimeData(mimeData, x, y, dropJob);
+            }
+        }
+
+
+
+
+        function onSelectionDone() {
+            main.generateDragImage();
+        }
+    }
+
+    Connections {
+        target: root
+        function onExpandedChanged() {
+            if (root.expanded && dir.status === Folder.FolderModel.Ready && !gridView.model) {
+                gridView.model = positioner;
+            }
+        }
+    }
+
+    Binding {
+        target: Plasmoid
+        property: "busy"
+        value: !gridView.model && dir.status === Folder.FolderModel.Listing
+        restoreMode: Binding.RestoreBinding
+    }
+
+    function makeBackButton() {
+        return Qt.createQmlObject("BackButtonItem {}", main);
+    }
+
+    function doCd(row) {
+        history.push({ url: url, index: gridView.currentIndex, yPosition: gridView.visibleArea.yPosition});
+        updateHistory();
+        dir.cd(row);
+        gridView.currentIndex = -1;
+    }
+
+    function doBack() {
+        goingBack = true;
+        gridView.currentIndex = -1;
+        lastPosition = history.pop();
+        url = lastPosition.url;
+        updateHistory();
+    }
+
+
+    function updateHistory() {
+        history = history;
+    }
+
+    Connections {
+        target: root
+
+        function onIsPopupChanged() {
+            if (backButton === null && root.useListViewMode) {
+                backButton = makeBackButton();
+            } else if (backButton !== null) {
+                backButton.destroy();
+            }
+        }
+    }
+
+    Folder.EventGenerator {
+        id: eventGenerator
+    }
+
+    MouseEventListener {
+        id: listener
+
+        anchors {
+            topMargin: backButton !== null ? backButton.height : undefined
+            fill: parent
+        }
+
+        property alias hoveredItem: gridView.hoveredItem
+
+        property Item pressedItem: null
+        property int pressX: -1
+        property int pressY: -1
+        property int dragX: -1
+        property int dragY: -1
+        property var cPress: null
+        property bool doubleClickInProgress: false
+        property bool renameByLabelClickInitiated: false
+        property real zoomPending: 0
+        property real holdX: -1
+        property real holdY: -1
+
+        Timer {
+            id: homeHold
+            interval: 400
+            onTriggered: main.showHomeOptions(listener.holdX, listener.holdY)
+        }
+
+        onWheelMoved: wheel => {
+            if (!(wheel.modifiers & Qt.ControlModifier) || root.useListViewMode) {
+                return;
+            }
+            zoomPending += wheel.delta;
+            let size = Plasmoid.configuration.iconSize;
+            while (Math.abs(zoomPending) >= 120) {
+                size = Math.max(0, Math.min(6, size + (zoomPending > 0 ? 1 : -1)));
+                zoomPending -= zoomPending > 0 ? 120 : -120;
+            }
+            if (size !== Plasmoid.configuration.iconSize) {
+                Plasmoid.configuration.iconSize = size;
+            }
+        }
+
+        acceptedButtons: {
+            if (hoveredItem === null && main.isRootView) {
+                return root.isPopup ? (Qt.LeftButton | Qt.MiddleButton | Qt.BackButton) : Qt.LeftButton;
+            }
+
+            return root.isPopup ? (Qt.LeftButton | Qt.MiddleButton | Qt.RightButton | Qt.BackButton)
+                : (Qt.LeftButton | Qt.RightButton);
+        }
+
+        hoverEnabled: true
+
+        onPressXChanged: {
+            cPress = mapToItem(gridView.contentItem, pressX, pressY);
+        }
+
+        onPressYChanged: {
+            cPress = mapToItem(gridView.contentItem, pressX, pressY);
+        }
+
+        onPressed: mouse => {
+            homeHold.stop();
+            main.homeHeld = false;
+
+            if (!scrollArea.viewport.contains(Qt.point(mouse.x, mouse.y))) {
+                return;
+            }
+
+
+
+            if (editor && childAt(mouse.x, mouse.y) === editor) {
+                return;
+            }
+
+            scrollArea.focus = true;
+
+            if (mouse.buttons & Qt.BackButton) {
+                if (root.isPopup && dir.resolvedUrl !== dir.resolve(Plasmoid.configuration.url)) {
+                    doBack();
+                    mouse.accepted = true;
+                }
+
+                return;
+            }
+
+            if (editor && childAt(mouse.x, mouse.y) !== editor) {
+                editor.commit();
+            }
+
+            const mappedPos = mapToItem(gridView.contentItem, mouse.x, mouse.y)
+            var index = gridView.indexAt(mappedPos.x, mappedPos.y);
+            var indexItem = gridView.itemAtIndex(index);
+
+            if (indexItem && indexItem.iconArea) {
+                gridView.currentIndex = index;
+                hoveredItem = indexItem;
+            } else {
+                gridView.currentIndex = -1
+                hoveredItem = null;
+            }
+
+            if (mouse.source === Qt.MouseEventSynthesizedByQt) {
+                if (gridView.hoveredItem && gridView.hoveredItem.toolTip.active) {
+                    gridView.hoveredItem.toolTip.hideToolTip();
+                }
+            }
+
+            pressX = mouse.x;
+            pressY = mouse.y;
+
+            if (!hoveredItem || hoveredItem.blank) {
+                if (!gridView.ctrlPressed) {
+                    gridView.currentIndex = -1;
+                    previouslySelectedItemIndex = -1;
+                    dir.clearSelection();
+                }
+
+                if (mouse.buttons & Qt.RightButton) {
+                    clearPressState();
+
+
+                    if (!dir.usedByContainment) {
+                        dir.openContextMenu(main, mouse.modifiers);
+                        mouse.accepted = true;
+                    }
+                } else if ((mouse.buttons & Qt.LeftButton) && main.canHoldForOptions(mouse.x, mouse.y)) {
+                    holdX = mouse.x;
+                    holdY = mouse.y;
+                    homeHold.restart();
+                }
+            } else {
+                pressedItem = hoveredItem;
+
+                var pos = mapToItem(hoveredItem.actionsOverlay, mouse.x, mouse.y);
+
+                if (!(pos.x <= hoveredItem.actionsOverlay.width && pos.y <= hoveredItem.actionsOverlay.height)) {
+                    if (gridView.shiftPressed && gridView.currentIndex !== -1) {
+                        positioner.setRangeSelected(gridView.anchorIndex, hoveredItem.index);
+                    } else {
+
+                        if (!gridView.ctrlPressed && !dir.isSelected(positioner.map(hoveredItem.index))) {
+                            previouslySelectedItemIndex = -1;
+                            dir.clearSelection();
+                        }
+
+                        if (gridView.ctrlPressed) {
+                            dir.toggleSelected(positioner.map(hoveredItem.index));
+                        } else {
+                            dir.setSelected(positioner.map(hoveredItem.index));
+                        }
+                    }
+
+                    gridView.currentIndex = hoveredItem.index;
+
+                    if (mouse.buttons & Qt.RightButton) {
+                        if (pressedItem.toolTip && pressedItem.toolTip.active) {
+                            pressedItem.toolTip.hideToolTip();
+                        }
+
+                        clearPressState();
+
+                        dir.openContextMenu(hoveredItem, mouse.modifiers);
+                        mouse.accepted = true;
+                    }
+                }
+            }
+
+            main.pressed();
+        }
+
+        onCanceled: pressCanceled()
+
+        onReleased: mouse => {
+            homeHold.stop();
+            if (main.homeHeld) {
+                pressCanceled();
+                return;
+            }
+
+            if (!gridView.cachedRectangleSelection && hoveredItem && !hoveredItem.blank && mouse.button !== Qt.RightButton) {
+                var pos = mapToItem(hoveredItem.actionsOverlay, mouse.x, mouse.y);
+                if (!(pos.x <= hoveredItem.actionsOverlay.width && pos.y <= hoveredItem.actionsOverlay.height)
+                    && (!(gridView.shiftPressed && gridView.currentIndex !== -1) && !gridView.ctrlPressed)) {
+                        dir.clearSelection();
+                        dir.setSelected(positioner.map(hoveredItem.index));
+                }
+            }
+            pressCanceled();
+        }
+
+        onPressAndHold: mouse => {
+            if (mouse.source === Qt.MouseEventSynthesizedByQt) {
+                if (pressedItem) {
+                    if (pressedItem.toolTip && pressedItem.toolTip.active) {
+                        pressedItem.toolTip.hideToolTip();
+                    }
+                }
+                clearPressState();
+                if (hoveredItem) {
+                    dir.openContextMenu(hoveredItem, mouse.modifiers);
+                }
+            }
+        }
+
+        onClicked: mouse => {
+            clearPressState();
+
+            if (main.homeHeld) {
+                main.homeHeld = false;
+                return;
+            }
+
+            if (mouse.button === Qt.RightButton ||
+                (editor && childAt(mouse.x, mouse.y) === editor)) {
+                return;
+            }
+
+            if (!hoveredItem || hoveredItem.blank || gridView.currentIndex === -1 || gridView.ctrlPressed || gridView.shiftPressed) {
+
+                eventGenerator.sendMouseEvent(root, Folder.EventGenerator.MouseButtonPress, mouse.x, mouse.y, mouse.button, mouse.buttons, mouse.modifiers);
+                return;
+            }
+
+            var pos = mapToItem(hoveredItem, mouse.x, mouse.y);
+
+
+
+
+
+
+            if (pos.x < 0 || pos.x > hoveredItem.width || pos.y < 0 || pos.y > hoveredItem.height) {
+                hoveredItem = null;
+                previouslySelectedItemIndex = -1;
+                dir.clearSelection();
+
+                return;
+
+
+            } else if (hoveredItem.popupDialog) {
+                hoveredItem.closePopup();
+
+                return;
+            }
+
+            pos = mapToItem(hoveredItem.actionsOverlay, mouse.x, mouse.y);
+
+            if (!(pos.x <= hoveredItem.actionsOverlay.width && pos.y <= hoveredItem.actionsOverlay.height)) {
+
+
+                renameByLabelClickInitiated = (pos.x > hoveredItem.labelArea.x
+                    && pos.x <= hoveredItem.labelArea.x + hoveredItem.labelArea.width
+                    && pos.y > hoveredItem.labelArea.y
+                    && pos.y <= hoveredItem.labelArea.y + hoveredItem.labelArea.height
+                    && previouslySelectedItemIndex === gridView.currentIndex
+                    && gridView.currentIndex !== -1
+                    && !Qt.styleHints.singleClickActivation
+                    && Plasmoid.configuration.renameInline
+                )
+
+
+
+                if (Qt.styleHints.singleClickActivation || doubleClickInProgress || mouse.source === Qt.MouseEventSynthesizedByQt) {
+                    doubleClickInProgress = false
+                    var func = root.useListViewMode && mouse.button === Qt.LeftButton && hoveredItem.isDir ? doCd : dir.run;
+
+                    func(positioner.map(gridView.currentIndex));
+                    previouslySelectedItemIndex = gridView.currentIndex;
+                    hoveredItem = null;
+                } else {
+
+                    doubleClickInProgress = true;
+                    doubleClickTimer.interval = Qt.styleHints.mouseDoubleClickInterval;
+                    doubleClickTimer.start();
+                    previouslySelectedItemIndex = gridView.currentIndex;
+                }
+            }
+        }
+
+        onPositionChanged: mouse => {
+            if (homeHold.running && Math.hypot(mouse.x - holdX, mouse.y - holdY) > 16) {
+                homeHold.stop();
+            }
+            if (main.homeHeld) {
+                return;
+            }
+            gridView.ctrlPressed = (mouse.modifiers & Qt.ControlModifier);
+            gridView.shiftPressed = (mouse.modifiers & Qt.ShiftModifier);
+
+            const mappedPos = mapToItem(gridView.contentItem, mouse.x, mouse.y)
+            var item = gridView.itemAt(mappedPos.x, mappedPos.y);
+            var leftEdge = Math.min(gridView.contentX, gridView.originX);
+
+            if (!item || item.blank) {
+                if (gridView.hoveredItem && !root.containsDrag && (!dialog || !dialog.containsDrag) && !gridView.hoveredItem.popupDialog) {
+                    gridView.hoveredItem = null;
+                }
+            } else {
+                var fPos = mapToItem(item.frame, mouse.x, mouse.y);
+
+                if (fPos.x < 0 || fPos.y < 0 || fPos.x > item.frame.width || fPos.y > item.frame.height) {
+                    gridView.hoveredItem = null;
+                }
+            }
+
+
+            if (pressX !== -1) {
+                gridView.scrollLeft = (mouse.x <= 0 && gridView.contentX > leftEdge);
+                gridView.scrollRight = (mouse.x >= gridView.width
+                    && gridView.contentX < gridView.contentItem.width - gridView.width);
+                gridView.scrollUp = (mouse.y <= 0 && gridView.contentY > 0);
+                gridView.scrollDown = (mouse.y >= gridView.height
+                    && gridView.contentY < gridView.contentItem.height - gridView.height);
+            }
+
+
+            if (main.rubberBand) {
+                var rB = main.rubberBand;
+                var cPos = mapToItem(gridView.contentItem, mouse.x, mouse.y);
+
+                if (cPos.x < cPress.x) {
+                    rB.x = Math.max(leftEdge, cPos.x);
+                    rB.width = Math.abs(rB.x - cPress.x);
+                } else {
+                    rB.x = cPress.x;
+                    var ceil = Math.max(gridView.width, gridView.contentItem.width) + leftEdge;
+                    rB.width = Math.min(ceil - rB.x, Math.abs(rB.x - cPos.x));
+                }
+
+                if (cPos.y < cPress.y) {
+                    rB.y = Math.max(0, cPos.y);
+                    rB.height = Math.abs(rB.y - cPress.y);
+                } else {
+                    rB.y = cPress.y;
+                    var ceil = Math.max(gridView.height, gridView.contentItem.height);
+                    rB.height = Math.min(ceil - rB.y, Math.abs(rB.y - cPos.y));
+                }
+
+
+
+                rB.width = Math.max(1, rB.width);
+                rB.height = Math.max(1, rB.height);
+
+                Qt.callLater(gridView.rectangleSelect, rB.x, rB.y, rB.width, rB.height, main.rubberBand);
+
+                return;
+            }
+
+
+            if (pressX !== -1 && root.isDrag(pressX, pressY, mouse.x, mouse.y)) {
+                if (pressedItem !== null && dir.isSelected(positioner.map(pressedItem.index))) {
+                    pressedItem.toolTip.hideToolTip();
+                    dragX = mouse.x;
+                    dragY = mouse.y;
+                    gridView.verticalDropHitscanOffset = pressedItem.iconArea.y + (pressedItem.iconArea.height / 2);
+                    dir.dragSelected(mouse.x, mouse.y);
+                    dragX = -1;
+                    dragY = -1;
+                    clearPressState();
+                } else {
+
+                    if (root.useListViewMode || (editor && editor.targetItem)) {
+                        return;
+                    }
+
+                    dir.pinSelection();
+                    main.rubberBand = rubberBandObject.createObject(gridView.contentItem, {x: cPress.x, y: cPress.y});
+                    gridView.interactive = false;
+                }
+            }
+        }
+
+        Component {
+            id: rubberBandObject
+
+            Folder.RubberBand {
+                id: rubberBand
+
+                width: 0
+                height: 0
+                z: 99999
+
+                function close() {
+                    opacityAnimation.restart();
+                }
+
+                OpacityAnimator {
+                    id: opacityAnimation
+                    target: rubberBand
+                    to: 0
+                    from: 1
+                    duration: Kirigami.Units.shortDuration
+
+
+
+
+
+                    easing {
+                        bezierCurve: [0.4, 0.0, 1, 1]
+                        type: Easing.Bezier
+                    }
+
+                    onFinished: {
+                        rubberBand.visible = false;
+                        rubberBand.enabled = false;
+
+
+                        main.generateDragImage();
+                        rubberBand.destroy();
+                    }
+                }
+            }
+        }
+
+        onContainsMouseChanged: {
+            if (!containsMouse && !main.rubberBand) {
+                clearPressState();
+            }
+        }
+
+        onHoveredItemChanged: {
+            doubleClickInProgress = false;
+
+            if (!hoveredItem) {
+                hoverActivateTimer.stop();
+            }
+        }
+
+        function pressCanceled() {
+            homeHold.stop();
+            if (main.rubberBand) {
+                main.rubberBand.close();
+                main.rubberBand = null;
+
+                gridView.interactive = true;
+                gridView.cachedRectangleSelection = null;
+                dir.unpinSelection();
+            }
+
+            clearPressState();
+            gridView.cancelAutoscroll();
+        }
+
+        function clearPressState() {
+            pressedItem = null;
+            pressX = -1;
+            pressY = -1;
+        }
+
+        Timer {
+            id: doubleClickTimer
+
+            onTriggered: {
+                if (listener.renameByLabelClickInitiated && listener.doubleClickInProgress) {
+                    main.rename()
+                }
+                listener.renameByLabelClickInitiated = false
+                listener.doubleClickInProgress = false;
+            }
+        }
+
+        Timer {
+            id: hoverActivateTimer
+
+            interval: root.hoverActivateDelay
+
+            onTriggered: {
+                if (!hoveredItem) {
+                    return;
+                }
+
+                if (root.useListViewMode) {
+                    doCd(index);
+                } else if (Plasmoid.configuration.popups) {
+                    hoveredItem.openPopup();
+                }
+            }
+        }
+
+        FocusScope {
+            id: scrollArea
+
+            readonly property bool underStatusBar: root.isContainment && main.isRootView
+                && !!root.availableScreenRect && root.availableScreenRect.y > 0
+
+            anchors.fill: parent
+            anchors.topMargin: underStatusBar ? 20 : 0
+
+            focus: true
+
+            property bool ready: false
+            readonly property int viewportWidth: scrollArea.ready && viewport ? Math.ceil(viewport.width) : 0
+            readonly property int viewportHeight: scrollArea.ready && viewport ? Math.ceil(viewport.height) : 0
+            readonly property Flickable viewport: gridView
+
+            Component.onCompleted: {
+                scrollArea.ready = true;
+            }
+
+            GridView {
+                id: gridView
+                clip: true
+                anchors.fill: parent
+
+                WheelHandler {
+                    property real travel: 0
+                    target: null
+                    acceptedDevices: PointerDevice.TouchPad
+                    enabled: root.isContainment && main.isRootView
+                    onWheel: event => {
+                        const delta = event.pixelDelta.y !== 0 ? event.pixelDelta.y : event.angleDelta.y / 8;
+                        const up = event.inverted ? delta < 0 : delta > 0;
+                        if (up && Math.abs(delta) > Math.abs(event.pixelDelta.x)) {
+                            travel += Math.abs(delta);
+                            if (travel > 80) {
+                                travel = 0;
+                                LauncherState.requestOpen(Screen.name);
+                            }
+                        } else {
+                            travel = 0;
+                        }
+                    }
+                }
+
+                property bool isRootView: false
+
+                property int iconSize: makeIconSize()
+                property int verticalDropHitscanOffset: 0
+
+                property Item hoveredItem: null
+
+                property int anchorIndex: 0
+                property bool ctrlPressed: false
+                property bool shiftPressed: false
+
+                property bool overflowing: {
+
+
+                    let widthOverflow =  visibleArea.widthRatio > 0.0 && visibleArea.widthRatio < 1.0
+                    let heightOverflow = visibleArea.heightRatio > 0.0 && visibleArea.heightRatio < 1.0
+                    return widthOverflow || heightOverflow
+                }
+
+                property bool scrollLeft: false
+                property bool scrollRight: false
+                property bool scrollUp: false
+                property bool scrollDown: false
+
+                property var cachedRectangleSelection: null
+
+                currentIndex: -1
+
+                keyNavigationWraps: false
+                boundsBehavior: Flickable.StopAtBounds
+                focus: true
+
+                PlasmaComponents.ScrollBar.vertical: PlasmaComponents.ScrollBar {
+                    id: verticalScrollBar
+                }
+                PlasmaComponents.ScrollBar.horizontal: PlasmaComponents.ScrollBar {}
+
+                function calcExtraSpacing(cellSize, containerSize) {
+                    var availableColumns = Math.floor(containerSize / cellSize);
+                    var extraSpacing = 0;
+                    if (availableColumns > 0) {
+                        var allColumnSize = availableColumns * cellSize;
+                        var extraSpace = Math.max(containerSize - allColumnSize, 0);
+                        extraSpacing = extraSpace / availableColumns;
+                    }
+                    return Math.floor(extraSpacing);
+                }
+
+                cellWidth: {
+                    if (root.useListViewMode) {
+                        return gridView.width - (verticalScrollBar.visible ? verticalScrollBar.width : 0);
+                    } else {
+                        var iconWidth = iconSize + (2 * Kirigami.Units.gridUnit) + (2 * Kirigami.Units.smallSpacing);
+                        if (root.isContainment && isRootView && scrollArea.viewportWidth > 0) {
+                            var minIconWidth = Math.max(iconWidth, Kirigami.Units.iconSizes.small * ((Plasmoid.configuration.labelWidth * 2) + 4) + Kirigami.Units.gridUnit / 2);
+                            var extraWidth = calcExtraSpacing(minIconWidth, scrollArea.viewportWidth);
+                            return minIconWidth + extraWidth;
+                        } else {
+                            return iconWidth;
+                        }
+                    }
+                }
+
+                cellHeight: {
+                    if (root.useListViewMode) {
+                        return Math.ceil((Math.max(Kirigami.Units.iconSizes.sizeForLabels, iconSize)
+                            + Math.max(highlightItemSvg.margins.top + highlightItemSvg.margins.bottom,
+                            listItemSvg.margins.top + listItemSvg.margins.bottom)) / 2) * 2;
+                    } else {
+
+                        var iconHeight = iconSize + (Kirigami.Units.gridUnit * Plasmoid.configuration.textLines) + (Kirigami.Units.smallSpacing * 3);
+                        if (root.isContainment && isRootView && scrollArea.viewportHeight > 0) {
+                            var extraHeight = calcExtraSpacing(iconHeight, scrollArea.viewportHeight);
+                            return iconHeight + extraHeight;
+                        } else {
+                            return iconHeight;
+                        }
+                    }
+                }
+
+                delegate: FolderItemDelegate {
+                    readonly property string itemUrl: model.blank ? "" : String(model.url)
+                    width: gridView.cellWidth
+                    height: gridView.cellHeight
+                }
+
+                onContentXChanged: {
+                    if (hoveredItem) {
+                        hoverActivateTimer.stop();
+                    }
+
+                    cancelRename();
+
+                    dir.setDragHotSpotScrollOffset(contentX, contentY);
+
+                    if (contentX === 0) {
+                        scrollLeft = false;
+                    }
+
+                    if (contentX === contentItem.width - width) {
+                        scrollRight = false;
+                    }
+
+
+                    if (main.rubberBand) {
+                        var rB = main.rubberBand;
+
+                        if (scrollLeft) {
+                            rB.x = Math.min(gridView.contentX, gridView.originX);
+                            rB.width = listener.cPress.x;
+                        }
+
+                        if (scrollRight) {
+                            var lastCol = gridView.contentX + gridView.width;
+                            rB.width = lastCol - rB.x;
+                        }
+
+                        Qt.callLater(gridView.rectangleSelect, rB.x, rB.y, rB.width, rB.height, main.rubberBand);
+                    }
+                }
+
+                onContentYChanged: {
+                    if (hoveredItem) {
+                        hoverActivateTimer.stop();
+                    }
+
+                    cancelRename();
+
+                    dir.setDragHotSpotScrollOffset(contentX, contentY);
+
+                    if (contentY === 0) {
+                        scrollUp = false;
+                    }
+
+                    if (contentY === contentItem.height - height) {
+                        scrollDown = false;
+                    }
+
+
+                    if (main.rubberBand) {
+                        var rB = main.rubberBand;
+
+                        if (scrollUp) {
+                            rB.y = 0;
+                            rB.height = listener.cPress.y;
+                        }
+
+                        if (scrollDown) {
+                            var lastRow = gridView.contentY + gridView.height;
+                            rB.height = lastRow - rB.y;
+                        }
+
+                        Qt.callLater(gridView.rectangleSelect, rB.x, rB.y, rB.width, rB.height, main.rubberBand);
+                    }
+                }
+
+                onScrollLeftChanged: {
+                    if (scrollLeft && gridView.visibleArea.widthRatio < 1.0) {
+                        smoothX.enabled = true;
+                        contentX = (gridView.flow === GridView.FlowLeftToRight) ? gridView.contentX : gridView.originX;
+                    } else {
+                        contentX = contentX;
+                        smoothX.enabled = false;
+                    }
+                }
+
+                onScrollRightChanged: {
+                    if (scrollRight && gridView.visibleArea.widthRatio < 1.0) {
+                        smoothX.enabled = true;
+                        contentX = ((gridView.flow === GridView.FlowLeftToRight) ? gridView.contentX : gridView.originX)
+                            + (contentItem.width - width);
+                    } else {
+                        contentX = contentX;
+                        smoothX.enabled = false;
+                    }
+                }
+
+                onScrollUpChanged: {
+                    if (scrollUp && gridView.visibleArea.heightRatio < 1.0) {
+                        smoothY.enabled = true;
+                        contentY = 0;
+                    } else {
+                        contentY = contentY;
+                        smoothY.enabled = false;
+                    }
+                }
+
+                onScrollDownChanged: {
+                    if (scrollDown && gridView.visibleArea.heightRatio < 1.0) {
+                        smoothY.enabled = true;
+                        contentY = contentItem.height - height;
+                    } else {
+                        contentY = contentY;
+                        smoothY.enabled = false;
+                    }
+                }
+
+                onCurrentIndexChanged: {
+                    positionViewAtIndex(currentIndex, GridView.Contain);
+                }
+
+                onCachedRectangleSelectionChanged: {
+                    if (cachedRectangleSelection === null) {
+                        return;
+                    }
+
+                    if (cachedRectangleSelection.length) {
+
+
+                        currentIndex = cachedRectangleSelection[0];
+                    }
+
+                    dir.updateSelection(cachedRectangleSelection.map(row => positioner.map(row)),
+                        gridView.ctrlPressed);
+                }
+
+                function makeIconSize() {
+                    if (root.useListViewMode) {
+                        return Kirigami.Units.iconSizes.small;
+                    }
+
+                    return FolderTools.iconSizeFromTheme(Plasmoid.configuration.iconSize);
+                }
+
+                function updateSelection(modifier) {
+                    if (modifier & Qt.ShiftModifier) {
+                        positioner.setRangeSelected(anchorIndex, currentIndex);
+                    } else {
+                        dir.clearSelection();
+                        dir.setSelected(positioner.map(currentIndex));
+                        if (currentIndex === -1) {
+                            previouslySelectedItemIndex = -1;
+                        }
+                        previouslySelectedItemIndex = currentIndex;
+                    }
+                }
+
+                function cancelAutoscroll() {
+                    scrollLeft = false;
+                    scrollRight = false;
+                    scrollUp = false;
+                    scrollDown = false;
+                }
+
+                function rectangleSelect(x, y, width, height, rubberBand) {
+                    var rows = (gridView.flow === GridView.FlowLeftToRight);
+                    var axis = rows ? gridView.width : gridView.height;
+                    var step = rows ? cellWidth : cellHeight;
+                    var perStripe = Math.floor(axis / step);
+                    var stripes = Math.ceil(gridView.count / perStripe);
+                    var cWidth = gridView.cellWidth - (2 * Kirigami.Units.smallSpacing);
+                    var cHeight = gridView.cellHeight - (2 * Kirigami.Units.smallSpacing);
+                    var midWidth = gridView.cellWidth / 2;
+                    var midHeight = gridView.cellHeight / 2;
+                    var indices = [];
+
+                    for (var s = 0; s < stripes; s++) {
+                        for (var i = 0; i < perStripe; i++) {
+                            var index = (s * perStripe) + i;
+
+                            if (index >= gridView.count) {
+                                break;
+                            }
+
+                            if (positioner.isBlank(index)) {
+                                continue;
+                            }
+
+                            var itemX = ((rows ? i : s) * gridView.cellWidth);
+                            var itemY = ((rows ? s : i) * gridView.cellHeight);
+
+                            if (gridView.effectiveLayoutDirection === Qt.RightToLeft) {
+                                itemX -= (rows ? gridView.contentX : gridView.originX);
+                                itemX += cWidth;
+                                itemX = (rows ? gridView.width : gridView.contentItem.width) - itemX;
+                            }
+
+
+
+                            if (rubberBand.intersects(Qt.rect(itemX + Kirigami.Units.smallSpacing, itemY + Kirigami.Units.smallSpacing,
+                                cWidth, cHeight))) {
+                                var item = gridView.contentItem.childAt(itemX + midWidth, itemY + midHeight);
+
+
+
+                                if (item && item.iconArea) {
+                                    var iconRect = Qt.rect(itemX + item.iconArea.x, itemY + item.iconArea.y,
+                                        item.iconArea.width, item.iconArea.height);
+
+                                    if (rubberBand.intersects(iconRect)) {
+                                        indices.push(index);
+                                        continue;
+                                    }
+
+                                    var labelRect = Qt.rect(itemX + item.labelArea.x, itemY + item.labelArea.y,
+                                        item.labelArea.width, item.labelArea.height);
+
+                                    if (rubberBand.intersects(labelRect)) {
+                                        indices.push(index);
+                                        continue;
+                                    }
+                                } else {
+
+                                    indices.push(index);
+                                }
+                            }
+                        }
+                    }
+
+                    gridView.cachedRectangleSelection = indices;
+                }
+
+                function runOrCdSelected() {
+                    if (currentIndex !== -1 && dir.hasSelection()) {
+                        if (root.useListViewMode && currentItem.isDir) {
+                            doCd(positioner.map(currentIndex));
+                        } else {
+                            dir.runSelected();
+                        }
+                    }
+                }
+
+                Behavior on contentX { id: smoothX; enabled: false; SmoothedAnimation { velocity: 700 } }
+                Behavior on contentY { id: smoothY; enabled: false; SmoothedAnimation { velocity: 700 } }
+
+                Keys.onReturnPressed: event => {
+                    if (event.modifiers === Qt.AltModifier) {
+                        dir.openPropertiesDialog();
+                    } else {
+                        runOrCdSelected();
+                    }
+                }
+
+                Keys.onEnterPressed: event => Keys.returnPressed(event)
+
+                Keys.onMenuPressed: event => {
+                    if (currentIndex !== -1 && dir.hasSelection() && currentItem) {
+                        dir.setSelected(positioner.map(currentIndex));
+                        dir.openContextMenu(currentItem.frame, event.modifiers);
+                    } else {
+
+                        event.accepted = false;
+                    }
+                }
+
+                Keys.onEscapePressed: event => {
+                    if (!editor || !editor.targetItem) {
+                        previouslySelectedItemIndex = -1;
+                        dir.clearSelection();
+                        event.accepted = false;
+                    }
+                }
+
+                Folder.ShortCut {
+                    Component.onCompleted: {
+                        installAsEventFilterFor(gridView);
+                    }
+
+                    onDeleteFile: {
+                        dir.deleteSelected();
+                    }
+
+                    onRenameFile: {
+                        rename();
+                    }
+
+                    onMoveToTrash: {
+                        const action = dir.action("trash");
+                        if (action && action.enabled) {
+                            action.trigger();
+                        }
+                    }
+
+                    onCreateFolder: {
+                        model.createFolder();
+                    }
+                }
+
+                Keys.onPressed: event => {
+                    event.accepted = true;
+
+                    if (event.key === Qt.Key_Control) {
+                        ctrlPressed = true;
+                    } else if (event.key === Qt.Key_Shift) {
+                        shiftPressed = true;
+
+                        if (currentIndex !== -1) {
+                            anchorIndex = currentIndex;
+                        }
+                    } else if (event.key === Qt.Key_Home) {
+                        currentIndex = 0;
+                        updateSelection(event.modifiers);
+                    } else if (event.key === Qt.Key_End) {
+                        currentIndex = count - 1;
+                        updateSelection(event.modifiers);
+                    } else if (event.matches(StandardKey.Copy)) {
+                        dir.copy();
+                    } else if (event.matches(StandardKey.Paste)) {
+                        dir.paste();
+                    } else if (event.matches(StandardKey.Cut)) {
+                        dir.cut();
+                    } else if (event.matches(StandardKey.Undo)) {
+                        dir.undo();
+                    } else if (event.matches(StandardKey.Refresh)) {
+                        dir.refresh();
+                    } else if (event.matches(StandardKey.SelectAll)) {
+                        positioner.setRangeSelected(0, count - 1);
+                    } else {
+                        event.accepted = false;
+                    }
+                }
+
+                Keys.onReleased: event => {
+                    if (event.key === Qt.Key_Control) {
+                        ctrlPressed = false;
+                    } else if (event.key === Qt.Key_Shift) {
+                        shiftPressed = false;
+                        anchorIndex = 0;
+                    }
+                }
+
+                Keys.onLeftPressed: event => {
+                    if (root.isPopup && root.useListViewMode) {
+                        if (dir.resolvedUrl !== dir.resolve(Plasmoid.configuration.url)) {
+                            doBack();
+                        }
+                    } else if (positioner.enabled) {
+                        var newIndex = positioner.nearestItem(currentIndex,
+                            FolderTools.effectiveNavDirection(gridView.flow, gridView.effectiveLayoutDirection, Qt.LeftArrow));
+
+                        if (newIndex !== -1) {
+                            currentIndex = newIndex;
+                            updateSelection(event.modifiers);
+                        }
+                    } else {
+                        var oldIndex = currentIndex;
+
+                        moveCurrentIndexLeft();
+
+                        if (oldIndex === currentIndex) {
+                            return;
+                        }
+
+                        updateSelection(event.modifiers);
+                    }
+                }
+
+                Keys.onRightPressed: event => {
+                    if (root.isPopup && root.useListViewMode) {
+                        if (currentIndex !== -1 && dir.hasSelection() && currentItem.isDir) {
+                            doCd(positioner.map(currentIndex));
+                        }
+                    } else if (positioner.enabled) {
+                        var newIndex = positioner.nearestItem(currentIndex,
+                            FolderTools.effectiveNavDirection(gridView.flow, gridView.effectiveLayoutDirection, Qt.RightArrow));
+
+                        if (newIndex !== -1) {
+                            currentIndex = newIndex;
+                            updateSelection(event.modifiers);
+                        }
+                    } else {
+                        var oldIndex = currentIndex;
+
+                        moveCurrentIndexRight();
+
+                        if (oldIndex === currentIndex) {
+                            return;
+                        }
+
+                        updateSelection(event.modifiers);
+                    }
+                }
+
+                Keys.onUpPressed: event => {
+                    if (positioner.enabled) {
+                        var newIndex = positioner.nearestItem(currentIndex,
+                            FolderTools.effectiveNavDirection(gridView.flow, gridView.effectiveLayoutDirection, Qt.UpArrow));
+
+                        if (newIndex !== -1) {
+                            currentIndex = newIndex;
+                            updateSelection(event.modifiers);
+                        }
+                    } else {
+                        var oldIndex = currentIndex;
+
+                        moveCurrentIndexUp();
+
+                        if (oldIndex === currentIndex) {
+                            return;
+                        }
+
+                        updateSelection(event.modifiers);
+                    }
+                }
+
+                Keys.onDownPressed: event => {
+                    if (positioner.enabled) {
+                        var newIndex = positioner.nearestItem(currentIndex,
+                            FolderTools.effectiveNavDirection(gridView.flow, gridView.effectiveLayoutDirection, Qt.DownArrow));
+
+                        if (newIndex !== -1) {
+                            currentIndex = newIndex;
+                            updateSelection(event.modifiers);
+                        }
+                    } else {
+                        var oldIndex = currentIndex;
+
+                        moveCurrentIndexDown();
+
+                        if (oldIndex === currentIndex) {
+                            return;
+                        }
+
+                        updateSelection(event.modifiers);
+                    }
+                }
+
+                Keys.onBackPressed: event => {
+                    if (root.isPopup && dir.resolvedUrl !== dir.resolve(Plasmoid.configuration.url)) {
+                        doBack();
+                    }
+                }
+
+                Connections {
+                    target: Plasmoid.configuration
+
+                    function onIconSizeChanged() {
+                        gridView.iconSize = gridView.makeIconSize();
+                    }
+
+                    function onViewModeChanged() {
+                        gridView.iconSize = gridView.makeIconSize();
+                    }
+
+                    function onUrlChanged() {
+                        history = [];
+                        updateHistory();
+                    }
+                }
+            }
+
+            Kirigami.InlineMessage {
+                width: parent.width / 2.0
+                anchors.horizontalCenter: parent.horizontalCenter
+                type: Kirigami.MessageType.Warning
+                text: i18nc("@info",
+                    "There are a lot of files and folders on the desktop. This can cause bugs and performance issues. Please consider moving some of them elsewhere.")
+
+                visible: isRootView && gridView.count > 2048
+            }
+        }
+
+        Folder.WheelInterceptor {
+            anchors.fill: parent
+
+            enabled: root.isContainment && !gridView.overflowing
+            destination: root
+        }
+
+        Folder.FolderModel {
+            id: dir
+
+            usedByContainment: root.isContainment && main.isRootView
+            sortDesc: Plasmoid.configuration.sortDesc
+            sortDirsFirst: Plasmoid.configuration.sortDirsFirst
+            parseDesktopFiles: (Plasmoid.configuration.url === "desktop:/")
+            previews: Plasmoid.configuration.previews
+            previewPlugins: Plasmoid.configuration.previewPlugins
+            applet: Plasmoid
+
+            onListingCompleted: {
+                if (!gridView.model && root.expanded) {
+                    gridView.model = positioner;
+                    gridView.currentIndex = isPopup ? 0 : -1;
+                } else if (goingBack) {
+                    goingBack = false;
+                    gridView.currentIndex = Math.min(lastPosition.index, gridView.count - 1);
+                    setSelected(positioner.map(gridView.currentIndex));
+                    gridView.contentY = lastPosition.yPosition * gridView.contentHeight;
+                }
+            }
+
+            onMove: (x, y, urls) => {
+                var rows = (gridView.flow === GridView.FlowLeftToRight);
+                var axis = rows ? gridView.width : gridView.height;
+                var step = rows ? cellWidth : cellHeight;
+                var perStripe = Math.floor(axis / step);
+                var dropPos = mapToItem(gridView.contentItem, x, y);
+                var leftEdge = Math.min(gridView.contentX, gridView.originX);
+
+                var moves = []
+                var itemX = -1;
+                var itemY = -1;
+                var col = -1;
+                var row = -1;
+                var from = -1;
+                var to = -1;
+
+                for (var i = 0; i < urls.length; i++) {
+                    from = positioner.indexForUrl(urls[i]);
+                    to = -1;
+
+                    if (from === -1) {
+                        continue;
+                    }
+
+                    var offset = dir.dragCursorOffset(positioner.map(from));
+
+                    if (offset.x === -1) {
+                        continue;
+                    }
+
+                    itemX = dropPos.x + offset.x + (listener.dragX % cellWidth) + (cellWidth / 2);
+                    itemY = dropPos.y + offset.y + (listener.dragY % cellHeight) + gridView.verticalDropHitscanOffset;
+
+                    if (gridView.effectiveLayoutDirection === Qt.RightToLeft) {
+                        itemX -= (rows ? gridView.contentX : gridView.originX);
+                        itemX = (rows ? gridView.width : gridView.contentItem.width) - itemX;
+                    }
+
+                    col = Math.floor(itemX / gridView.cellWidth);
+                    row = Math.floor(itemY / gridView.cellHeight);
+
+                    if ((rows ? col : row) < perStripe) {
+                        to = ((rows ? row : col) * perStripe) + (rows ? col : row);
+
+                        if (to < 0) {
+                            return;
+                        }
+                    }
+
+                    if (from !== to) {
+                        moves.push(from);
+                        moves.push(to);
+                    }
+                }
+
+                if (moves.length) {
+
+
+                    gridView.currentIndex = positioner.move(moves);
+                    gridView.forceLayout();
+                }
+
+                previouslySelectedItemIndex = -1;
+            }
+        }
+
+        GullDeskIconLayout {
+            id: iconLayout
+            appletsLayout: isContainment && main.isRootView ? root.appletsLayout : null
+            grid: gridView
+            positioner: positioner
+            directory: dir
+            sorted: main.sortMode !== -1
+        }
+
+        Folder.Positioner {
+            id: positioner
+
+            enabled: isContainment && (sortMode === -1 || iconLayout.active)
+            applet: sortMode === -1 ? main.positionerApplet : null
+
+            folderModel: dir
+
+            perStripe: Math.floor((gridView.flow === GridView.FlowLeftToRight)
+                ? (gridView.width / gridView.cellWidth)
+                : (gridView.height / gridView.cellHeight))
+        }
+
+        Folder.ItemViewAdapter {
+            id: viewAdapter
+
+            adapterView: gridView
+            adapterModel: positioner
+            adapterIconSize: gridView.iconSize * 2
+            adapterVisibleArea: Qt.rect(gridView.contentX, gridView.contentY, gridView.contentWidth, gridView.contentHeight)
+
+            Component.onCompleted: {
+                gridView.movementStarted.connect(viewAdapter.viewScrolled);
+                dir.viewAdapter = viewAdapter;
+            }
+        }
+
+        Component {
+            id: editorComponent
+
+            RenameEditor {
+                id: editor
+
+                visible: false
+
+                onCommit: {
+                    if (targetItem) {
+                        dir.rename(positioner.map(targetItem.index), text);
+                        targetItem = null;
+                        gridView.forceActiveFocus();
+                    }
+                }
+
+                onVisibleChanged: {
+                    if (root.visible) {
+                        focus = true;
+                    } else {
+                        scrollArea.focus = true;
+                    }
+                }
+            }
+        }
+
+        Component.onCompleted: {
+            dir.requestRename.connect(rename);
+        }
+    }
+
+    StatusBarProbe {
+        active: root.isContainment && main.isRootView
+        wallpaper: root.wallpaper ?? null
+        desktop: root
+        strip: root.availableScreenRect ? root.availableScreenRect.y : 0
+    }
+
+    Component.onCompleted: {
+        if (backButton === null && root.useListViewMode) {
+            backButton = makeBackButton();
+        }
+        if (main.keepsLaunchers) {
+            launcherTidy.restart();
+        }
+        if (main.homeView) {
+            widgetTidy.restart();
+        }
+    }
+}

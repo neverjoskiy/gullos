@@ -1,0 +1,108 @@
+#!/usr/bin/python3
+# SPDX-FileCopyrightText: 2026 GullDesk Developers
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+import ast
+import os
+import re
+import subprocess
+import sys
+
+KEYS = {"Alt+Space", "Meta+A", "Meta+Q", "Meta+N", "Meta+V", "Meta+."}
+ACTIVITIES = "['plasmashell', 'manage activities', '', '']"
+META_Q = 0x10000000 | 0x51
+ENTRY = re.compile(r"^activate widget (\d+)=([^,]*),", re.MULTILINE)
+SECTION = re.compile(r"^\[plasmashell\]\n(.*?)(?=^\[|\Z)", re.MULTILINE | re.DOTALL)
+LIVE = """
+var ids = [];
+panels().concat(desktops()).forEach(function (holder) {
+    holder.widgets().forEach(function (widget) {
+        ids.push(widget.id);
+    });
+});
+print(ids.join(" "));
+"""
+ASSIGN = """
+var bar = panels().some(function (panel) {
+    return panel.widgets("org.gulldesk.datetime").length > 0;
+});
+var wanted = [
+    ["org.gulldesk.launcher", false, "Alt+Space", ""],
+    ["org.gulldesk.quicksettings", false, bar ? "Meta+Q" : "Meta+A", bar ? "Meta+A" : "Meta+Q"],
+    ["org.gulldesk.clipboard", false, "Meta+V", ""],
+    ["org.gulldesk.clipboard", true, "Meta+.", ""]
+];
+if (bar) {
+    wanted.push(["org.kde.plasma.notifications", false, "Meta+N", ""]);
+}
+var widgets = [];
+panels().forEach(function (panel) {
+    widgets = widgets.concat(panel.widgets());
+});
+function showsEmoji(widget) {
+    widget.currentConfigGroup = ["General"];
+    return widget.readConfig("startPage") === "emoji";
+}
+wanted.forEach(function (item) {
+    var held = widgets.some(function (widget) {
+        return String(widget.globalShortcut) === item[2];
+    });
+    var free = widgets.filter(function (widget) {
+        var key = String(widget.globalShortcut);
+        return widget.type === item[0] && (!key || (item[3] && key === item[3])) && showsEmoji(widget) === item[1];
+    });
+    if (!held && free.length > 0) {
+        free[0].globalShortcut = item[2];
+    }
+});
+"""
+
+
+def call(*arguments: str) -> str:
+    try:
+        return subprocess.run(["gdbus", "call", "--session", *arguments], stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                              stderr=subprocess.DEVNULL, text=True, timeout=20, check=False).stdout
+    except (OSError, subprocess.TimeoutExpired):
+        return ""
+
+
+def evaluate(script: str) -> str:
+    reply = call("--dest", "org.kde.plasmashell", "--object-path", "/PlasmaShell", "--method",
+                 "org.kde.PlasmaShell.evaluateScript", script)
+    try:
+        return str(ast.literal_eval(reply.strip())[0])
+    except (SyntaxError, ValueError, IndexError):
+        return ""
+
+
+def stale(config: str, live: set[str]) -> list[str]:
+    section = SECTION.search(config)
+    if section is None:
+        return []
+    return [f"activate widget {number}" for number, keys in ENTRY.findall(section.group(1)) if keys in KEYS and number not in live]
+
+
+def main() -> int:
+    home = os.environ.get("XDG_CONFIG_HOME") or os.path.expanduser("~/.config")
+    live = set(evaluate(LIVE).split())
+    if not live:
+        return 1
+    try:
+        with open(os.path.join(home, "kglobalshortcutsrc"), encoding="utf-8") as handle:
+            config = handle.read()
+    except OSError:
+        return 1
+    for name in stale(config, live):
+        call("--dest", "org.kde.kglobalaccel", "--object-path", "/kglobalaccel", "--method",
+             "org.kde.KGlobalAccel.unregister", "plasmashell", name)
+    held = call("--dest", "org.kde.kglobalaccel", "--object-path", "/kglobalaccel", "--method",
+                "org.kde.KGlobalAccel.shortcut", ACTIVITIES)
+    if str(META_Q) in held:
+        call("--dest", "org.kde.kglobalaccel", "--object-path", "/kglobalaccel", "--method",
+             "org.kde.KGlobalAccel.setForeignShortcut", ACTIVITIES, "@ai []")
+    evaluate(ASSIGN)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=Install GullDesk
+Name[ru]=Установить GullDesk
+GenericName=Install on disk
+GenericName[ru]=Установка на диск
+Comment=Install GullDesk OS on this computer
+Comment[ru]=Установить GullDesk OS на этот компьютер
+Icon=org.gulldesk.installer
+Exec=/usr/bin/gulldesk-installer
+Categories=Qt;System;
+Keywords=install;installer;disk;calamares;установить;установка;диск;
+StartupNotify=true
+StartupWMClass=calamares

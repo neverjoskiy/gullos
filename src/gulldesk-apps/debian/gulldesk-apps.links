@@ -1,0 +1,1 @@
+usr/lib/systemd/user/gulldesk-setup-style.service usr/lib/systemd/user/plasma-workspace.target.wants/gulldesk-setup-style.service

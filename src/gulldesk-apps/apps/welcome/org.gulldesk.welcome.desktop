@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Welcome
+Name[ru]=Добро пожаловать
+GenericName=Introduction to GullDesk OS
+GenericName[ru]=Знакомство с GullDesk OS
+Icon=org.gulldesk.welcome
+Exec=gulldesk-welcome
+Categories=Qt;System;
+Keywords=welcome;tour;introduction;приветствие;знакомство;
+StartupNotify=true

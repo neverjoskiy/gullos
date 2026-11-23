@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2026 GullDesk Developers
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+add_library(gulldeskhost STATIC host.cpp host.h)
+target_link_libraries(gulldeskhost PUBLIC
+    Qt6::Widgets Qt6::Qml Qt6::Quick Qt6::QuickControls2 Qt6::Network
+    KF6::CoreAddons KF6::DBusAddons KF6::I18n KF6::I18nQml)
+target_compile_definitions(gulldeskhost PUBLIC GULLDESK_APPS_VERSION="${PROJECT_VERSION}")
+
+foreach(app settings files welcome editor photos player calculator screenshot store share taskmanager drivers apkinstaller appsplash androiddialog appgroup)
+    add_executable(gulldesk-${app} ${app}.cpp)
+    target_link_libraries(gulldesk-${app} PRIVATE gulldeskhost)
+    target_compile_definitions(gulldesk-${app} PRIVATE TRANSLATION_DOMAIN="gulldesk-${app}")
+    install(TARGETS gulldesk-${app} ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+endforeach()

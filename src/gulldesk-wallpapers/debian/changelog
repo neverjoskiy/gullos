@@ -1,0 +1,6 @@
+gulldesk-wallpapers (1.0) UNRELEASED; urgency=medium
+
+  * Initial release: picture wallpapers sorted into collections for
+    Wallpaper & style, with light and dark variants where available.
+
+ -- GullDesk Developers <developers@gulldesk.invalid>  Thu, 12 Nov 2026 18:00:00 -0800

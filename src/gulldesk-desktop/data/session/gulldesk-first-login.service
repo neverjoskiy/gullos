@@ -1,0 +1,11 @@
+[Unit]
+Description=Keep the first login screen until the desktop is ready
+ConditionPathExists=%h/.config/gulldesk-first-login
+After=plasma-kwin_wayland.service
+Before=plasma-plasmashell.service
+PartOf=graphical-session.target
+
+[Service]
+Type=exec
+ExecStart=/usr/libexec/gulldesk-first-login
+TimeoutStopSec=5

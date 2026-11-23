@@ -3,7 +3,6 @@ set -e
 
 # Enable live services
 systemctl --root=/ enable NetworkManager.service
-systemctl --root=/ enable seatd.service
 systemctl --root=/ enable systemd-timesyncd.service
 
 # gull user already created by mkarchiso? Ensure it exists with correct groups.

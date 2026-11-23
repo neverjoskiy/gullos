@@ -1,0 +1,4 @@
+Version=6
+
+Id=gulldesk_librewolf_chrome
+Script=gulldesk-librewolf-chrome.sh,sh

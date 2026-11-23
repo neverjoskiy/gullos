@@ -1,0 +1,4 @@
+Version=6
+
+Id=gulldesk_gtk_theme
+Script=gulldesk-gtk-theme.sh,sh

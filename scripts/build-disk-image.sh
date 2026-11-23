@@ -67,10 +67,12 @@ mount "${ESP_DEV}" "${ROOT_MNT}/boot/efi"
 # 4. pacstrap the installed-system package set
 PACSTRAP_PKGS=(
     base base-devel linux-cachyos linux linux-firmware
-    labwc seatd networkmanager pipewire pipewire-pulse wireplumber rtkit
-    firefox git nano ttf-dejavu noto-fonts grim slurp wl-clipboard xdg-desktop-portal-wlr
+    networkmanager pipewire pipewire-pulse wireplumber rtkit
+    firefox git nano ttf-dejavu ttf-roboto noto-fonts grim slurp wl-clipboard xdg-desktop-portal-wlr
     sudo man-db pacman-contrib grub efibootmgr os-prober
-    gull-sh gull-term gull-lock
+    gull-sh gull-term gull-lock calamares-settings-gullos
+    plasma-desktop plasma-workspace kwin kwin-wayland kglobalacceld kded kscreen powerdevil bluedevil plasma-nm plasma-pa
+    kvantum breeze-gtk-theme
     mkinitcpio
 )
 
@@ -114,8 +116,8 @@ EOF
 
 # Enable services
 systemctl enable NetworkManager.service
-systemctl enable seatd.service
 systemctl enable systemd-timesyncd.service
+systemctl enable sddm.service 2>/dev/null || true
 
 # GRUB for both kernels, CachyOS default, timeout 5s
 cat > /etc/default/grub <<'EOF'

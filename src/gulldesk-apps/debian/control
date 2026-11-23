@@ -1,0 +1,95 @@
+Source: gulldesk-apps
+Section: kde
+Priority: optional
+Maintainer: GullDesk Developers <developers@gulldesk.invalid>
+Standards-Version: 4.7.4
+Build-Depends:
+ debhelper-compat (= 13),
+ cmake,
+ extra-cmake-modules,
+ gettext,
+ libcrypt-dev,
+ libappstreamqt-dev,
+ libflatpak-dev,
+ libkf6archive-dev,
+ libkf6config-dev,
+ libkf6coreaddons-dev,
+ libkf6dbusaddons-dev,
+ libkf6i18n-dev,
+ libkf6kio-dev,
+ libkf6notifications-dev,
+ libkf6service-dev,
+ libkf6windowsystem-dev,
+ libkscreen-dev,
+ libplasma-dev,
+ libpackagekitqt6-dev,
+ libqtermwidget-dev,
+ libutf8proc-dev,
+ pkgconf,
+ qt6-base-dev,
+ qt6-declarative-dev,
+ qt6-svg-dev
+Rules-Requires-Root: no
+
+Package: gulldesk-apps
+Architecture: amd64
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ accountsservice,
+ fonts-dejavu-mono,
+ nftables,
+ appstream,
+ flatpak,
+ kde-cli-tools,
+ gulldesk-archive (>= 1.3),
+ gulldesk-base (>= 1.6),
+ gulldesk-desktop (>= 1.4.81),
+ gulldesk-quickshare (>= 1.0.1),
+ ksystemstats,
+ libarchive-tools,
+ libksysguard-bin,
+ packagekit,
+ pkexec,
+ qt6-image-formats-plugins,
+ qt6-svg-plugins,
+ plasma-nm,
+ plasma-pa,
+ plasma-workspace,
+ powerdevil,
+ qml6-module-org-kde-bluezqt,
+ qml6-module-org-kde-kirigami,
+ qml6-module-org-kde-kitemmodels,
+ qml6-module-org-kde-ksysguard,
+ qml6-module-org-kde-layershell,
+ qml6-module-org-kde-notifications,
+ qml6-module-org-kde-quickcharts,
+ qml6-module-org-kde-syntaxhighlighting,
+ qml6-module-qt-labs-folderlistmodel,
+ qml6-module-qtmultimedia,
+ qml6-module-qtquick-controls,
+ qml6-module-qtquick-dialogs,
+ qml6-module-qtquick-layouts,
+ qml6-module-qtquick-shapes,
+ xdg-desktop-portal,
+ xdg-desktop-portal-kde
+Description: GullDesk OS applications
+ The everyday applications of GullDesk OS, drawn in its Material 3 design:
+ .
+  * Settings: network, Bluetooth, display, sound, notifications, wallpaper
+    and style, apps, power, input devices, accessibility, privacy, the
+    account, date and language, updates and information about the system;
+  * Store: find, install, remove and update Flathub and Debian apps;
+  * Files, Text Editor, Photos, Media Player, Calculator and Screenshot;
+  * Task Manager: running apps, background processes and live usage of
+    the processor, memory, graphics card, disk and network;
+  * Android App Installer: installs Android apps from APK files;
+  * Welcome, the first-run introduction;
+  * the file chooser: every program's open and save dialogs, served to
+    the session through the desktop portal.
+  * update notifications: a message when updates are ready to install and
+    when installed ones need a restart.
+ .
+ It also carries org.gulldesk.system, the Qt Quick module through which the
+ applications read and change the system, and org.gulldesk.shell, which the
+ desktop uses to open a widget's settings without leaving edit mode.

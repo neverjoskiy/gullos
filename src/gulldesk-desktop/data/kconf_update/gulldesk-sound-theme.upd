@@ -1,0 +1,7 @@
+Version=6
+
+Id=gulldesk_sound_theme
+Script=gulldesk-sound-theme.sh,sh
+
+Id=gulldesk_sound_theme_without_ocean
+Script=gulldesk-sound-theme.sh,sh

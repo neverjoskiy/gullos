@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Id": "gulldesk-life-monstera-leaf",
+        "Name": "Monstera Leaf",
+        "Name[ru]": "Лист монстеры",
+        "Authors": [
+            {
+                "Name": "Chris Lee"
+            }
+        ],
+        "License": "Unsplash License"
+    },
+    "KPackageStructure": "Wallpaper/Images",
+    "X-GullDesk-Category": "life"
+}

@@ -2,18 +2,37 @@
 pkgname=calamares-settings-gullos
 pkgver=0.1.0
 pkgrel=1
-pkgdesc="Calamares installer settings and Catppuccin Mocha branding for GullOS"
+pkgdesc="Calamares installer settings and GullDesk branding for GullOS"
 arch=('any')
 url="https://github.com/neverjoskiy/gullos"
-license=('MIT')
-depends=()
+license=('GPL-2.0-or-later')
+depends=('calamares')
 source=()
 options=('!strip')
 
+_GULLDESK_SRC="${startdir}/../../src/gulldesk-desktop"
+
+build() {
+  cd "${_GULLDESK_SRC}"
+  export PYTHONDONTWRITEBYTECODE=1
+  make -f debian/rules override_dh_auto_build >/dev/null 2>&1 || true
+}
+
 package() {
-    install -d "$pkgdir/etc/calamares"
-    cp -r "$startdir/settings.conf" "$pkgdir/etc/calamares/" 2>/dev/null || true
-    cp -r "$startdir/modules" "$pkgdir/etc/calamares/" 2>/dev/null || true
-    install -d "$pkgdir/usr/share/calamares/branding/gullos"
-    cp -r "$startdir/branding/gullos/." "$pkgdir/usr/share/calamares/branding/gullos/"
+  cd "${_GULLDESK_SRC}"
+  # Calamares settings from gulldesk-calamares.install mapping
+  install -d "${pkgdir}/etc/calamares"
+  [ -d data/calamares/modules ] && cp -a data/calamares/modules "${pkgdir}/etc/calamares/" 2>/dev/null || true
+  [ -f data/calamares/settings.conf ] && install -Dm644 data/calamares/settings.conf "${pkgdir}/etc/calamares/settings.conf" || true
+  # branding
+  install -d "${pkgdir}/usr/share/calamares/branding/gulldesk"
+  [ -d data/calamares/branding/gulldesk ] && cp -a data/calamares/branding/gulldesk/. "${pkgdir}/usr/share/calamares/branding/gulldesk/" 2>/dev/null || true
+  [ -d generated/branding ] && cp -a generated/branding/. "${pkgdir}/usr/share/calamares/branding/gulldesk/" 2>/dev/null || true
+  # installer helper + polkit
+  [ -d data/installer ] && {
+    [ -f data/installer/gulldesk-installer ] && install -Dm755 data/installer/gulldesk-installer "${pkgdir}/usr/bin/gulldesk-installer" || true
+    [ -f data/installer/org.gulldesk.installer.policy ] && install -Dm644 data/installer/org.gulldesk.installer.policy "${pkgdir}/usr/share/polkit-1/actions/org.gulldesk.installer.policy" || true
+    [ -f data/installer/49-gulldesk-installer.rules ] && install -Dm644 data/installer/49-gulldesk-installer.rules "${pkgdir}/usr/share/polkit-1/rules.d/49-gulldesk-installer.rules" || true
+    [ -f data/installer/org.gulldesk.installer.desktop ] && install -Dm644 data/installer/org.gulldesk.installer.desktop "${pkgdir}/usr/share/applications/org.gulldesk.installer.desktop" || true
+  }
 }

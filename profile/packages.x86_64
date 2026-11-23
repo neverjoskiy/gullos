@@ -1,11 +1,9 @@
-# Live ISO package set — GullOS (vanilla Arch base + CachyOS kernel)
+# Live ISO package set — GullOS (vanilla Arch base + CachyOS kernel + Plasma 6 / GullDesk)
 base
 base-devel
 linux-cachyos
 linux
 linux-firmware
-labwc
-seatd
 networkmanager
 pipewire
 pipewire-pulse
@@ -15,6 +13,7 @@ firefox
 git
 nano
 ttf-dejavu
+ttf-roboto
 noto-fonts
 grim
 slurp
@@ -30,9 +29,31 @@ os-prober
 gull-sh
 gull-term
 gull-lock
+calamares-settings-gullos
 mkinitcpio
 mkinitcpio-archiso
 syslinux
 zstd
 qemu-guest-agent
 virtualbox-guest-utils
+# Plasma 6 (Wayland-only)
+plasma-desktop
+plasma-workspace
+kwin
+kwin-wayland
+kglobalacceld
+kded
+kscreen
+powerdevil
+bluedevil
+plasma-nm
+plasma-pa
+kvantum
+breeze-gtk-theme
+# gulldesk-desktop-shell
+# gulldesk-desktop-themes
+# gulldesk-desktop-icons
+# gulldesk-desktop-cursors
+# gulldesk-desktop-wallpapers
+# gulldesk-desktop-widgets
+# gulldesk-desktop-services

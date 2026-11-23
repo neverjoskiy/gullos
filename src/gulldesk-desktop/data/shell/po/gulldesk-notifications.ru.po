@@ -1,0 +1,19 @@
+# Russian translation of GullDesk's notification popups and history.
+# SPDX-FileCopyrightText: 2026 GullDesk Developers
+# SPDX-License-Identifier: GPL-2.0-or-later
+msgid ""
+msgstr ""
+"Project-Id-Version: gulldesk-notifications\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Clear all"
+msgstr "Очистить все"
+
+msgid "No notifications"
+msgstr "Нет уведомлений"
+
+msgid "Silent"
+msgstr "Беззвучные"

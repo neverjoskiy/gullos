@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Id": "gulldesk-solid-colors-warm-sand",
+        "Name": "Warm Sand",
+        "Name[ru]": "Тёплый песочный",
+        "Authors": [
+            {
+                "Name": "GullDesk Team"
+            }
+        ],
+        "License": "CC0-1.0"
+    },
+    "KPackageStructure": "Wallpaper/Images",
+    "X-GullDesk-Category": "solid-colors"
+}

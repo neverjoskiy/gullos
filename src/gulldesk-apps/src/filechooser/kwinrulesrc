@@ -1,0 +1,31 @@
+[General]
+count=2
+rules=org.gulldesk.filechooser,org.gulldesk.appgroup
+
+[org.gulldesk.filechooser]
+Description=GullDesk file chooser
+wmclass=org.gulldesk.filechooser
+wmclassmatch=1
+skiptaskbar=true
+skiptaskbarrule=2
+skippager=true
+skippagerrule=2
+above=true
+aboverule=2
+placement=5
+placementrule=2
+
+[org.gulldesk.appgroup]
+Description=GullDesk app group
+wmclass=org.gulldesk.appgroup
+wmclassmatch=1
+skiptaskbar=true
+skiptaskbarrule=2
+skippager=true
+skippagerrule=2
+skipswitcher=true
+skipswitcherrule=2
+above=true
+aboverule=2
+placement=7
+placementrule=2

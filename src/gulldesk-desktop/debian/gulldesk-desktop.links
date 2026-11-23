@@ -1,0 +1,6 @@
+usr/lib/x86_64-linux-gnu/qt6/plugins/kf6/kirigami/platform/org.kde.desktop.so usr/lib/x86_64-linux-gnu/qt6/plugins/kf6/kirigami/platform/org.gulldesk.desktop.so
+usr/share/applications/org.gulldesk.terminal.desktop usr/share/kglobalaccel/org.gulldesk.terminal.desktop
+etc/skel/.face etc/skel/.face.icon
+usr/lib/systemd/user/gulldesk-android-sync.path usr/lib/systemd/user/default.target.wants/gulldesk-android-sync.path
+usr/lib/systemd/user/gulldesk-android-done.path usr/lib/systemd/user/default.target.wants/gulldesk-android-done.path
+usr/lib/systemd/user/gulldesk-first-login.service usr/lib/systemd/user/plasma-workspace.target.wants/gulldesk-first-login.service

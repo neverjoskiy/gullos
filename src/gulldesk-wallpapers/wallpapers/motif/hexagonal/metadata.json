@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Id": "gulldesk-motif-hexagonal",
+        "Name": "Hexagonal",
+        "Name[ru]": "Гексагональный узор",
+        "Authors": [
+            {
+                "Name": "the blowup"
+            }
+        ],
+        "License": "Unsplash License"
+    },
+    "KPackageStructure": "Wallpaper/Images",
+    "X-GullDesk-Category": "motif"
+}

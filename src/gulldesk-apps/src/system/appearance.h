@@ -1,0 +1,72 @@
+// SPDX-FileCopyrightText: 2026 GullDesk Developers
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+#pragma once
+
+#include <KConfigWatcher>
+#include <QJSValue>
+#include <QObject>
+#include <QVariant>
+#include <QtQml/qqmlregistration.h>
+
+#include <memory>
+
+class Appearance : public QObject
+{
+    Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
+
+    Q_PROPERTY(bool dark READ dark NOTIFY darkChanged)
+    Q_PROPERTY(QString generation READ generation NOTIFY generationChanged)
+    Q_PROPERTY(QString colour READ colour NOTIFY colourChanged)
+    Q_PROPERTY(QString colourSource READ colourSource NOTIFY colourChanged)
+    Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
+
+public:
+    explicit Appearance(QObject *parent = nullptr);
+
+    bool dark() const;
+    QString generation() const;
+    QString colour() const;
+    QString colourSource() const;
+    bool busy() const { return m_busy; }
+
+    Q_INVOKABLE void setDark(bool dark, const QJSValue &callback = QJSValue());
+    Q_INVOKABLE void setGeneration(const QString &generation, const QJSValue &callback = QJSValue());
+    Q_INVOKABLE void apply(const QString &generation, bool dark, const QJSValue &callback = QJSValue());
+    Q_INVOKABLE void setColour(const QString &colour, const QJSValue &callback = QJSValue());
+    Q_INVOKABLE void setStyle(const QString &colour, bool dark, const QJSValue &callback = QJSValue());
+    Q_INVOKABLE QVariantList colours() const;
+    Q_INVOKABLE QStringList wallpaperColours(const QString &wallpaper) const;
+    Q_INVOKABLE void setWallpaperColour(const QString &colour, const QJSValue &callback = QJSValue());
+    Q_INVOKABLE void followWallpaper(const QString &wallpaper, const QJSValue &callback = QJSValue());
+    Q_INVOKABLE QStringList fontFamilies(bool monospace) const;
+
+Q_SIGNALS:
+    void darkChanged();
+    void generationChanged();
+    void colourChanged();
+    void busyChanged();
+
+private:
+    struct Switch;
+    void writeTerminalColours(const QString &colour, bool dark) const;
+    void setColourSource(const QString &source);
+    void applyTheme(const QString &colour, const QString &generation, bool dark, const QJSValue &callback);
+    QString wantedColour() const;
+    QString wantedGeneration() const;
+    bool wantedDark() const;
+    void runStep(const std::shared_ptr<Switch> &state, int index);
+
+    KConfigWatcher::Ptr m_watcher;
+    bool m_busy = false;
+    bool m_pending = false;
+    QString m_targetColour;
+    QString m_targetGeneration;
+    bool m_targetDark = true;
+    QString m_pendingColour;
+    QString m_pendingGeneration;
+    bool m_pendingDark = true;
+    QJSValue m_pendingCallback;
+};

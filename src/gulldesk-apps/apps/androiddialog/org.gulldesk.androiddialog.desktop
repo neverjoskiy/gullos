@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Android App Question
+Name[ru]=Вопрос Android-приложения
+Icon=gulldesk-android
+Exec=gulldesk-androiddialog
+Categories=Qt;System;
+NoDisplay=true

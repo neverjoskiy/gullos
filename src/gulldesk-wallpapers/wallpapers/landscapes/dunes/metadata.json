@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Id": "gulldesk-landscapes-dunes",
+        "Name": "Dunes",
+        "Name[ru]": "Песчаные дюны",
+        "Authors": [
+            {
+                "Name": "shot_by_teo"
+            }
+        ],
+        "License": "Unsplash License"
+    },
+    "KPackageStructure": "Wallpaper/Images",
+    "X-GullDesk-Category": "landscapes"
+}

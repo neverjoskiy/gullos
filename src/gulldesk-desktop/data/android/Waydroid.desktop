@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Android apps
+Name[ru]=Android-приложения
+Comment=Android apps on GullDesk
+Comment[ru]=Приложения Android в GullDesk
+Exec=waydroid show-full-ui
+Icon=org.gulldesk.android
+NoDisplay=true

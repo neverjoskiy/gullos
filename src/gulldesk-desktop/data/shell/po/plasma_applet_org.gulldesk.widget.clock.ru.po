@@ -1,0 +1,8 @@
+# Russian translation of the GullDesk Clock.
+msgid ""
+msgstr ""
+"Project-Id-Version: gulldesk-desktop 1.4\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"

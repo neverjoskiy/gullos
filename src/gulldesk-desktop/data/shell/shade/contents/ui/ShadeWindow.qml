@@ -1,0 +1,206 @@
+/*
+    SPDX-FileCopyrightText: 2026 GullDesk Developers
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
+
+import QtQuick
+import org.kde.plasma.core as PlasmaCore
+import org.kde.plasma.plasmoid
+import "m3"
+
+PlasmaCore.Dialog {
+    id: root
+
+    required property QtObject controller
+    required property QtObject backend
+    required property Item anchorItem
+
+    readonly property rect screenRect: Plasmoid.containment ? Plasmoid.containment.screenGeometry : Qt.rect(0, 0, 1280, 800)
+
+    readonly property int edgeGap: 8
+    readonly property bool fromTop: Plasmoid.location === PlasmaCore.Types.TopEdge
+    readonly property bool fromLeft: Plasmoid.location === PlasmaCore.Types.LeftEdge
+    readonly property bool fromRight: Plasmoid.location === PlasmaCore.Types.RightEdge
+    readonly property bool sideways: fromLeft || fromRight
+
+    type: PlasmaCore.Dialog.AppletPopup
+    location: PlasmaCore.Types.Floating
+    backgroundHints: PlasmaCore.Dialog.NoBackground
+    hideOnWindowDeactivate: false
+    flags: Qt.WindowStaysOnTopHint
+
+    visible: controller.shown
+
+    property double openedAt: 0
+    property QtObject blur: null
+
+    Component.onCompleted: {
+        try {
+            blur = Qt.createQmlObject("import org.gulldesk.shell\nWindowBlur {}", root, "ShadeBlur");
+        } catch (error) {
+            blur = null;
+        }
+        if (blur) {
+            blur.window = root;
+            blur.radius = Qt.binding(() => sheet.cornerRadius);
+            blur.rect = Qt.binding(() => Qt.rect(sheet.x, sheet.y, sheet.width, sheet.height));
+            blur.enabled = Qt.binding(() => root.visible && sheet.frost > 0);
+        }
+    }
+    readonly property bool opening: controller.opening
+    onOpeningChanged: {
+        if (opening) {
+            openedAt = Date.now();
+        }
+    }
+    x: screenRect.x
+    y: screenRect.y
+
+    onVisibleChanged: {
+        if (visible) {
+            stage.alignSheet();
+            sheet.scrollToTop();
+            requestActivate();
+            sheet.forceActiveFocus();
+        }
+    }
+
+    onWindowDeactivated: {
+        if (!controller.dragging && controller.opening) {
+            controller.close();
+        }
+    }
+
+    mainItem: Item {
+        id: stage
+
+        width: root.screenRect.width
+        height: root.screenRect.height
+
+        property real anchorLeft: width - root.edgeGap
+        property real anchorRight: width - root.edgeGap
+        property real anchorTop: height
+        property real anchorBottom: height
+
+        function alignSheet(): void {
+            if (!root.anchorItem) {
+                return;
+            }
+            const topLeft = root.anchorItem.mapToGlobal(0, 0);
+            anchorLeft = topLeft.x - root.screenRect.x;
+            anchorRight = anchorLeft + root.anchorItem.width;
+            anchorTop = topLeft.y - root.screenRect.y;
+            anchorBottom = anchorTop + root.anchorItem.height;
+        }
+
+        readonly property real restBottom: Math.min(height - root.edgeGap, anchorTop - 8 - root.edgeGap)
+        readonly property real room: root.fromTop ? height - anchorBottom - 8 - 2 * root.edgeGap
+            : root.sideways ? height - 2 * root.edgeGap
+            : restBottom - root.edgeGap
+
+        Keys.onEscapePressed: root.controller.close()
+
+        Keys.onPressed: event => {
+            const modifierOnly = event.key === Qt.Key_Meta || event.key === Qt.Key_Super_L
+                || event.key === Qt.Key_Super_R;
+            const settling = Date.now() - root.openedAt < 400;
+            if ((event.modifiers & Qt.MetaModifier) && !modifierOnly
+                    && !event.isAutoRepeat && !settling) {
+                root.controller.close();
+                event.accepted = true;
+            }
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            color: M3.scrim
+            opacity: (root.fromTop && !M3.dark ? 0 : 0.32) * Math.max(0, Math.min(1, root.controller.progress))
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: root.controller.close()
+            onWheel: wheel => {
+                const point = sheet.mapFromItem(stage, wheel.x, wheel.y);
+                if (sheet.scrollable && sheet.contains(point)) {
+                    return;
+                }
+                gestures.handleWheel(wheel);
+            }
+        }
+
+        ShadeSheet {
+            id: sheet
+
+            backend: root.backend
+            progress: root.controller.progress
+            fromTop: root.fromTop
+            frosted: root.blur !== null && root.blur.available
+            resting: root.controller.resting
+            width: Math.min(implicitWidth, stage.width - 2 * root.edgeGap)
+            height: Math.min(implicitHeight, stage.room)
+
+            x: root.fromLeft ? Math.min(stage.width - width - root.edgeGap, stage.anchorRight + 18)
+                : root.fromRight ? Math.max(root.edgeGap, stage.anchorLeft - 18 - width)
+                : Math.max(root.edgeGap, Math.min(stage.width - width - root.edgeGap, stage.anchorRight - width))
+
+            readonly property real restY: root.fromTop ? stage.anchorBottom + 8 + root.edgeGap
+                : root.sideways ? Math.max(root.edgeGap, Math.min(stage.height - root.edgeGap - height, stage.anchorBottom - height))
+                : stage.restBottom - height
+            readonly property real hiddenY: root.fromTop ? -height - 48 : stage.height + 48
+            y: restY + (hiddenY - restY) * (1 - root.controller.progress)
+
+            onHeightChanged: root.controller.travel = Math.abs(hiddenY - restY)
+            onRestYChanged: root.controller.travel = Math.abs(hiddenY - restY)
+            Component.onCompleted: root.controller.travel = Math.abs(hiddenY - restY)
+
+            onRequestClose: root.controller.close()
+            Keys.onEscapePressed: root.controller.close()
+
+            onHandleDragStarted: root.controller.beginDrag()
+            onHandleDragMoved: upwards => root.controller.dragTo(upwards)
+            onHandleDragEnded: root.controller.endDrag()
+
+            DragHandler {
+                id: sheetDrag
+                enabled: !sheet.scrollable
+                target: null
+                xAxis.enabled: false
+                dragThreshold: 8
+                grabPermissions: PointerHandler.CanTakeOverFromItems
+                    | PointerHandler.CanTakeOverFromHandlersOfDifferentType
+                    | PointerHandler.ApprovesTakeOverByAnything
+                onActiveChanged: {
+                    if (active) {
+                        root.controller.beginDrag();
+                    } else {
+                        root.controller.endDrag();
+                    }
+                }
+                onTranslationChanged: {
+                    if (active) {
+                        root.controller.dragTo(-translation.y);
+                    }
+                }
+            }
+
+            WheelHandler {
+                id: gestures
+                enabled: !sheet.scrollable
+                acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+
+                function handleWheel(event: var): void {
+                    if (event.pixelDelta.y !== 0) {
+                        const up = event.inverted ? -event.pixelDelta.y : event.pixelDelta.y;
+                        root.controller.scrollBy(up);
+                    } else if (event.angleDelta.y !== 0) {
+                        const up = event.inverted ? -event.angleDelta.y : event.angleDelta.y;
+                        root.controller.wheelNotch(up > 0);
+                    }
+                }
+
+                onWheel: event => handleWheel(event)
+            }
+        }
+    }
+}

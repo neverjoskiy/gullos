@@ -1,0 +1,4 @@
+Version=6
+
+Id=gulldesk_google_sans_flex
+Script=gulldesk-google-sans-flex.sh,sh

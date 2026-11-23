@@ -1,17 +1,18 @@
 #!/bin/sh
 # /usr/libexec/gull-autostart
-# Executed immediately by labwc once the Wayland socket is live.
+# Compatibility shim for Plasma 6 session (GullDesk).
+# Plasma manages wallpapers/panel; boot-first lock is handled by the Plasma
+# lock screen (GullDesk LockScreen.qml) via skel-config kscreenlockerrc.
 set -u
 
-if command -v swaybg >/dev/null 2>&1; then
-    swaybg -c '#1e1e2e' >/dev/null 2>&1 &
-fi
-
-# Boot-first lock only on installed systems (marker file present).
+# Boot-first lock only on installed systems (marker file present): ensure the
+# session starts locked. gull-lock binary is retained for compatibility.
 if [ -f /etc/gullos/installed ] && [ -x /usr/bin/gull-lock ]; then
-    while ! /usr/bin/gull-lock; do
-        sleep 0.3
-    done
+    # Trigger Plasma lock screen shortly after session start
+    ( sleep 1; qdbus org.kde.screensaver /ScreenSaver Lock 2>/dev/null || true ) &
 fi
 
-exec /usr/bin/gull-term
+# Launch terminal as a fallback interactive shell if requested
+if [ "${GULLOS_AUTOSTART_TERM:-0}" = "1" ] && [ -x /usr/bin/gull-term ]; then
+    /usr/bin/gull-term &
+fi

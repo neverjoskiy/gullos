@@ -1,0 +1,4 @@
+Version=6
+
+Id=gulldesk_tower_to_shapes
+Script=gulldesk-tower-to-shapes.sh,sh

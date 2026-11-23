@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=GullDesk setup style
+Name[ru]=Стиль из настройки GullDesk
+Exec=/usr/libexec/gulldesk-setup-apply
+NoDisplay=true
+OnlyShowIn=KDE;
+X-KDE-autostart-phase=2

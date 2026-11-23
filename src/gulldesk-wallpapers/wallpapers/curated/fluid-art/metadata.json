@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Id": "gulldesk-curated-fluid-art",
+        "Name": "Fluid Art",
+        "Name[ru]": "Жидкое искусство",
+        "Authors": [
+            {
+                "Name": "Unsplash Contributor"
+            }
+        ],
+        "License": "Unsplash License"
+    },
+    "KPackageStructure": "Wallpaper/Images",
+    "X-GullDesk-Category": "curated"
+}

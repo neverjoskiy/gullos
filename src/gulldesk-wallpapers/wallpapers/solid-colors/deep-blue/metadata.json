@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Id": "gulldesk-solid-colors-deep-blue",
+        "Name": "Deep Blue",
+        "Name[ru]": "Глубокий синий",
+        "Authors": [
+            {
+                "Name": "GullDesk Team"
+            }
+        ],
+        "License": "CC0-1.0"
+    },
+    "KPackageStructure": "Wallpaper/Images",
+    "X-GullDesk-Category": "solid-colors"
+}

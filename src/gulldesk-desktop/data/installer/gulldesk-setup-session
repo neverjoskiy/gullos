@@ -1,0 +1,18 @@
+#!/bin/sh
+# SPDX-FileCopyrightText: 2026 GullDesk Developers
+# SPDX-License-Identifier: GPL-3.0-or-later
+set -u
+
+state="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/gulldesk-setup"
+mkdir -p "$state"
+: > "$state/loop"
+
+export XDG_CURRENT_DESKTOP=KDE KDE_FULL_SESSION=true KDE_SESSION_VERSION=6 XDG_MENU_PREFIX=plasma-
+
+while :; do
+    rm -f "$state/again"
+    GULLDESK_SETUP_STAGE=1 /usr/bin/kwin_wayland_wrapper --xwayland --no-lockscreen --no-global-shortcuts \
+        --no-kactivities --exit-with-session=/usr/bin/gulldesk-installer > "$state/kwin.log" 2>&1
+    XDG_SESSION_DESKTOP=KDE DESKTOP_SESSION=plasma /usr/bin/startplasma-wayland
+    [ -e "$state/again" ] || break
+done

@@ -1,0 +1,6 @@
+---
+type: job
+name: gulldesklocales
+interface: python
+script: main.py
+noconfig: true

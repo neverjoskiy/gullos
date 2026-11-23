@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Id": "gulldesk-motif-wave-lines",
+        "Name": "Wave Lines",
+        "Name[ru]": "Волнистые линии",
+        "Authors": [
+            {
+                "Name": "Unsplash Contributor"
+            }
+        ],
+        "License": "Unsplash License"
+    },
+    "KPackageStructure": "Wallpaper/Images",
+    "X-GullDesk-Category": "motif"
+}

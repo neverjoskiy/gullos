@@ -45,8 +45,12 @@ inject_cachyos_repo() {
 build_packages() {
     echo "[gullos:build] Building gull-* packages with makepkg..."
     inject_cachyos_repo
-    for d in gull-sh gull-term gull-lock calamares-settings-gullos; do
-        echo "[gullos:build] makepkg: $d"
+    for d in gull-sh gull-term gull-lock calamares-settings-gullos gulldesk-desktop-shell gulldesk-desktop-themes gulldesk-desktop-icons gulldesk-desktop-cursors gulldesk-desktop-wallpapers gulldesk-desktop-widgets gulldesk-desktop-services gulldesk-apps gulldesk-wallpapers; do
+    [ -d "${REPO_ROOT}/pkgbuilds/${d}" ] || continue
+    if [ "$d" = "gulldesk-apps" ] && [ ! -d /usr/lib/cmake/KF6Screen ]; then
+        echo "[gullos:build] SKIP $d (KF6Screen dev not available)"; continue
+    fi
+    echo "[gullos:build] makepkg: $d"
         ( cd "${REPO_ROOT}/pkgbuilds/${d}" && makepkg -sf --noconfirm )
         cp "${REPO_ROOT}/pkgbuilds/${d}"/*.pkg.tar.zst "${PKG_DIR}/" 2>/dev/null || true
     done

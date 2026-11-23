@@ -1,0 +1,34 @@
+---
+componentName: gulldesk
+
+welcomeStyleCalamares: true
+welcomeExpandingLogo: true
+windowExpanding: fullscreen
+windowSize: 1040px,720px
+windowPlacement: center
+
+strings:
+    productName:         GullDesk OS
+    shortProductName:    GullDesk
+    version:             1
+    shortVersion:        1
+    versionedName:       GullDesk OS 1
+    shortVersionedName:  GullDesk 1
+    bootloaderEntryName: GullDesk
+
+sidebar: none
+navigation: none
+
+images:
+    productLogo:    "gulldesk-logo.png"
+    productIcon:    "gulldesk-logo.png"
+    productWelcome: "gulldesk-welcome.png"
+
+slideshow:    "show.qml"
+slideshowAPI: 2
+
+style:
+    SidebarBackground:        "#201a18"
+    SidebarText:              "#d7c2ba"
+    SidebarTextCurrent:       "#ffdbcc"
+    SidebarBackgroundCurrent: "#7f2b00"

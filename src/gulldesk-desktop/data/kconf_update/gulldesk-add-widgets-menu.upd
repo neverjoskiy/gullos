@@ -1,0 +1,4 @@
+Version=6
+
+Id=gulldesk_add_widgets_menu
+Script=gulldesk-add-widgets-menu.sh,sh

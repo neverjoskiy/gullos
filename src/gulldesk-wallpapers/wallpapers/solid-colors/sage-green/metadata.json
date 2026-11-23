@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Id": "gulldesk-solid-colors-sage-green",
+        "Name": "Sage Green",
+        "Name[ru]": "Шалфейный зелёный",
+        "Authors": [
+            {
+                "Name": "GullDesk Team"
+            }
+        ],
+        "License": "CC0-1.0"
+    },
+    "KPackageStructure": "Wallpaper/Images",
+    "X-GullDesk-Category": "solid-colors"
+}

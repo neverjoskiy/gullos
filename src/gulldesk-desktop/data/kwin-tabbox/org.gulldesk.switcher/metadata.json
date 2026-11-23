@@ -1,0 +1,18 @@
+{
+    "KPackageStructure": "KWin/WindowSwitcher",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "GullDesk Developers"
+            }
+        ],
+        "Description": "Material 3 window cards, as GullDesk shows recent apps",
+        "Description[ru]": "Карточки окон в стиле Material 3, как недавние приложения GullDesk",
+        "Icon": "preferences-system-windows-switcher-thumbnail-grid",
+        "Id": "org.gulldesk.switcher",
+        "License": "GPL-2.0-or-later",
+        "Name": "GullDesk",
+        "Name[ru]": "GullDesk"
+    },
+    "X-Plasma-API": "declarativeappletscript"
+}

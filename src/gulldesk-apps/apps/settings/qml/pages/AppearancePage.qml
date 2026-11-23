@@ -1,0 +1,819 @@
+/*
+    SPDX-FileCopyrightText: 2026 GullDesk Developers
+    SPDX-License-Identifier: GPL-2.0-or-later
+*/
+
+pragma ComponentBehavior: Bound
+
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls as QQC2
+import QtQuick.Dialogs as Dialogs
+import org.gulldesk.m3
+import org.gulldesk.ui
+import org.gulldesk.system
+import "../components"
+
+SettingsPage {
+    id: page
+
+    title: i18n("Wallpaper & style")
+
+    readonly property bool dark: Appearance.dark
+
+    function setDark(enable: bool): void {
+        if (enable !== dark && !Appearance.busy) {
+            Appearance.setDark(enable, ok => {
+                if (!ok) {
+                    page.notify(i18n("The theme could not be changed."));
+                }
+            });
+        }
+    }
+
+    readonly property string generation: Appearance.generation
+
+    function setGeneration(value: string): void {
+        if (value !== generation && !Appearance.busy) {
+            Appearance.setGeneration(value, ok => {
+                if (!ok) {
+                    page.notify(i18n("The style could not be changed."));
+                }
+            });
+        }
+    }
+
+    readonly property string colour: Appearance.colour
+    readonly property string colourSource: Appearance.colourSource
+    readonly property var colours: Appearance.colours()
+    readonly property var wallpaperColourIds: live || wallpaperImage.length === 0 ? [] : Appearance.wallpaperColours(wallpaperImage)
+    readonly property var wallpaperColours: wallpaperColourIds.map(id => colours.find(c => c.id === id)).filter(c => c !== undefined)
+    readonly property bool followsWallpaper: colourSource === "wallpaper" && wallpaperColourIds.indexOf(colour) >= 0
+
+    function setWallpaperColour(value: string): void {
+        if ((value !== colour || colourSource !== "wallpaper") && !Appearance.busy) {
+            Appearance.setWallpaperColour(value, ok => {
+                if (!ok) {
+                    page.notify(i18n("The colour could not be changed."));
+                }
+            });
+        }
+    }
+
+    function setColour(value: string): void {
+        if ((value !== colour || colourSource !== "preset") && !Appearance.busy) {
+            Appearance.setColour(value, ok => {
+                if (!ok) {
+                    page.notify(i18n("The colour could not be changed."));
+                }
+            });
+        }
+    }
+
+    readonly property string appletsrc: "plasma-org.kde.plasma.desktop-appletsrc"
+    property string wallpaperPlugin: ""
+    property string wallpaperImage: ""
+    readonly property var liveWallpapers: Files.liveWallpapers()
+    readonly property var currentLive: liveWallpapers.find(w => w.id === wallpaperPlugin) || null
+    readonly property bool live: currentLive !== null
+    property var wallpapers: Files.wallpapers()
+    readonly property var collections: {
+        const names = {
+            "landscapes": i18n("Landscapes"),
+            "earth": i18n("Earth"),
+            "art": i18n("Art"),
+            "curated": i18n("Curated"),
+            "culture": i18n("Culture"),
+            "life": i18n("Life"),
+            "motif": i18n("Motif"),
+            "textures": i18n("Textures"),
+            "minerals": i18n("Minerals"),
+            "cityscapes": i18n("Cityscapes"),
+            "for-fun": i18n("For fun"),
+            "solid-colors": i18n("Solid colours")
+        };
+        const result = [];
+        for (const id of Object.keys(names)) {
+            const items = wallpapers.filter(w => w.category === id);
+            if (items.length > 0) {
+                result.push({ id: id, name: names[id], items: items });
+            }
+        }
+        const other = wallpapers.filter(w => !(w.category in names));
+        if (other.length > 0) {
+            result.push({ id: "other", name: i18n("More wallpapers"), items: other });
+        }
+        return result;
+    }
+
+    function isDesktop(group: string): bool {
+        const containment = Config.read(appletsrc, group, "plugin", "");
+        return containment === "org.kde.desktopcontainment" || containment === "org.kde.plasma.folder";
+    }
+    function readWallpaper(): void {
+        for (const id of Config.groupList(appletsrc, "Containments")) {
+            const group = "Containments/" + id;
+            const plugin = Config.read(appletsrc, group, "wallpaperplugin", "");
+            if (plugin.length === 0 || !isDesktop(group)) {
+                continue;
+            }
+            wallpaperPlugin = plugin;
+            wallpaperImage = Files.wallpaperPicture(Config.read(appletsrc, group + "/Wallpaper/org.kde.image/General", "Image", ""), page.dark);
+            return;
+        }
+        wallpaperPlugin = "org.gulldesk.shapes";
+    }
+    Component.onCompleted: {
+        readWallpaper();
+        updatePanelOpacity("");
+        readLayout();
+    }
+
+    readonly property string layoutTool: "/usr/libexec/gulldesk-panel-layout"
+    property bool layoutBusy: false
+    property bool layoutAvailable: false
+    property string layoutStyle: "statusbar"
+    property string panelShape: "square"
+    property string buttonShape: "square"
+
+    function readLayoutOutput(code: int, output: string): void {
+        const values = {};
+        for (const line of String(output).split("\n")) {
+            const at = line.indexOf("=");
+            if (at > 0) {
+                values[line.slice(0, at).trim()] = line.slice(at + 1).trim();
+            }
+        }
+        page.layoutAvailable = code === 0 && values.dock === "yes";
+        if (page.layoutAvailable) {
+            page.layoutStyle = values.style === "classic" ? "classic" : "statusbar";
+            page.panelShape = values.panel === "round" ? "round" : "square";
+            page.buttonShape = values.shape === "round" ? "round" : "square";
+        }
+    }
+
+    function readLayout(): void {
+        if (layoutBusy) {
+            return;
+        }
+        Process.run(layoutTool, ["status"], (code, output) => page.readLayoutOutput(code, output));
+    }
+
+    function changeLayout(arguments_: var): void {
+        if (layoutBusy) {
+            return;
+        }
+        layoutBusy = true;
+        Process.run(layoutTool, arguments_, (code, output) => {
+            page.layoutBusy = false;
+            page.readLayoutOutput(code, output);
+            if (code !== 0) {
+                page.notify(i18n("The panel could not be changed."));
+            }
+            page.updatePanelOpacity("");
+        });
+    }
+
+    property bool panelBusy: false
+    property bool panelAvailable: false
+    property bool panelTranslucent: false
+    property string panelWanted: ""
+
+    function updatePanelOpacity(mode: string): void {
+        if (panelBusy) {
+            return;
+        }
+        panelBusy = true;
+        const request = ({ opaque: 1, translucent: 2 })[mode];
+        const write = request === undefined ? ""
+            : "launchers.forEach(function (widget) { widget.currentConfigGroup = ['General']; "
+              + "widget.writeConfig('panelOpacityRequest', '" + request + ":" + Date.now() + "'); }); ";
+        const script = "print(JSON.stringify(panels().map(function (panel) { "
+            + "var launchers = panel.widgets('org.gulldesk.launcher'); " + write
+            + "return launchers.length > 0 ? panel.opacity : ''; })));";
+        DBus.call("session", "org.kde.plasmashell", "/PlasmaShell", "org.kde.PlasmaShell", "evaluateScript",
+                  [{ type: "s", value: script }], (ok, result) => {
+            page.panelBusy = false;
+            let modes = [];
+            if (ok) {
+                try {
+                    modes = JSON.parse(String(result).trim()).filter(value => value !== "");
+                    ok = modes.every(value => ["opaque", "translucent", "adaptive"].includes(value));
+                } catch (error) {
+                    ok = false;
+                }
+            }
+            page.panelAvailable = ok && modes.length > 0;
+            if (request !== undefined) {
+                page.panelWanted = mode;
+                page.panelTranslucent = mode === "translucent";
+                panelCheck.restart();
+                return;
+            }
+            if (page.panelAvailable) {
+                page.panelTranslucent = modes.every(value => value !== "opaque");
+            }
+            if (page.panelWanted && (!page.panelAvailable || modes.some(value => value !== page.panelWanted))) {
+                page.notify(i18n("The panel transparency could not be changed."));
+            }
+            page.panelWanted = "";
+        });
+    }
+
+    Timer {
+        id: panelCheck
+        interval: 400
+        onTriggered: page.updatePanelOpacity("")
+    }
+
+    onVisibleChanged: {
+        if (visible) {
+            updatePanelOpacity("");
+            readLayout();
+        }
+    }
+
+    Connections {
+        target: Qt.application
+        function onStateChanged(): void {
+            if (Qt.application.state === Qt.ApplicationActive && page.visible) {
+                page.readLayout();
+            }
+        }
+    }
+
+    function sameImage(a: string, b: string): bool {
+        const strip = s => String(s).replace(/^file:\/\//, "");
+        return strip(a) === strip(b);
+    }
+
+    ConfigEntry {
+        id: lockPlugin
+        file: "kscreenlockerrc"
+        group: "Greeter"
+        key: "WallpaperPlugin"
+        defaultValue: ""
+    }
+    readonly property bool lockScreenToo: live ? lockPlugin.value === wallpaperPlugin : lockPlugin.value === "org.kde.image"
+
+    function syncGreeter(): void {
+        if (Accounts.administrator) {
+            Files.syncGreeterBackground(live ? wallpaperPlugin : "org.kde.image", live ? "" : wallpaperImage);
+        }
+    }
+
+    function chooseImage(url: url): void {
+        const follow = lockScreenToo;
+        Files.setWallpaper(url);
+        wallpaperPlugin = "org.kde.image";
+        wallpaperImage = String(url);
+        Appearance.followWallpaper(String(url), ok => {
+            if (!ok) {
+                page.notify(i18n("The colour could not be changed."));
+            }
+        });
+        if (follow) {
+            Files.setLockScreenWallpaper(url);
+        }
+        syncGreeter();
+    }
+    function chooseLive(plugin: string): void {
+        const follow = lockScreenToo;
+        Files.setLiveWallpaper(plugin);
+        wallpaperPlugin = plugin;
+        if (follow) {
+            Files.setLockScreenPlugin(plugin);
+        }
+        syncGreeter();
+    }
+
+    function setLiveOption(key: string, value: var): void {
+        const plugin = wallpaperPlugin;
+        const literal = typeof value === "string" ? "'" + value + "'" : String(value);
+        DBus.call("session", "org.kde.plasmashell", "/PlasmaShell", "org.kde.PlasmaShell", "evaluateScript",
+                  [{ type: "s", value: "for (const d of desktops()) { if (d.wallpaperPlugin !== '" + plugin + "') continue; "
+                      + "d.currentConfigGroup = ['Wallpaper', '" + plugin + "', 'General']; d.writeConfig('" + key + "', " + literal + "); }" }],
+                  null);
+    }
+    function liveOption(key: string, fallback: var): var {
+        for (const id of Config.groupList(appletsrc, "Containments")) {
+            if (!isDesktop("Containments/" + id)) {
+                continue;
+            }
+            const value = Config.read(appletsrc, "Containments/" + id + "/Wallpaper/" + wallpaperPlugin + "/General", key, null);
+            if (value !== null && value !== undefined && value !== "") {
+                return value;
+            }
+        }
+        return fallback;
+    }
+
+    hero: Component {
+        RoundedClip {
+            id: preview
+            width: parent ? parent.width : 0
+            height: Math.round(width * 0.46)
+            radius: M3.classic ? M3.cornerCard : 28
+
+            Rectangle {
+                anchors.fill: parent
+                color: M3.surfaceContainerHigh
+            }
+
+            property real phase: 0.1
+            NumberAnimation on phase {
+                running: page.live && page.visible && M3.motionScale > 0
+                from: 0.1
+                to: 1.1
+                duration: 240000
+                loops: Animation.Infinite
+            }
+            Loader {
+                anchors.fill: parent
+                active: page.live
+                source: page.live ? page.currentLive.scene : ""
+                onLoaded: {
+                    item.intro = 1;
+                    item.phase = Qt.binding(() => preview.phase % 1);
+                }
+            }
+            Image {
+                anchors.fill: parent
+                visible: !page.live
+                source: page.live ? "" : page.wallpaperImage
+                sourceSize: Qt.size(width * 2, height * 2)
+                fillMode: Image.PreserveAspectCrop
+                asynchronous: true
+            }
+        }
+    }
+
+    Group {
+        title: i18n("Theme")
+
+        ListItem {
+            title: i18n("Dark theme")
+            subtitle: Appearance.busy ? i18n("Applying…") : i18n("Dark backgrounds for the system and apps")
+            icon: "night-light"
+            iconStyle: "plain"
+            checkable: true
+            checked: page.dark
+            enabled: !Appearance.busy
+            onToggled: on => page.setDark(on)
+        }
+    }
+
+    Group {
+        title: i18n("Colour")
+        note: Appearance.busy ? i18n("Applying…")
+            : page.followsWallpaper ? i18n("The colour follows your wallpaper. Pick a basic colour to keep one colour.")
+            : i18n("Apps, the panel, windows and the live wallpapers take on the chosen colour.")
+
+        MText {
+            width: parent.width
+            visible: page.wallpaperColours.length > 0
+            role: "labelLarge"
+            color: M3.surfaceVariantContent
+            text: i18n("Wallpaper colours")
+        }
+        Flow {
+            width: parent.width
+            visible: page.wallpaperColours.length > 0
+            spacing: 12
+
+            Repeater {
+                model: page.wallpaperColours
+                delegate: ColourSwatch {
+                    required property var modelData
+                    swatch: page.dark ? modelData.dark : modelData.light
+                    name: modelData.name
+                    selected: page.followsWallpaper && page.colour === modelData.id
+                    enabled: !Appearance.busy
+                    onClicked: page.setWallpaperColour(modelData.id)
+                }
+            }
+        }
+
+        MText {
+            width: parent.width
+            visible: page.wallpaperColours.length > 0
+            role: "labelLarge"
+            color: M3.surfaceVariantContent
+            text: i18n("Basic colours")
+        }
+        Flow {
+            width: parent.width
+            spacing: 12
+
+            Repeater {
+                model: page.colours
+                delegate: ColourSwatch {
+                    required property var modelData
+                    swatch: page.dark ? modelData.dark : modelData.light
+                    name: modelData.name
+                    selected: !page.followsWallpaper && page.colour === modelData.id
+                    enabled: !Appearance.busy
+                    onClicked: page.setColour(modelData.id)
+                }
+            }
+        }
+    }
+
+    Group {
+        title: i18n("App icons")
+
+        ListItem {
+            title: i18n("Themed app icons")
+            subtitle: i18n("Apps without a GullDesk icon take on the colour too")
+            icon: "preferences-desktop-icons"
+            iconStyle: "plain"
+            checkable: true
+            checked: String(themedIcons.value) === "true" && String(originalIcons.value) !== "true"
+            enabled: !Appearance.busy && String(originalIcons.value) !== "true"
+            onToggled: on => themedIcons.value = on ? "true" : "false"
+        }
+
+        ListItem {
+            title: i18n("Original icon shapes")
+            subtitle: i18n("Apps without a GullDesk icon keep their own icon, without the circle")
+            icon: "window-maximize"
+            iconStyle: "plain"
+            checkable: true
+            checked: String(originalIcons.value) === "true"
+            enabled: !Appearance.busy
+            onToggled: on => originalIcons.value = on ? "true" : "false"
+        }
+    }
+
+    ConfigEntry {
+        id: originalIcons
+        file: "gulldeskrc"
+        group: "Icons"
+        key: "originalShapes"
+        defaultValue: "false"
+    }
+
+    ConfigEntry {
+        id: themedIcons
+        file: "gulldeskrc"
+        group: "Icons"
+        key: "themedApps"
+        defaultValue: "false"
+    }
+
+    Group {
+        title: i18n("Style")
+        note: i18n("Shapes, depth, buttons and the quick settings follow the chosen generation of Material.")
+
+        ChoiceItem {
+            title: i18n("Interface style")
+            icon: "preferences-desktop-plasma-theme"
+            iconStyle: "plain"
+            enabled: !Appearance.busy
+            options: [
+                { value: "md3", label: "Material 3", description: i18n("2021 · Material You") },
+                { value: "md2", label: "Material Design 2", description: i18n("2018 · Material Theming") },
+                { value: "md1", label: "Material Design 1", description: i18n("2014 · paper and ink") }
+            ]
+            currentValue: page.generation
+            subtitle: {
+                if (Appearance.busy) {
+                    return i18n("Applying…");
+                }
+                const option = options.find(o => o.value === currentValue);
+                return option ? option.label : "";
+            }
+            onSelected: value => page.setGeneration(value)
+        }
+    }
+
+    Group {
+        title: i18n("Panel")
+        note: i18n("Applies to all panels. The shape and colour follow the system style.")
+
+        ChoiceItem {
+            title: i18n("Layout")
+            icon: "gulldesk-dock"
+            iconStyle: "plain"
+            enabled: page.layoutAvailable && !page.layoutBusy && !Appearance.busy
+            options: [
+                { value: "statusbar", label: i18n("Status bar at the top"), description: i18n("Time and quick settings at the top, apps open in the centre") },
+                { value: "classic", label: i18n("Everything at the bottom"), description: i18n("Time and quick settings at the bottom right, the previous apps menu") }
+            ]
+            currentValue: page.layoutStyle
+            subtitle: {
+                if (page.layoutBusy) {
+                    return i18n("Applying…");
+                }
+                const option = options.find(o => o.value === currentValue);
+                return option ? option.label : "";
+            }
+            onSelected: value => page.changeLayout(["style", value])
+        }
+
+        ChoiceItem {
+            title: i18n("Panel shape")
+            icon: "window-maximize"
+            iconStyle: "plain"
+            enabled: page.layoutAvailable && !page.layoutBusy && !Appearance.busy
+            options: [
+                { value: "square", label: i18n("Square"), description: i18n("Edge to edge, without rounded corners") },
+                { value: "round", label: i18n("Rounded"), description: i18n("Floating above the edge, with round ends") }
+            ]
+            currentValue: page.panelShape
+            subtitle: {
+                const option = options.find(o => o.value === currentValue);
+                return option ? option.label : "";
+            }
+            onSelected: value => page.changeLayout(["panel", value])
+        }
+
+        ChoiceItem {
+            title: i18n("Apps button")
+            icon: "view-app-grid"
+            iconStyle: "plain"
+            visible: page.layoutStyle === "classic"
+            enabled: page.layoutAvailable && !page.layoutBusy && !Appearance.busy
+            options: [
+                { value: "square", label: i18n("Square") },
+                { value: "round", label: i18n("Round") }
+            ]
+            currentValue: page.buttonShape
+            subtitle: {
+                const option = options.find(o => o.value === currentValue);
+                return option ? option.label : "";
+            }
+            onSelected: value => page.changeLayout(["shape", value])
+        }
+
+        ListItem {
+            title: i18n("Transparent panel")
+            subtitle: page.panelBusy ? i18n("Applying…") : i18n("Let the wallpaper show through a softly tinted background")
+            icon: "preferences-desktop-plasma-theme"
+            iconStyle: "plain"
+            checkable: true
+            checked: page.panelTranslucent
+            enabled: page.panelAvailable && !page.panelBusy && !Appearance.busy
+            onToggled: on => page.updatePanelOpacity(on ? "translucent" : "opaque")
+        }
+    }
+
+    Group {
+        title: i18n("Wallpaper")
+
+        GridLayout {
+            width: parent.width
+            columns: Math.max(2, Math.floor(width / 190))
+            columnSpacing: 12
+            rowSpacing: 12
+
+            WallpaperTile {
+                Layout.fillWidth: true
+                visible: page.liveWallpapers.length > 0
+                title: i18n("GullDesk")
+                subtitle: i18np("%1 live wallpaper", "%1 live wallpapers", page.liveWallpapers.length)
+                scene: page.liveWallpapers.length > 0 ? page.liveWallpapers[0].scene : ""
+                selected: page.live
+                onClicked: page.open("WallpaperCollectionPage.qml", { appearance: page, collection: "gulldesk", name: i18n("GullDesk live wallpapers") })
+            }
+            Repeater {
+                model: page.collections
+                delegate: WallpaperTile {
+                    required property var modelData
+                    Layout.fillWidth: true
+                    title: modelData.name
+                    subtitle: i18np("%1 wallpaper", "%1 wallpapers", modelData.items.length)
+                    preview: modelData.items[0].preview
+                    selected: !page.live && modelData.items.some(w => page.sameImage(page.wallpaperImage, w.image))
+                    onClicked: page.open("WallpaperCollectionPage.qml", { appearance: page, collection: modelData.id, name: modelData.name })
+                }
+            }
+            WallpaperTile {
+                Layout.fillWidth: true
+                title: i18n("Your picture")
+                subtitle: i18n("Choose…")
+                addTile: true
+                selected: !page.live && !page.wallpapers.some(w => page.sameImage(page.wallpaperImage, w.image))
+                preview: selected ? page.wallpaperImage : ""
+                onClicked: pictureDialog.open()
+            }
+        }
+
+        Item { width: 1; height: 8 }
+
+        ListItem {
+            title: i18n("Use on the lock screen too")
+            icon: "system-lock-screen"
+            iconStyle: "plain"
+            checkable: true
+            checked: page.lockScreenToo
+            onToggled: on => {
+                if (!on) {
+                    Files.setLockScreenWallpaper("");
+                } else if (page.live) {
+                    Files.setLockScreenPlugin(page.wallpaperPlugin);
+                } else {
+                    Files.setLockScreenWallpaper(page.wallpaperImage);
+                }
+            }
+        }
+    }
+
+    Group {
+        title: page.live ? page.currentLive.name : ""
+        visible: page.live
+
+        SliderItem {
+            title: i18n("Speed")
+            startIcon: "media-playback-pause"
+            endIcon: "media-seek-forward"
+            from: 0.25
+            to: 2
+            stepSize: 0.25
+            value: Number(page.liveOption("Speed", 1))
+            formatValue: v => v === 1 ? i18n("Normal") : i18n("%1×", v.toLocaleString(Qt.locale(), "f", 2).replace(/0+$/, "").replace(/[.,]$/, ""))
+            onMoved: value => page.setLiveOption("Speed", value)
+        }
+        ListItem {
+            visible: page.wallpaperPlugin === "org.gulldesk.shapes"
+            title: i18n("Changing colours")
+            subtitle: i18n("The shapes slowly move through the palette")
+            icon: "color-picker"
+            iconStyle: "plain"
+            checkable: true
+            property bool on: String(page.liveOption("ColourCycle", true)) !== "false"
+            checked: on
+            onToggled: value => {
+                on = value;
+                page.setLiveOption("ColourCycle", value);
+            }
+        }
+        ListItem {
+            title: i18n("Pause behind windows")
+            subtitle: i18n("Saves power while a maximised window covers the desktop")
+            icon: "battery-profile-powersave"
+            iconStyle: "plain"
+            checkable: true
+            property bool on: String(page.liveOption("PauseWhenCovered", true)) !== "false"
+            checked: on
+            onToggled: value => {
+                on = value;
+                page.setLiveOption("PauseWhenCovered", value);
+            }
+        }
+    }
+
+    ConfigEntry {
+        id: fontEntry
+        file: "kdeglobals"
+        group: "General"
+        key: "font"
+        defaultValue: "Google Sans Flex,10.5,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+    }
+    readonly property real fontSize: {
+        const size = parseFloat(String(fontEntry.value).split(",")[1]);
+        return isNaN(size) ? 10.5 : size;
+    }
+
+    function fontString(size: real, weight: int): string {
+        const family = String(fontEntry.value).split(",")[0] || "Google Sans Flex";
+        return family + "," + size + ",-1,5," + weight + ",0,0,0,0,0,0,0,0,0,0,1";
+    }
+    function setFontSize(size: real): void {
+        const small = size - 1.5;
+        Config.write("kdeglobals", "General", "font", fontString(size, 400), true);
+        Config.write("kdeglobals", "General", "menuFont", fontString(size, 400), true);
+        Config.write("kdeglobals", "General", "toolBarFont", fontString(small, 400), true);
+        Config.write("kdeglobals", "General", "smallestReadableFont", fontString(small, 400), true);
+        Config.write("kdeglobals", "WM", "activeFont", fontString(size, 500), true);
+        DBus.emitSignal("session", "/KGlobalSettings", "org.kde.KGlobalSettings", "notifyChange",
+                        [{ type: "i", value: 1 }, { type: "i", value: 0 }]);
+        DBus.call("session", "org.kde.KWin", "/KWin", "org.kde.KWin", "reconfigure", [], null);
+    }
+
+    ConfigEntry {
+        id: animationFactor
+        file: "kdeglobals"
+        group: "KDE"
+        key: "AnimationDurationFactor"
+        defaultValue: 1
+    }
+
+    Group {
+        title: i18n("Text and motion")
+
+        ChoiceItem {
+            title: i18n("Text size")
+            icon: "preferences-desktop-font"
+            accent: 5
+            options: [
+                { value: 9.5, label: i18n("Small") },
+                { value: 10.5, label: i18n("Default") },
+                { value: 12, label: i18n("Large") },
+                { value: 13.5, label: i18n("Larger") }
+            ]
+            currentValue: page.fontSize
+            onSelected: value => page.setFontSize(value)
+        }
+        ChoiceItem {
+            title: i18n("Animations")
+            icon: "preferences-desktop-effects"
+            accent: 5
+            options: [
+                { value: 0, label: i18n("Off") },
+                { value: 0.5, label: i18n("Faster") },
+                { value: 1, label: i18n("Normal") },
+                { value: 2, label: i18n("Slower") }
+            ]
+            currentValue: Number(animationFactor.value)
+            onSelected: value => {
+                animationFactor.value = value;
+                DBus.call("session", "org.kde.KWin", "/KWin", "org.kde.KWin", "reconfigure", [], null);
+            }
+        }
+        ListItem {
+            title: i18n("Fonts")
+            subtitle: i18n("Typefaces for the interface and for code")
+            icon: "preferences-desktop-font"
+            iconStyle: "plain"
+            chevron: true
+            onClicked: page.open("FontsPage.qml", {})
+        }
+    }
+
+    Dialogs.FileDialog {
+        id: pictureDialog
+        title: i18n("Choose a picture")
+        nameFilters: [i18n("Pictures (*.png *.jpg *.jpeg *.webp *.avif *.svg)")]
+        currentFolder: Files.standardFolder("pictures")
+        onAccepted: page.chooseImage(selectedFile)
+    }
+    component ColourSwatch: QQC2.AbstractButton {
+        id: swatchButton
+        property var swatch: ({})
+        property string name
+        property bool selected: false
+        implicitWidth: 56
+        implicitHeight: 56
+        opacity: enabled ? 1 : 0.6
+        Accessible.name: name
+        QQC2.ToolTip.visible: hovered
+        QQC2.ToolTip.text: name
+        QQC2.ToolTip.delay: 400
+        background: Item {
+            Rectangle {
+                anchors.fill: parent
+                radius: width / 2
+                color: "transparent"
+                border.width: swatchButton.selected ? 3 : 0
+                border.color: M3.primary
+            }
+            RoundedClip {
+                anchors.fill: parent
+                anchors.margins: swatchButton.selected ? 6 : 0
+                radius: width / 2
+                Behavior on anchors.margins { NumberAnimation { duration: M3.durationShort4 } }
+
+                Rectangle {
+                    width: parent.width
+                    height: parent.height / 2
+                    color: swatchButton.swatch.primary || "gray"
+                }
+                Rectangle {
+                    y: parent.height / 2
+                    width: parent.width / 2
+                    height: parent.height / 2
+                    color: swatchButton.swatch.secondaryContainer || "gray"
+                }
+                Rectangle {
+                    x: parent.width / 2
+                    y: parent.height / 2
+                    width: parent.width / 2
+                    height: parent.height / 2
+                    color: swatchButton.swatch.tertiary || "gray"
+                }
+                MStateLayer {
+                    anchors.fill: parent
+                    radius: width / 2
+                    hovered: swatchButton.hovered
+                    pressed: swatchButton.pressed
+                }
+            }
+            Rectangle {
+                anchors.centerIn: parent
+                width: 24
+                height: 24
+                radius: 12
+                visible: swatchButton.selected
+                color: M3.primaryContainer
+                MIcon {
+                    anchors.centerIn: parent
+                    size: 16
+                    source: "checkmark"
+                    color: M3.primaryContainerContent
+                }
+            }
+        }
+        contentItem: Item {}
+    }
+}

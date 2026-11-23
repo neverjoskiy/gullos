@@ -1,0 +1,4 @@
+[Daemon]
+Theme=gulldesk
+ShowDelay=0
+DeviceTimeout=8

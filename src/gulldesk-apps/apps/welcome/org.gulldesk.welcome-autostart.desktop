@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Welcome
+Name[ru]=Добро пожаловать
+Icon=org.gulldesk.welcome
+Exec=gulldesk-welcome --first-run
+NoDisplay=true
+OnlyShowIn=KDE;
+X-KDE-autostart-condition=gulldesk-welcomerc:General:ShowOnLogin:true
+X-KDE-autostart-phase=2

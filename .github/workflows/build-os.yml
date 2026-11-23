@@ -59,7 +59,7 @@ jobs:
       - name: Install build dependencies
         run: |
           pacman -Syu --noconfirm
-          pacman -S --noconfirm --needed base-devel cargo rust git archlinux-keyring pacman-contrib sudo
+          pacman -S --noconfirm --needed base-devel cargo rust git archlinux-keyring pacman-contrib sudo python librsvg gcc cmake extra-cmake-modules grub gettext make libkscreen kscreen
           # makepkg refuses to run as root; create a dedicated build user
           useradd -m -G wheel builder 2>/dev/null || true
           echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder
