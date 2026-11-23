@@ -1,0 +1,87 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+button[dlgtype] {
+  appearance: none !important;
+  min-width: 64px !important;
+  min-height: 40px !important;
+  margin: 12px 0 0 !important;
+  margin-inline-start: 8px !important;
+  padding: 0 24px !important;
+  border: none !important;
+  border-radius: 9999px !important;
+  font-weight: 500 !important;
+  outline-offset: 2px !important;
+}
+
+button[dlgtype]:focus-visible {
+  outline-style: solid !important;
+  outline-width: 2px !important;
+}
+
+@media (prefers-color-scheme: light) {
+  button[dlgtype] {
+    background-color: #ffdcc1 !important;
+    color: #2a1707 !important;
+    outline-color: #a73b00 !important;
+  }
+
+  button[dlgtype]:hover {
+    background-color: #eeccb2 !important;
+  }
+
+  button[dlgtype]:hover:active {
+    background-color: #e5c4ab !important;
+  }
+
+  button[dlgtype][default] {
+    background-color: #a73b00 !important;
+    color: #ffffff !important;
+  }
+
+  button[dlgtype][default]:hover {
+    background-color: #ae4b14 !important;
+  }
+
+  button[dlgtype][default]:hover:active {
+    background-color: #b2531f !important;
+  }
+
+  button[dlgtype][disabled] {
+    background-color: rgba(32, 26, 24, 0.12) !important;
+    color: rgba(32, 26, 24, 0.38) !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  button[dlgtype] {
+    background-color: #5a422e !important;
+    color: #ffdcc1 !important;
+    outline-color: #ffb595 !important;
+  }
+
+  button[dlgtype]:hover {
+    background-color: #674e3a !important;
+  }
+
+  button[dlgtype]:hover:active {
+    background-color: #6e5440 !important;
+  }
+
+  button[dlgtype][default] {
+    background-color: #ffb595 !important;
+    color: #5a1c00 !important;
+  }
+
+  button[dlgtype][default]:hover {
+    background-color: #f2a989 !important;
+  }
+
+  button[dlgtype][default]:hover:active {
+    background-color: #eba383 !important;
+  }
+
+  button[dlgtype][disabled] {
+    background-color: rgba(237, 224, 220, 0.12) !important;
+    color: rgba(237, 224, 220, 0.38) !important;
+  }
+}

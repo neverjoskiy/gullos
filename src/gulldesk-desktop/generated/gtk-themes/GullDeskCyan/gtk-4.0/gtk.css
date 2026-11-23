@@ -1,0 +1,266 @@
+@import url("../../Breeze/gtk-4.0/gtk.css");
+
+button {
+  min-height: 24px;
+  min-width: 16px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #d0e6f3;
+  color: #081e27;
+  box-shadow: none;
+  outline-color: #006877;
+  outline-width: 2px;
+  outline-offset: 1px;
+}
+
+button:hover {
+  background-color: #c0d6e3;
+}
+
+button:active {
+  background-color: #b4cad6;
+}
+
+button:checked {
+  background-color: #006877;
+  color: #ffffff;
+}
+
+button:disabled {
+  background-color: rgba(25, 28, 29, 0.12);
+  color: rgba(25, 28, 29, 0.38);
+}
+
+button label, button image {
+  color: inherit;
+}
+
+button.text-button {
+  min-width: 40px;
+  padding: 6px 24px;
+}
+
+button.default, button.suggested-action {
+  background-color: #006877;
+  color: #ffffff;
+}
+
+button.default:hover, button.suggested-action:hover {
+  background-color: #147482;
+}
+
+button.default:active, button.suggested-action:active {
+  background-color: #247d8a;
+}
+
+button.destructive-action {
+  background-color: #ba1b1b;
+  color: #ffffff;
+}
+
+button.flat, button.image-button.flat, toolbar button, headerbar button, .titlebar button {
+  background-color: transparent;
+  color: #3f484a;
+}
+
+button.flat:hover, toolbar button:hover, headerbar button:hover, .titlebar button:hover {
+  background-color: rgba(25, 28, 29, 0.08);
+}
+
+button.flat:active, toolbar button:active, headerbar button:active, .titlebar button:active {
+  background-color: rgba(25, 28, 29, 0.12);
+}
+
+combobox button, combobox box button {
+  border-radius: 9999px;
+  padding: 6px 14px;
+}
+
+entry {
+  min-height: 24px;
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #e1e3e4;
+  color: #191c1d;
+  caret-color: #006877;
+  box-shadow: none;
+}
+
+entry:focus, entry:focus-within {
+  border-color: #006877;
+  box-shadow: inset 0 0 0 1px #006877;
+}
+
+entry:disabled {
+  background-color: rgba(25, 28, 29, 0.04);
+  color: rgba(25, 28, 29, 0.38);
+}
+
+entry selection, label selection, textview text selection {
+  background-color: #9cefff;
+  color: #001f25;
+}
+
+check, radio {
+  min-width: 14px;
+  min-height: 14px;
+  margin: 0 6px 0 0;
+  border: 2px solid #3f484a;
+  background-image: none;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+check {
+  border-radius: 2px;
+}
+
+radio {
+  border-radius: 9999px;
+}
+
+check:checked, check:indeterminate {
+  border-color: #006877;
+  background-color: #006877;
+  color: #ffffff;
+}
+
+radio:checked {
+  border-color: #006877;
+  background-color: transparent;
+  color: #006877;
+}
+
+check:disabled, radio:disabled {
+  border-color: rgba(25, 28, 29, 0.38);
+}
+
+switch {
+  min-width: 48px;
+  min-height: 28px;
+  padding: 0;
+  border: 2px solid #70797b;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #e1e3e4;
+  box-shadow: none;
+  color: transparent;
+}
+
+switch:checked {
+  border-color: #006877;
+  background-color: #006877;
+}
+
+switch slider {
+  min-width: 16px;
+  min-height: 16px;
+  margin: 6px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #70797b;
+  box-shadow: none;
+}
+
+switch:checked slider {
+  margin: 2px;
+  min-width: 24px;
+  min-height: 24px;
+  background-color: #ffffff;
+}
+
+scale trough {
+  min-height: 4px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #d0e6f3;
+}
+
+scale highlight {
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #006877;
+}
+
+scale slider {
+  min-width: 20px;
+  min-height: 20px;
+  margin: -8px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #006877;
+  box-shadow: none;
+}
+
+progressbar trough {
+  min-height: 4px;
+  border: none;
+  border-radius: 9999px;
+  background-color: #d0e6f3;
+}
+
+progressbar progress {
+  min-height: 4px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #006877;
+}
+
+menu, .menu, .context-menu {
+  padding: 6px 0;
+  border: none;
+  border-radius: 16px;
+  background-color: #eceeef;
+}
+
+menuitem {
+  min-height: 24px;
+  padding: 6px 16px;
+  color: #191c1d;
+}
+
+menuitem:hover {
+  background-color: rgba(25, 28, 29, 0.08);
+  color: #191c1d;
+}
+
+popover, popover.background, popover > contents {
+  border-radius: 16px;
+  background-color: #eceeef;
+  color: #191c1d;
+}
+
+modelbutton {
+  min-height: 24px;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+modelbutton:hover {
+  background-color: rgba(25, 28, 29, 0.08);
+}
+
+tooltip, tooltip.background {
+  border: none;
+  border-radius: 8px;
+  background-color: #2e3132;
+  color: #eff1f2;
+}
+
+tooltip label {
+  color: #eff1f2;
+}
+
+scrollbar slider {
+  border-radius: 9999px;
+}
+

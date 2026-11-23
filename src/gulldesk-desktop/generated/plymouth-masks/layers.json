@@ -1,0 +1,1274 @@
+{
+ "outputs": [
+  {
+   "file": "logo.png",
+   "layers": [
+    [
+     "logo",
+     "surfaceContent"
+    ]
+   ]
+  },
+  {
+   "file": "shape-0.png",
+   "layers": [
+    [
+     "shape-0",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "shape-1.png",
+   "layers": [
+    [
+     "shape-1",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "shape-2.png",
+   "layers": [
+    [
+     "shape-2",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "shape-3.png",
+   "layers": [
+    [
+     "shape-3",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "shape-4.png",
+   "layers": [
+    [
+     "shape-4",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "shape-5.png",
+   "layers": [
+    [
+     "shape-5",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "shape-6.png",
+   "layers": [
+    [
+     "shape-6",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "entry.png",
+   "layers": [
+    [
+     "entry-fill",
+     "surfaceContainerHighest"
+    ],
+    [
+     "entry-stroke",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-0.png",
+   "layers": [
+    [
+     "wave-track-0",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-0",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-1.png",
+   "layers": [
+    [
+     "wave-track-1",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-1",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-2.png",
+   "layers": [
+    [
+     "wave-track-2",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-2",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-3.png",
+   "layers": [
+    [
+     "wave-track-3",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-3",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-4.png",
+   "layers": [
+    [
+     "wave-track-4",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-4",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-5.png",
+   "layers": [
+    [
+     "wave-track-5",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-5",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-6.png",
+   "layers": [
+    [
+     "wave-track-6",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-6",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-7.png",
+   "layers": [
+    [
+     "wave-track-7",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-7",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-8.png",
+   "layers": [
+    [
+     "wave-track-8",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-8",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-9.png",
+   "layers": [
+    [
+     "wave-track-9",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-9",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-10.png",
+   "layers": [
+    [
+     "wave-track-10",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-10",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-11.png",
+   "layers": [
+    [
+     "wave-track-11",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-11",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-12.png",
+   "layers": [
+    [
+     "wave-track-12",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-12",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-13.png",
+   "layers": [
+    [
+     "wave-track-13",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-13",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-14.png",
+   "layers": [
+    [
+     "wave-track-14",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-14",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-15.png",
+   "layers": [
+    [
+     "wave-track-15",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-15",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-16.png",
+   "layers": [
+    [
+     "wave-track-16",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-16",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-17.png",
+   "layers": [
+    [
+     "wave-track-17",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-17",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-18.png",
+   "layers": [
+    [
+     "wave-track-18",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-18",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-19.png",
+   "layers": [
+    [
+     "wave-track-19",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-19",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-20.png",
+   "layers": [
+    [
+     "wave-track-20",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-20",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-21.png",
+   "layers": [
+    [
+     "wave-track-21",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-21",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-22.png",
+   "layers": [
+    [
+     "wave-track-22",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-22",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-23.png",
+   "layers": [
+    [
+     "wave-track-23",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-23",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-24.png",
+   "layers": [
+    [
+     "wave-track-24",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-24",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-25.png",
+   "layers": [
+    [
+     "wave-track-25",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-25",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-26.png",
+   "layers": [
+    [
+     "wave-track-26",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-26",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-27.png",
+   "layers": [
+    [
+     "wave-track-27",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-27",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-28.png",
+   "layers": [
+    [
+     "wave-track-28",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-28",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-29.png",
+   "layers": [
+    [
+     "wave-track-29",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-29",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-30.png",
+   "layers": [
+    [
+     "wave-track-30",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-30",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-31.png",
+   "layers": [
+    [
+     "wave-track-31",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-31",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-32.png",
+   "layers": [
+    [
+     "wave-track-32",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-32",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-33.png",
+   "layers": [
+    [
+     "wave-track-33",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-33",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-34.png",
+   "layers": [
+    [
+     "wave-track-34",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-34",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-35.png",
+   "layers": [
+    [
+     "wave-track-35",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-35",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-36.png",
+   "layers": [
+    [
+     "wave-track-36",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-36",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-37.png",
+   "layers": [
+    [
+     "wave-track-37",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-37",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-38.png",
+   "layers": [
+    [
+     "wave-track-38",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-38",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-39.png",
+   "layers": [
+    [
+     "wave-track-39",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-39",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-40.png",
+   "layers": [
+    [
+     "wave-track-40",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-40",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-41.png",
+   "layers": [
+    [
+     "wave-track-41",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-41",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-42.png",
+   "layers": [
+    [
+     "wave-track-42",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-42",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-43.png",
+   "layers": [
+    [
+     "wave-track-43",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-43",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-44.png",
+   "layers": [
+    [
+     "wave-track-44",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-44",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-45.png",
+   "layers": [
+    [
+     "wave-track-45",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-45",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-46.png",
+   "layers": [
+    [
+     "wave-track-46",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-46",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-47.png",
+   "layers": [
+    [
+     "wave-track-47",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-47",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-48.png",
+   "layers": [
+    [
+     "wave-track-48",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-48",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-49.png",
+   "layers": [
+    [
+     "wave-track-49",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-49",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-50.png",
+   "layers": [
+    [
+     "wave-track-50",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-50",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-51.png",
+   "layers": [
+    [
+     "wave-track-51",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-51",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-52.png",
+   "layers": [
+    [
+     "wave-track-52",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-52",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-53.png",
+   "layers": [
+    [
+     "wave-track-53",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-53",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-54.png",
+   "layers": [
+    [
+     "wave-track-54",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-54",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-55.png",
+   "layers": [
+    [
+     "wave-track-55",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-55",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-56.png",
+   "layers": [
+    [
+     "wave-track-56",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-56",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-57.png",
+   "layers": [
+    [
+     "wave-track-57",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-57",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-58.png",
+   "layers": [
+    [
+     "wave-track-58",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-58",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-59.png",
+   "layers": [
+    [
+     "wave-track-59",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-59",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-60.png",
+   "layers": [
+    [
+     "wave-track-60",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-60",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-61.png",
+   "layers": [
+    [
+     "wave-track-61",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-61",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-62.png",
+   "layers": [
+    [
+     "wave-track-62",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-62",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-63.png",
+   "layers": [
+    [
+     "wave-track-63",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-63",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-64.png",
+   "layers": [
+    [
+     "wave-track-64",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-64",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-65.png",
+   "layers": [
+    [
+     "wave-track-65",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-65",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-66.png",
+   "layers": [
+    [
+     "wave-track-66",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-66",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-67.png",
+   "layers": [
+    [
+     "wave-track-67",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-67",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-68.png",
+   "layers": [
+    [
+     "wave-track-68",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-68",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-69.png",
+   "layers": [
+    [
+     "wave-track-69",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-69",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-70.png",
+   "layers": [
+    [
+     "wave-track-70",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-70",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-71.png",
+   "layers": [
+    [
+     "wave-track-71",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-71",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-72.png",
+   "layers": [
+    [
+     "wave-track-72",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-72",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-73.png",
+   "layers": [
+    [
+     "wave-track-73",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-73",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-74.png",
+   "layers": [
+    [
+     "wave-track-74",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-74",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-75.png",
+   "layers": [
+    [
+     "wave-track-75",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-75",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-76.png",
+   "layers": [
+    [
+     "wave-track-76",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-76",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-77.png",
+   "layers": [
+    [
+     "wave-track-77",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-77",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-78.png",
+   "layers": [
+    [
+     "wave-track-78",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-78",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-79.png",
+   "layers": [
+    [
+     "wave-track-79",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-79",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-80.png",
+   "layers": [
+    [
+     "wave-track-80",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-80",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-81.png",
+   "layers": [
+    [
+     "wave-track-81",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-81",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-82.png",
+   "layers": [
+    [
+     "wave-track-82",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-82",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-83.png",
+   "layers": [
+    [
+     "wave-track-83",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-83",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-84.png",
+   "layers": [
+    [
+     "wave-track-84",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-84",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-85.png",
+   "layers": [
+    [
+     "wave-track-85",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-85",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-86.png",
+   "layers": [
+    [
+     "wave-track-86",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-86",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-87.png",
+   "layers": [
+    [
+     "wave-track-87",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-87",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-88.png",
+   "layers": [
+    [
+     "wave-track-88",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-88",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "wave-89.png",
+   "layers": [
+    [
+     "wave-track-89",
+     "secondaryContainer"
+    ],
+    [
+     "wave-active-89",
+     "primary"
+    ]
+   ]
+  },
+  {
+   "file": "lock.png",
+   "layers": [
+    [
+     "lock",
+     "surfaceVariantContent"
+    ]
+   ]
+  }
+ ],
+ "script": "// GullDesk boot splash. Generated by tools/gen-plymouth-theme.\n\nWindow.SetBackgroundTopColor(@BG@);\nWindow.SetBackgroundBottomColor(@BG@);\n\nscreen.x = Window.GetX();\nscreen.y = Window.GetY();\nscreen.w = Window.GetWidth();\nscreen.h = Window.GetHeight();\n\n// --- the mark ---------------------------------------------------------------\n\nlogo.image = Image(\"logo.png\");\nlogo.sprite = Sprite(logo.image);\nlogo.sprite.SetX(screen.x + screen.w / 2 - logo.image.GetWidth() / 2);\nlogo.sprite.SetY(screen.y + screen.h * 0.42 - logo.image.GetHeight() / 2);\nlogo.sprite.SetOpacity(0);\n\n// --- the loading indicator ---------------------------------------------------\n\nshape_count = 7;\nfor (i = 0; i < shape_count; i++)\n    shapes[i] = Image(\"shape-\" + i + \".png\");\n\nwave_count = 90;\nfor (i = 0; i < wave_count; i++)\n    waves[i] = Image(\"wave-\" + i + \".png\");\n\nindicator.x = screen.x + screen.w / 2;\nindicator.y = screen.y + screen.h * 0.42 + logo.image.GetHeight() / 2 + 72;\nindicator.sprite = Sprite();\nindicator.sprite.SetZ(10);\nindicator.sprite.SetX(indicator.x - waves[0].GetWidth() / 2);\nindicator.sprite.SetY(indicator.y - waves[0].GetHeight() / 2);\nindicator.sprite.SetOpacity(0);\ntick = 0;\n\nfun refresh_callback() {\n    tick++;\n    if (tick <= 25) {\n        logo.sprite.SetOpacity(tick / 25);\n        indicator.sprite.SetOpacity(tick / 25);\n    }\n    indicator.sprite.SetImage(waves[tick % wave_count]);\n}\nPlymouth.SetRefreshFunction(refresh_callback);\n\n// --- a passphrase or a question ------------------------------------------------\n\nentry.image = Image(\"entry.png\");\nentry.sprite = Sprite(entry.image);\nentry.x = screen.x + screen.w / 2 - entry.image.GetWidth() / 2;\nentry.y = screen.y + screen.h * 0.68;\nentry.sprite.SetX(entry.x);\nentry.sprite.SetY(entry.y);\nentry.sprite.SetOpacity(0);\nentry.sprite.SetZ(20);\n\nlock.image = Image(\"lock.png\");\nlock.sprite = Sprite(lock.image);\nlock.sprite.SetX(entry.x + 16);\nlock.sprite.SetY(entry.y + entry.image.GetHeight() / 2 - lock.image.GetHeight() / 2);\nlock.sprite.SetOpacity(0);\nlock.sprite.SetZ(21);\n\nbullet.size = 26;\nfor (i = 0; i < shape_count; i++)\n    bullet_shapes[i] = shapes[i].Scale(bullet.size, bullet.size);\nprompt.sprite = Sprite();\nprompt.sprite.SetZ(21);\nanswer.sprite = Sprite();\nanswer.sprite.SetZ(21);\nbullets = [];\nbullet_count = 0;\n\nfun hide_bullets() {\n    for (i = 0; i < bullet_count; i++)\n        bullets[i].SetOpacity(0);\n}\n\nfun show_prompt(text) {\n    prompt.image = Image.Text(text, @TEXT@, 1, \"Sans 12\");\n    prompt.sprite.SetImage(prompt.image);\n    prompt.sprite.SetX(screen.x + screen.w / 2 - prompt.image.GetWidth() / 2);\n    prompt.sprite.SetY(entry.y - prompt.image.GetHeight() - 16);\n    prompt.sprite.SetOpacity(1);\n    entry.sprite.SetOpacity(1);\n    lock.sprite.SetOpacity(1);\n}\n\nfun display_password_callback(text, count) {\n    show_prompt(text);\n    answer.sprite.SetOpacity(0);\n    hide_bullets();\n    // As many dots as fit the field.\n    fit = Math.Int((entry.image.GetWidth() - 72) / (bullet.size + 2));\n    if (count > fit)\n        count = fit;\n    for (i = 0; i < count; i++) {\n        if (!bullets[i])\n            bullets[i] = Sprite();\n        bullets[i].SetImage(bullet_shapes[i % shape_count]);\n        bullets[i].SetX(entry.x + 52 + i * (bullet.size + 2));\n        bullets[i].SetY(entry.y + entry.image.GetHeight() / 2 - bullet.size / 2);\n        bullets[i].SetZ(22);\n        bullets[i].SetOpacity(1);\n    }\n    if (count > bullet_count)\n        bullet_count = count;\n}\nPlymouth.SetDisplayPasswordFunction(display_password_callback);\n\nfun display_question_callback(text, value) {\n    show_prompt(text);\n    hide_bullets();\n    answer.image = Image.Text(value, @TEXT@, 1, \"Sans 12\");\n    answer.sprite.SetImage(answer.image);\n    answer.sprite.SetX(entry.x + 56);\n    answer.sprite.SetY(entry.y + entry.image.GetHeight() / 2 - answer.image.GetHeight() / 2);\n    answer.sprite.SetOpacity(1);\n}\nPlymouth.SetDisplayQuestionFunction(display_question_callback);\n\nfun display_normal_callback() {\n    prompt.sprite.SetOpacity(0);\n    answer.sprite.SetOpacity(0);\n    entry.sprite.SetOpacity(0);\n    lock.sprite.SetOpacity(0);\n    hide_bullets();\n}\nPlymouth.SetDisplayNormalFunction(display_normal_callback);\n\n// --- messages -----------------------------------------------------------------\n\nmessage.sprite = Sprite();\nmessage.sprite.SetZ(30);\n\nfun message_callback(text) {\n    message.image = Image.Text(text, @SOFT@, 1, \"Sans 10\");\n    message.sprite.SetImage(message.image);\n    message.sprite.SetX(screen.x + screen.w / 2 - message.image.GetWidth() / 2);\n    message.sprite.SetY(screen.y + screen.h - message.image.GetHeight() - 48);\n}\nPlymouth.SetMessageFunction(message_callback);\n",
+ "colours": {
+  "@BG@": "surface",
+  "@TEXT@": "surfaceContent",
+  "@SOFT@": "surfaceVariantContent"
+ }
+}

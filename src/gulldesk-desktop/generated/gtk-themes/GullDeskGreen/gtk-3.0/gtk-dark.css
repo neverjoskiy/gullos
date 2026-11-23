@@ -1,0 +1,267 @@
+@import url("../../Breeze/gtk-3.0/gtk-dark.css");
+
+button {
+  min-height: 24px;
+  min-width: 16px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #374b3e;
+  color: #d0e8d6;
+  box-shadow: none;
+  outline-color: #78dc77;
+  outline-width: 2px;
+  outline-offset: 1px;
+  -gtk-outline-radius: 9999px;
+}
+
+button:hover {
+  background-color: #43584a;
+}
+
+button:active {
+  background-color: #4c6153;
+}
+
+button:checked {
+  background-color: #78dc77;
+  color: #003907;
+}
+
+button:disabled {
+  background-color: rgba(226, 227, 221, 0.12);
+  color: rgba(226, 227, 221, 0.38);
+}
+
+button label, button image {
+  color: inherit;
+}
+
+button.text-button {
+  min-width: 40px;
+  padding: 6px 24px;
+}
+
+button.default, button.suggested-action {
+  background-color: #78dc77;
+  color: #003907;
+}
+
+button.default:hover, button.suggested-action:hover {
+  background-color: #6ecf6e;
+}
+
+button.default:active, button.suggested-action:active {
+  background-color: #67c567;
+}
+
+button.destructive-action {
+  background-color: #ffb3a8;
+  color: #690003;
+}
+
+button.flat, button.image-button.flat, toolbar button, headerbar button, .titlebar button {
+  background-color: transparent;
+  color: #c2c8bd;
+}
+
+button.flat:hover, toolbar button:hover, headerbar button:hover, .titlebar button:hover {
+  background-color: rgba(226, 227, 221, 0.08);
+}
+
+button.flat:active, toolbar button:active, headerbar button:active, .titlebar button:active {
+  background-color: rgba(226, 227, 221, 0.12);
+}
+
+combobox button, combobox box button {
+  border-radius: 9999px;
+  padding: 6px 14px;
+}
+
+entry {
+  min-height: 24px;
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #333531;
+  color: #e2e3dd;
+  caret-color: #78dc77;
+  box-shadow: none;
+}
+
+entry:focus, entry:focus-within {
+  border-color: #78dc77;
+  box-shadow: inset 0 0 0 1px #78dc77;
+}
+
+entry:disabled {
+  background-color: rgba(226, 227, 221, 0.04);
+  color: rgba(226, 227, 221, 0.38);
+}
+
+entry selection, label selection, textview text selection {
+  background-color: #00530f;
+  color: #93f990;
+}
+
+check, radio {
+  min-width: 14px;
+  min-height: 14px;
+  margin: 0 6px 0 0;
+  border: 2px solid #c2c8bd;
+  background-image: none;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+check {
+  border-radius: 2px;
+}
+
+radio {
+  border-radius: 9999px;
+}
+
+check:checked, check:indeterminate {
+  border-color: #78dc77;
+  background-color: #78dc77;
+  color: #003907;
+}
+
+radio:checked {
+  border-color: #78dc77;
+  background-color: transparent;
+  color: #78dc77;
+}
+
+check:disabled, radio:disabled {
+  border-color: rgba(226, 227, 221, 0.38);
+}
+
+switch {
+  min-width: 48px;
+  min-height: 28px;
+  padding: 0;
+  border: 2px solid #8c9388;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #333531;
+  box-shadow: none;
+  color: transparent;
+}
+
+switch:checked {
+  border-color: #78dc77;
+  background-color: #78dc77;
+}
+
+switch slider {
+  min-width: 16px;
+  min-height: 16px;
+  margin: 6px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #8c9388;
+  box-shadow: none;
+}
+
+switch:checked slider {
+  margin: 2px;
+  min-width: 24px;
+  min-height: 24px;
+  background-color: #003907;
+}
+
+scale trough {
+  min-height: 4px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #374b3e;
+}
+
+scale highlight {
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #78dc77;
+}
+
+scale slider {
+  min-width: 20px;
+  min-height: 20px;
+  margin: -8px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #78dc77;
+  box-shadow: none;
+}
+
+progressbar trough {
+  min-height: 4px;
+  border: none;
+  border-radius: 9999px;
+  background-color: #374b3e;
+}
+
+progressbar progress {
+  min-height: 4px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #78dc77;
+}
+
+menu, .menu, .context-menu {
+  padding: 6px 0;
+  border: none;
+  border-radius: 16px;
+  background-color: #1e201c;
+}
+
+menuitem {
+  min-height: 24px;
+  padding: 6px 16px;
+  color: #e2e3dd;
+}
+
+menuitem:hover {
+  background-color: rgba(226, 227, 221, 0.08);
+  color: #e2e3dd;
+}
+
+popover, popover.background, popover > contents {
+  border-radius: 16px;
+  background-color: #1e201c;
+  color: #e2e3dd;
+}
+
+modelbutton {
+  min-height: 24px;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+modelbutton:hover {
+  background-color: rgba(226, 227, 221, 0.08);
+}
+
+tooltip, tooltip.background {
+  border: none;
+  border-radius: 8px;
+  background-color: #e2e3dd;
+  color: #2f312d;
+}
+
+tooltip label {
+  color: #2f312d;
+}
+
+scrollbar slider {
+  border-radius: 9999px;
+}
+

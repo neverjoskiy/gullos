@@ -52,13 +52,12 @@ PYEOF
     [ "$claim" = "wallpapers" ] || continue
     for f in $src; do
       [ -e "$f" ] || continue
+      target="${pkgdir}/${dst}/$(basename "$f")"
+      mkdir -p "${pkgdir}/${dst}"
       if [ -d "$f" ] && [ ! -L "$f" ]; then
-        target="${pkgdir}/${dst}/$(basename "$f")"
-        mkdir -p "${pkgdir}/${dst}"
-        cp -aL "$f" "$target"
+        mkdir -p "$target"
+        cp -aL "$f"/. "$target"/
       elif [ -L "$f" ]; then
-        target="${pkgdir}/${dst}/$(basename "$f")"
-        mkdir -p "${pkgdir}/${dst}"
         cp -aL "$f" "$target"
       else
         install -Dm644 "$f" "${pkgdir}/${dst}/$(basename "$f")"

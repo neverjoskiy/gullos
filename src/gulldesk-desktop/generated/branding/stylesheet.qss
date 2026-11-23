@@ -1,0 +1,203 @@
+/*
+    SPDX-FileCopyrightText: 2026 GullDesk Developers
+    SPDX-License-Identifier: GPL-3.0-or-later
+*/
+
+#prettyRadioButton {
+    background-color: #2f2826;
+    border-radius: 6px;
+    qproperty-warningColor: #ffb3a8;
+    qproperty-subtitleColor: #d7c2ba;
+}
+
+#prettyRadioButton[segment="first"] {
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+}
+
+#prettyRadioButton[segment="last"] {
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+}
+
+#prettyRadioButton[segment="only"] {
+    border-radius: 24px;
+}
+
+#prettyRadioButton[checked="true"] {
+    background-color: #5a422e;
+    qproperty-subtitleColor: #ffdcc1;
+}
+
+#prettyRadioButton QLabel {
+    background: transparent;
+    color: #ede0dc;
+    font-size: 16px;
+}
+
+#prettyRadioButton[checked="true"] QLabel {
+    color: #ffdcc1;
+}
+
+#pixelDisk {
+    background-color: #2f2826;
+    border-radius: 24px;
+}
+
+#pixelDisk QLabel {
+    background: transparent;
+}
+
+#pixelDisk QLabel#pixelDiskTitle {
+    color: #ede0dc;
+    font-size: 16px;
+}
+
+#pixelDisk QLabel#pixelDiskText {
+    color: #d7c2ba;
+    font-size: 14px;
+}
+
+#pixelDisk QComboBox#pixelDiskPicker {
+    background-color: #5a422e;
+    color: #ffdcc1;
+    border: none;
+    border-radius: 20px;
+    min-height: 40px;
+    padding: 0px 16px;
+}
+
+ChoicePage QLabel#pixelSection,
+QLabel#pixelSection {
+    background: transparent;
+    color: #ede0dc;
+    font-size: 14px;
+    font-weight: 500;
+    padding-top: 12px;
+}
+
+EncryptWidget {
+    background-color: #2f2826;
+    border-radius: 24px;
+}
+
+EncryptWidget QCheckBox {
+    color: #ede0dc;
+    font-size: 16px;
+    min-height: 40px;
+}
+
+EncryptWidget QLabel {
+    background: transparent;
+}
+
+#pixelSplitter {
+    qproperty-keepColor: #3a3330;
+    qproperty-keepTextColor: #d7c2ba;
+    qproperty-newColor: #ffb595;
+    qproperty-newTextColor: #5a1c00;
+}
+
+BootInfoWidget QLabel,
+DeviceInfoWidget QLabel {
+    background: transparent;
+    color: #d7c2ba;
+}
+
+ChoicePage QLabel {
+    background: transparent;
+}
+
+ChoicePage QScrollArea,
+ChoicePage QScrollArea > QWidget > QWidget {
+    background: transparent;
+    border: none;
+}
+
+#partitionTreeView {
+    background-color: #251e1c;
+    alternate-background-color: #251e1c;
+    border: none;
+    border-radius: 16px;
+    padding: 6px;
+}
+
+#CreatePartitionTableDialog #label {
+    min-height: 40px;
+}
+
+#m_listFlags {
+    background-color: #251e1c;
+    alternate-background-color: #251e1c;
+    border: none;
+    border-radius: 16px;
+    padding: 6px;
+}
+
+QMessageBox QLabel#qt_msgboxex_icon_label {
+    max-width: 0px;
+    max-height: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+QMessageBox QLabel#qt_msgbox_label {
+    color: #ede0dc;
+}
+
+#pixelPage {
+    background-color: #181210;
+}
+
+#pixelPage QLabel#pixelTitle {
+    background: transparent;
+    color: #ede0dc;
+    font-size: 36px;
+}
+
+#pixelPage QLabel#pixelDescription {
+    background: transparent;
+    color: #d7c2ba;
+    font-size: 16px;
+}
+
+#pixelPage QToolButton#pixelBack {
+    background-color: #2f2826;
+    border: none;
+    border-radius: 24px;
+}
+
+#pixelPage QToolButton#pixelBack:hover {
+    background-color: #3a3330;
+}
+
+#pixelPage QPushButton#pixelPrimary {
+    background-color: #ffb595;
+    color: #5a1c00;
+    border: none;
+    border-radius: 28px;
+    padding: 0px 24px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+#pixelPage QPushButton#pixelPrimary:hover {
+    background-color: #ffdbcc;
+}
+
+#pixelPage QPushButton#pixelPrimary:disabled {
+    background-color: #3a3330;
+    color: #a08d86;
+}
+
+#slideshow QTabWidget::pane {
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+QScrollArea#pixelScroll,
+QScrollArea#pixelScroll > QWidget#qt_scrollarea_viewport {
+    background: transparent;
+    border: none;
+}

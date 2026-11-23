@@ -1,0 +1,267 @@
+@import url("../../Breeze/gtk-3.0/gtk.css");
+
+button {
+  min-height: 24px;
+  min-width: 16px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #ffdbca;
+  color: #2c160b;
+  box-shadow: none;
+  outline-color: #bc1714;
+  outline-width: 2px;
+  outline-offset: 1px;
+  -gtk-outline-radius: 9999px;
+}
+
+button:hover {
+  background-color: #eecbbb;
+}
+
+button:active {
+  background-color: #e1bfaf;
+}
+
+button:checked {
+  background-color: #bc1714;
+  color: #ffffff;
+}
+
+button:disabled {
+  background-color: rgba(32, 26, 25, 0.12);
+  color: rgba(32, 26, 25, 0.38);
+}
+
+button label, button image {
+  color: inherit;
+}
+
+button.text-button {
+  min-width: 40px;
+  padding: 6px 24px;
+}
+
+button.default, button.suggested-action {
+  background-color: #bc1714;
+  color: #ffffff;
+}
+
+button.default:hover, button.suggested-action:hover {
+  background-color: #c12a27;
+}
+
+button.default:active, button.suggested-action:active {
+  background-color: #c53735;
+}
+
+button.destructive-action {
+  background-color: #ba1b1b;
+  color: #ffffff;
+}
+
+button.flat, button.image-button.flat, toolbar button, headerbar button, .titlebar button {
+  background-color: transparent;
+  color: #534341;
+}
+
+button.flat:hover, toolbar button:hover, headerbar button:hover, .titlebar button:hover {
+  background-color: rgba(32, 26, 25, 0.08);
+}
+
+button.flat:active, toolbar button:active, headerbar button:active, .titlebar button:active {
+  background-color: rgba(32, 26, 25, 0.12);
+}
+
+combobox button, combobox box button {
+  border-radius: 9999px;
+  padding: 6px 14px;
+}
+
+entry {
+  min-height: 24px;
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #ede0de;
+  color: #201a19;
+  caret-color: #bc1714;
+  box-shadow: none;
+}
+
+entry:focus, entry:focus-within {
+  border-color: #bc1714;
+  box-shadow: inset 0 0 0 1px #bc1714;
+}
+
+entry:disabled {
+  background-color: rgba(32, 26, 25, 0.04);
+  color: rgba(32, 26, 25, 0.38);
+}
+
+entry selection, label selection, textview text selection {
+  background-color: #ffdad3;
+  color: #410001;
+}
+
+check, radio {
+  min-width: 14px;
+  min-height: 14px;
+  margin: 0 6px 0 0;
+  border: 2px solid #534341;
+  background-image: none;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+check {
+  border-radius: 2px;
+}
+
+radio {
+  border-radius: 9999px;
+}
+
+check:checked, check:indeterminate {
+  border-color: #bc1714;
+  background-color: #bc1714;
+  color: #ffffff;
+}
+
+radio:checked {
+  border-color: #bc1714;
+  background-color: transparent;
+  color: #bc1714;
+}
+
+check:disabled, radio:disabled {
+  border-color: rgba(32, 26, 25, 0.38);
+}
+
+switch {
+  min-width: 48px;
+  min-height: 28px;
+  padding: 0;
+  border: 2px solid #857370;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #ede0de;
+  box-shadow: none;
+  color: transparent;
+}
+
+switch:checked {
+  border-color: #bc1714;
+  background-color: #bc1714;
+}
+
+switch slider {
+  min-width: 16px;
+  min-height: 16px;
+  margin: 6px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #857370;
+  box-shadow: none;
+}
+
+switch:checked slider {
+  margin: 2px;
+  min-width: 24px;
+  min-height: 24px;
+  background-color: #ffffff;
+}
+
+scale trough {
+  min-height: 4px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #ffdbca;
+}
+
+scale highlight {
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #bc1714;
+}
+
+scale slider {
+  min-width: 20px;
+  min-height: 20px;
+  margin: -8px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #bc1714;
+  box-shadow: none;
+}
+
+progressbar trough {
+  min-height: 4px;
+  border: none;
+  border-radius: 9999px;
+  background-color: #ffdbca;
+}
+
+progressbar progress {
+  min-height: 4px;
+  border: none;
+  border-radius: 9999px;
+  background-image: none;
+  background-color: #bc1714;
+}
+
+menu, .menu, .context-menu {
+  padding: 6px 0;
+  border: none;
+  border-radius: 16px;
+  background-color: #f8ebe9;
+}
+
+menuitem {
+  min-height: 24px;
+  padding: 6px 16px;
+  color: #201a19;
+}
+
+menuitem:hover {
+  background-color: rgba(32, 26, 25, 0.08);
+  color: #201a19;
+}
+
+popover, popover.background, popover > contents {
+  border-radius: 16px;
+  background-color: #f8ebe9;
+  color: #201a19;
+}
+
+modelbutton {
+  min-height: 24px;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+modelbutton:hover {
+  background-color: rgba(32, 26, 25, 0.08);
+}
+
+tooltip, tooltip.background {
+  border: none;
+  border-radius: 8px;
+  background-color: #362f2e;
+  color: #fbeeec;
+}
+
+tooltip label {
+  color: #fbeeec;
+}
+
+scrollbar slider {
+  border-radius: 9999px;
+}
+

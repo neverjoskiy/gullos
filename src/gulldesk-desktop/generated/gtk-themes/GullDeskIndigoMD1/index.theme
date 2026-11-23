@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=GullDeskIndigoMD1
+Comment=GullDesk Material Design 1 for GTK applications
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=GullDeskIndigoMD1
