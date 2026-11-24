@@ -19,7 +19,7 @@ build() {
   python3 tools/fetch-symbols --check 2>/dev/null || true
   make -f debian/rules override_dh_auto_build
   # remove broken symlinks (e.g. gtk-2.0 -> ../Breeze) that cp -L cannot follow
-  find generated -type l ! -exec test -e {} \; -delete 2>/dev/null || true
+  find generated -xtype l -delete 2>/dev/null || true
 }
 
 package() {
