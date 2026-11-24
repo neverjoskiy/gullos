@@ -60,6 +60,14 @@ mkfs.ext4 -L GULLOS_ROOT -F "${ROOT_DEV}"
 ESP_MNT="${WORK_DIR}/esp-mnt"
 ROOT_MNT="${WORK_DIR}/root-mnt"
 mkdir -p "${ESP_MNT}" "${ROOT_MNT}"
+# Wrap pacman to allow overwriting conflicting files (gulldesk overlay vs plasma)
+mkdir -p "${WORK_DIR}/bin"
+cat > "${WORK_DIR}/bin/pacman" <<'WRAPPER'
+#!/bin/bash
+exec /usr/bin/pacman --overwrite='*' "$@"
+WRAPPER
+chmod +x "${WORK_DIR}/bin/pacman"
+export PATH="${WORK_DIR}/bin:${PATH}"
 mount "${ROOT_DEV}" "${ROOT_MNT}"
 mkdir -p "${ROOT_MNT}/boot/efi"
 mount "${ESP_DEV}" "${ROOT_MNT}/boot/efi"
@@ -80,7 +88,7 @@ PACSTRAP_PKGS=(
 mkdir -p "${ROOT_MNT}/var/lib/pacman" 2>/dev/null || true
 cp /etc/pacman.conf "${WORK_DIR}/pacman-disk.conf" 2>/dev/null || true
 
-pacstrap -C "${REPO_ROOT}/profile/pacman.conf" --overwrite="*" "${ROOT_MNT}" "${PACSTRAP_PKGS[@]}" \
+pacstrap -C "${REPO_ROOT}/profile/pacman.conf" "${ROOT_MNT}" "${PACSTRAP_PKGS[@]}" \
     --cachedir /var/cache/pacman/pkg
 
 # 5. Configure the installed system
