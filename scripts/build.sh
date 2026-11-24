@@ -64,6 +64,14 @@ build_iso() {
     echo "[gullos:build] Building ISO with mkarchiso..."
     inject_cachyos_repo
     sed -i "s#file:///gullos-local-repo#file://${LOCAL_REPO}#" "${REPO_ROOT}/profile/pacman.conf"
+    # pacstrap wrapper to allow overwriting conflicting files (gulldesk overlay vs plasma)
+    mkdir -p "${BUILD_ROOT}/bin"
+    cat > "${BUILD_ROOT}/bin/pacstrap" <<'WRAPPER'
+#!/bin/bash
+exec /usr/bin/pacstrap --overwrite '*' "$@"
+WRAPPER
+    chmod +x "${BUILD_ROOT}/bin/pacstrap"
+    export PATH="${BUILD_ROOT}/bin:${PATH}"
     mkarchiso -v -w "${BUILD_ROOT}/iso-work" -o "${DIST_DIR}" "${REPO_ROOT}/profile"
     # mkarchiso names the file <iso_name>-<iso_version>-<arch>.iso; normalize to the required artifact name
     for f in "${DIST_DIR}"/gullos*.iso; do

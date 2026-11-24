@@ -80,7 +80,7 @@ PACSTRAP_PKGS=(
 mkdir -p "${ROOT_MNT}/var/lib/pacman" 2>/dev/null || true
 cp /etc/pacman.conf "${WORK_DIR}/pacman-disk.conf" 2>/dev/null || true
 
-pacstrap -C "${REPO_ROOT}/profile/pacman.conf" "${ROOT_MNT}" "${PACSTRAP_PKGS[@]}" \
+pacstrap -C "${REPO_ROOT}/profile/pacman.conf" --overwrite "*" "${ROOT_MNT}" "${PACSTRAP_PKGS[@]}" \
     --cachedir /var/cache/pacman/pkg
 
 # 5. Configure the installed system
