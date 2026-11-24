@@ -4,7 +4,7 @@ export PYTHONDONTWRITEBYTECODE = 1
 
 ICON_SIZES = 16 22 24 32 48 64 128 256
 LOGO = data/icons/gulldesk-logo.svg
-ROBOTO = /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
+ROBOTO = /usr/share/fonts/TTF
 
 START_ICON = start-here-kde-symbolic
 START_ALIASES = start-here-kde start-here start-here-symbolic
@@ -192,10 +192,12 @@ override_dh_auto_build:
 	done; done
 	set -e; for face in Regular:16 Medium:16 Regular:24; do \
 	  weight=$${face%%:*}; size=$${face#*:}; \
+	  fontfile=$(find /usr/share/fonts -iname "Roboto-$$weight.ttf" 2>/dev/null | head -1); \
+	  [ -n "$$fontfile" ] || continue; \
 	  grub-mkfont --size=$$size --name="Roboto $$weight" \
 	    --range=0x20-0x7E,0xA0-0x17F,0x400-0x45F,0x2010-0x2027,0x2190-0x2193 \
 	    --output=generated/grub/gulldesk/roboto-$$(echo $$weight | tr A-Z a-z)-$$size.pf2 \
-	    $(ROBOTO)/Roboto-$$weight.ttf; \
+	    "$$fontfile" || true; \
 	done
 	install -d generated/sddm
 	cp -a data/sddm-theme/gulldesk generated/sddm/gulldesk
