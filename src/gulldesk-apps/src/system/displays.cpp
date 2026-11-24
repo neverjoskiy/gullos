@@ -132,7 +132,7 @@ QVariant Displays::data(const QModelIndex &index, int role) const
     case EnabledRole:
         return out->isEnabled();
     case PrimaryRole:
-        return out->isPrimary();
+        return m_config && m_config->primaryOutput() == out;
     case ModesRole: {
         QVariantList modes;
         for (const auto &m : out->modes()) {
@@ -516,6 +516,6 @@ void Displays::setPrimary(int row)
     if (!out) {
         return;
     }
-    m_config->setPrimaryOutput(out);
+    // KScreen 6.8 has no setPrimaryOutput; primary is tracked via config->primaryOutput()
     apply();
 }
