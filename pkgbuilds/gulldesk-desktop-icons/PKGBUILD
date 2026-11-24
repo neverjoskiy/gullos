@@ -51,7 +51,7 @@ else:
 PYEOF
 )
     [ "$claim" = "icons" ] || continue
-    for f in $src; do
+    for f in $(compgen -G "$src" 2>/dev/null); do
       [ -e "$f" ] || continue
       target="${pkgdir}/${dst}/$(basename "$f")"
       mkdir -p "${pkgdir}/${dst}"
