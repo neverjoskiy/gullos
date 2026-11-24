@@ -55,12 +55,14 @@ PYEOF
     [ "$claim" = "cursors" ] || continue
     for f in $(compgen -G "$src" 2>/dev/null); do
       [ -e "$f" ] || continue
+      # skip broken symlinks
+      if [ -L "$f" ] && [ ! -e "$f" ]; then continue; fi
       target="${pkgdir}/${dst}/$(basename "$f")"
       mkdir -p "${pkgdir}/${dst}"
       if [ -d "$f" ] && [ ! -L "$f" ]; then
-        cp -aL "$f" "$target" || true
+        cp -a "$f" "$target" || true
       elif [ -L "$f" ]; then
-        cp -aL "$f" "$target" || true
+        cp -a "$f" "$target" || true
       else
         install -Dm644 "$f" "${pkgdir}/${dst}/$(basename "$f")" || true
       fi
