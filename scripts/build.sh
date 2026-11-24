@@ -68,7 +68,7 @@ build_iso() {
     mkdir -p "${BUILD_ROOT}/bin"
     cat > "${BUILD_ROOT}/bin/pacstrap" <<'WRAPPER'
 #!/bin/bash
-exec /usr/bin/pacstrap --overwrite '*' "$@"
+exec /usr/bin/pacstrap --overwrite='*' "$@"
 WRAPPER
     chmod +x "${BUILD_ROOT}/bin/pacstrap"
     export PATH="${BUILD_ROOT}/bin:${PATH}"
