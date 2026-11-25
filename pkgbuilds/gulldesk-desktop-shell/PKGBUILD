@@ -9,7 +9,7 @@ license=('GPL-2.0-or-later')
 depends=('plasma-desktop' 'plasma-workspace' 'kwin' 'kglobalacceld' 'kded' 'kscreen' 'powerdevil' 'bluedevil' 'plasma-nm' 'plasma-pa' 'kvantum' 'breeze-gtk' 'qt6-base' 'qt6-declarative' 'qt6-svg' 'kirigami' 'noto-fonts' 'ttf-roboto' )
 makedepends=('gcc' 'cmake' 'extra-cmake-modules' 'python' 'librsvg' 'grub' 'gettext' 'make')
 source=()
-options=('!strip')
+options=('!strip' '!debug')
 
 _GULLDESK_SRC="${startdir}/../../src/gulldesk-desktop"
 

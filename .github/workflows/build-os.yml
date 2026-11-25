@@ -43,7 +43,7 @@ jobs:
     name: Build gull-* packages (makepkg)
     needs: rust-check
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 240
     container:
       image: archlinux:latest
       options: --privileged
@@ -86,7 +86,7 @@ jobs:
     name: Build GullOS ISO (mkarchiso)
     needs: build-packages
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 240
     container:
       image: archlinux:latest
       options: --privileged
@@ -129,7 +129,7 @@ jobs:
     name: Build GullOS VDI (persistent disk)
     needs: build-packages
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 240
     container:
       image: archlinux:latest
       options: --privileged

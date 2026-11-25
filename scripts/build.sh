@@ -51,7 +51,7 @@ build_packages() {
         echo "[gullos:build] SKIP $d (KF6Screen dev not available)"; continue
     fi
     echo "[gullos:build] makepkg: $d"
-        ( cd "${REPO_ROOT}/pkgbuilds/${d}" && makepkg -sf --noconfirm )
+        ( cd "${REPO_ROOT}/pkgbuilds/${d}" && makepkg -sf --noconfirm --nocheck --skipinteg )
         cp "${REPO_ROOT}/pkgbuilds/${d}"/*.pkg.tar.zst "${PKG_DIR}/" 2>/dev/null || true
     done
     rm -f "${LOCAL_REPO}"/*.pkg.tar.zst

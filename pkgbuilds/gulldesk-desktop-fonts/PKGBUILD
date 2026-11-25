@@ -9,7 +9,7 @@ license=('GPL-2.0-or-later')
 depends=('plasma-desktop')
 makedepends=('python' 'librsvg')
 source=()
-options=('!strip')
+options=('!strip' '!debug')
 package() {
   install -d "${pkgdir}/usr/share/gulldesk/gulldesk-desktop-fonts"
 }

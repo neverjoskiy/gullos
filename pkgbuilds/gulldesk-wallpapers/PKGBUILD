@@ -8,7 +8,7 @@ url="https://github.com/neverjoskiy/gullos"
 license=('GPL-2.0-or-later')
 depends=()
 source=()
-options=('!strip')
+options=('!strip' '!debug')
 
 _GULLDESK_SRC="${startdir}/../../src/gulldesk-wallpapers"
 

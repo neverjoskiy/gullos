@@ -9,7 +9,7 @@ license=('GPL-2.0-or-later')
 depends=('qt6-base' 'qt6-declarative' 'qt6-svg' 'karchive' 'kconfig' 'kcoreaddons' 'kdbusaddons' 'ki18n' 'kio' 'knotifications' 'kservice' 'kwindowsystem' 'plasma-desktop' 'plasma-workspace' 'kwin' 'packagekit' 'packagekit-qt6' 'flatpak' 'appstream' 'libarchive' 'qtermwidget' 'libxcrypt' )
 makedepends=('cmake' 'extra-cmake-modules' 'gettext' 'pkgconf' 'python' 'libkscreen')
 source=()
-options=('!strip')
+options=('!strip' '!debug')
 
 _GULLDESK_SRC="${startdir}/../../src/gulldesk-apps"
 

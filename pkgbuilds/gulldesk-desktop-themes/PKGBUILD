@@ -9,7 +9,7 @@ license=('GPL-2.0-or-later')
 depends=('kvantum' 'breeze-gtk' 'plasma-desktop')
 makedepends=('python' 'librsvg' 'grub' 'gcc' 'make')
 source=()
-options=('!strip')
+options=('!strip' '!debug')
 
 _GULLDESK_SRC="${startdir}/../../src/gulldesk-desktop"
 
