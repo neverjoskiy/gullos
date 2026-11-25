@@ -43,6 +43,7 @@ inject_cachyos_repo() {
 }
 
 build_packages() {
+    export FAKEROOTDONTTRYCHROOT=1
     echo "[gullos:build] Building gull-* packages with makepkg..."
     inject_cachyos_repo
     for d in gull-sh gull-term gull-lock calamares-settings-gullos gulldesk-desktop-shell gulldesk-desktop-themes gulldesk-desktop-icons gulldesk-desktop-cursors gulldesk-desktop-wallpapers gulldesk-desktop-widgets gulldesk-desktop-services gulldesk-apps gulldesk-wallpapers; do
