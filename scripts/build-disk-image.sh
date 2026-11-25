@@ -84,6 +84,11 @@ PACSTRAP_PKGS=(
     mkinitcpio
 )
 
+# Initialize pacman keyring (required for package signature verification)
+pacman-key --init 2>/dev/null || true
+pacman-key --populate archlinux 2>/dev/null || true
+pacman-key --populate cachyos 2>/dev/null || true
+
 # Make local gullos repo available to pacstrap via a bind mount + pacman.conf tweak
 mkdir -p "${ROOT_MNT}/var/lib/pacman" 2>/dev/null || true
 cp /etc/pacman.conf "${WORK_DIR}/pacman-disk.conf" 2>/dev/null || true
