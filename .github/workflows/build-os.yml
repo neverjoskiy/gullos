@@ -62,8 +62,11 @@ jobs:
             printf '\n[cachyos]\nSigLevel = Never\nServer = https://mirror.cachyos.org/repo/x86_64/cachyos\n' >> /etc/pacman.conf
           fi
           pacman -Syu --noconfirm
-          pacman -S --noconfirm --needed base-devel cargo rust git archlinux-keyring pacman-contrib sudo python librsvg gcc cmake extra-cmake-modules grub gettext make libkscreen kscreen cachyos-calamares ttf-roboto packagekit-qt6
+          pacman -S --noconfirm --needed base-devel cargo rust git archlinux-keyring pacman-contrib sudo python librsvg gcc cmake extra-cmake-modules grub gettext make libkscreen kscreen cachyos-calamares ttf-roboto packagekit-qt6 dbus
           # makepkg refuses to run as root; create a dedicated build user
+          pacman-key --init 2>/dev/null || true
+          pacman-key --populate archlinux 2>/dev/null || true
+          pacman-key --populate cachyos 2>/dev/null || true
           useradd -m -G wheel builder 2>/dev/null || true
           echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder
           chown -R builder:builder "$GITHUB_WORKSPACE" 2>/dev/null || true
