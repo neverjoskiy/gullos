@@ -113,8 +113,9 @@ mkdir -p /etc/gullos
 touch /etc/gullos/installed
 
 # User gull (demo identity): password gull, passwordless sudo, autologin -> gull-lock
-useradd -m -u 1000 -G wheel,video,input,seat -s /usr/bin/gull-sh gull || true
-echo 'gull:gull' | chpasswd
+useradd -m -u 1000 -G wheel,video,input -s /usr/bin/gull-sh gull || true
+GULL_HASH=$(openssl passwd -6 gull)
+usermod -p "$GULL_HASH" gull 2>/dev/null || true
 echo 'gull ALL=(ALL:ALL) NOPASSWD: ALL' > /etc/sudoers.d/90-gull
 chmod 0440 /etc/sudoers.d/90-gull
 chown -R gull:gull /home/gull
